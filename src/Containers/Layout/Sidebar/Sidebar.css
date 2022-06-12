@@ -17,14 +17,24 @@ li{
     padding: 10px;
 }
 .nav-items .nav-links{
-    font-size: 13px;
+    font-size: 14px;
     color: #fff;
+    padding-left: 18px;
 }
 
 .dropdown-menu{
     position: relative;
 }
-
+@media only screen and (max-width:1130px){
+    .nav-items .nav-links{
+        padding-left: 0;
+    }   
+}
+@media only screen and (max-width:768px){
+    .nav-items .nav-links{
+        padding-left: 18px;
+    }   
+}
 
 
 

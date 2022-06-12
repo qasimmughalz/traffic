@@ -7,12 +7,13 @@ export const AllSites = () => {
     const navbarShow = useSelector(state => state.navbarToggle.show)
 
     return (<div className="wrapper">
-        <div className="d-flex">
-            <div className="sidebar px-md-3" style={{ display: navbarShow ? 'block' : 'none' }} >
-                <Sidebar></Sidebar>
+        <div className="dashboard-wrapper">
+            <div className={navbarShow ? 'sidebar px-md-3' : 'sidebar show px-md-3'} >
+                <Sidebar> </Sidebar>
             </div>
-            <div className="d-flex " style={{ width: '100%' }}>
-                <div className="content" style={{ width: '100%' }}>
+            <div className="right-content">
+                <div className="content">
+
                     <TopNav />
                     {/* =============== Inner Section Start ============= */}
 
@@ -47,8 +48,8 @@ export const AllSites = () => {
                                         <td><button className="btn-primary btn">Get</button></td>
                                         <td>
                                             <label className="switch">
-                                                <input type="checkbox" className="slider-input"/>
-                                                    <span className="slider round"></span>
+                                                <input type="checkbox" className="slider-input" />
+                                                <span className="slider round"></span>
                                             </label>
                                         </td>
                                         <td>-None-</td>
@@ -63,8 +64,8 @@ export const AllSites = () => {
                                         <td><button className="btn-primary btn">Get</button></td>
                                         <td>
                                             <label className="switch">
-                                                <input type="checkbox" className="slider-input"/>
-                                                    <span className="slider round"></span>
+                                                <input type="checkbox" className="slider-input" />
+                                                <span className="slider round"></span>
                                             </label>
                                         </td>
                                         <td>-None-</td>
@@ -79,8 +80,8 @@ export const AllSites = () => {
                                         <td><button className="btn-primary btn">Get</button></td>
                                         <td>
                                             <label className="switch">
-                                                <input type="checkbox" className="slider-input"/>
-                                                    <span className="slider round"></span>
+                                                <input type="checkbox" className="slider-input" />
+                                                <span className="slider round"></span>
                                             </label>
                                         </td>
                                         <td>-None-</td>

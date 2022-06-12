@@ -15,9 +15,11 @@ import { loginHandler } from "../../Redux/UserAuth"
 
 export const AddNewSite = () => {
 
+    const [switchForm, setSwitchForm] = useState(true)
+
+    const [domainName, setDomaniName] = useState('')
     const navbarShow = useSelector(state => state.navbarToggle.show)
-    const userEmail = useSelector((state)=> state.UserAuth.Useremail)
-    console.log("Email in Redux", userEmail)
+    const userEmail = useSelector((state) => state.UserAuth.Useremail)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -39,11 +41,15 @@ export const AddNewSite = () => {
             axios({
                 method: 'POST',
                 url: 'https://plugin-nodejs-server.herokuapp.com/api/addNewSite',
-                data: { email: userEmail, domain: values.domain , language : 'English', platform: 'WordPress'}
+                data: { email: userEmail, domain: values.domain, language: 'English', platform: 'WordPress' }
             }).then((res) => {
                 setLoading(false);
-                console.log("check Domain Response=========", res)
-                
+                console.log("check Domain Add New Response=========", res)
+                if (res.status === '200') {
+                    setSwitchForm(true)
+                    setDomaniName(values.domain)
+                }
+
             }).catch((e) => {
                 setLoading(false)
                 setanyErrorMessage(true)
@@ -53,26 +59,17 @@ export const AddNewSite = () => {
     })
 
 
-    const obj = ` <!-- Accessibility Code for "${formik.values.domain}" -->    <script>
-    (function(doc, head, body){
-        var coreCall             = doc.createElement('script');
-        coreCall.src             = 'https://iqasimmughal.com/test.js';
-        coreCall.defer           = true;
-        coreCall.integrity       = 'sha512-73oZhkzO+7F1r8AXT5BtChHyVvx8GMuB3Pokx6jdnP5Lw7xyBUO4L5KKi7BwqovhoqOWjNmkah1iCiMniyt6Kw==';
-        coreCall.crossOrigin     = 'anonymous';
-        coreCall.setAttribute('data-cfasync', true );
-        body? body.appendChild(coreCall) : head.appendChild(coreCall);
-    })(document, document.head, document.body);
-    </script>`;
+    const obj = `<!-- Accessibility Code for "${domainName}" --> <script> (function(doc, head, body){ var coreCall = doc.createElement('script'); coreCall.src = 'https://cdn.equalweb.com/core/4.3.2/accessibility.js'; coreCall.defer = true; coreCall.integrity = 'sha512-73oZhkzO+7F1r8AXT5BtChHyVvx8GMuB3Pokx6jdnP5Lw7xyBUO4L5KKi7BwqovhoqOWjNmkah1iCiMniyt6Kw=='; coreCall.crossOrigin = 'anonymous'; coreCall.setAttribute('data-cfasync', true ); body? body.appendChild(coreCall) : head.appendChild(coreCall); })(document, document.head, document.body); </script>`;
 
 
     return (<div className="wrapper">
-        <div className="d-flex">
-            <div className="sidebar px-md-3" style={{ display: navbarShow ? 'block' : 'none' }} >
-                <Sidebar></Sidebar>
+        <div className="dashboard-wrapper">
+            <div className={navbarShow ? 'sidebar px-md-3' : 'sidebar show px-md-3'} >
+                <Sidebar> </Sidebar>
             </div>
-            <div className="d-flex align-items-start" style={{ width: '100%' }}>
-                <div className="content" style={{ width: '100%' }}>
+            <div className="right-content">
+                <div className="content">
+
                     <TopNav />
                     {/* =============== Inner Section Start ============= */}
 
@@ -88,40 +85,49 @@ export const AddNewSite = () => {
 
                                 <div className="col-md-8 m-auto">
                                     <div className="row ">
-                                        <form onSubmit={formik.handleSubmit} className='w-100'>
 
-                                            <div className='form-group my-3 ' >
-                                                <label > Insert Your Domain</label>
-                                                <input type='text'
-                                                    name='domain'
-                                                    onChange={formik.handleChange}
-                                                    onBlur={formik.handleBlur}
-                                                    value={formik.values.domain} className='form-control' placeholder='www.example.com'></input>
-                                                {formik.touched.Name && formik.errors.Name ? <p className='text-danger mt-1'>{formik.errors.Name}</p> : null}
-                                            </div>
+                                        {!switchForm &&
+                                            <form onSubmit={formik.handleSubmit} className='w-100'>
+
+                                                <div className='form-group my-3 ' >
+                                                    <label > Insert Your Domain</label>
+                                                    <input type='text'
+                                                        name='domain'
+                                                        onChange={formik.handleChange}
+                                                        onBlur={formik.handleBlur}
+                                                        value={formik.values.domain} className='form-control' placeholder='www.example.com'></input>
+                                                    {formik.touched.Name && formik.errors.Name ? <p className='text-danger mt-1'>{formik.errors.Name}</p> : null}
+                                                </div>
 
 
 
-                                            <div className='form-group my-3 text-center'>
-                                                <button className='btn btn-form btn-primary' value='submit' type='submit' style={{ width: '100%' }}> {isLoading ? <Spinner /> : `Add`}  </button>
-                                            </div>
-                                        </form>
+                                                <div className='form-group my-3 text-center'>
+                                                    <button className='btn btn-form btn-primary' value='submit' type='submit' style={{ width: '100%' }}> {isLoading ? <Spinner /> : `Add`}  </button>
+                                                </div>
+                                            </form>
+                                        }
                                     </div>
                                 </div>
 
 
-                                {/* <div className="rounded  text-dark"  >
-                                        <pre>
-                                            <code className="text-dark">{obj}</code>
-                                        </pre>
-                                </div> */}
+                                {switchForm && <><div className="rounded bg-white p-3  text-dark"  >
+                                    <pre>
+                                        <code className="text-dark">{obj}</code>
+                                    </pre>
 
-
+                                </div>
+                                    <div className='col-md-4 m-auto my-3 text-center '>
+                                        <button className='btn btn-form btn-primary my-4' value='submit' type='submit' style={{ width: '100%' }}> {isLoading ? <Spinner /> : `Pay Now`}  </button>
+                                        OR <br></br>
+                                        <a href="/allsites">Proceed with 7 Day FREE Trial</a>
+                                    </div></>}
                             </div>
+
+
                             <div className="col-md-4 text-center">
                                 <p>Widget Page Display Example </p>
 
-                                <h3 className="my-3" style={{overflowX:'scroll', overflowY:'none'}}>{formik.values.domain === '' ? 'example' : formik.values.domain}</h3>
+                                <p className="my-3" >{formik.values.domain === '' ? 'example' : formik.values.domain}</p>
                                 <img src={sample} alt="Sample Image" />
                             </div>
                         </div>

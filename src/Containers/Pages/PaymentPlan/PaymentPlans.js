@@ -39,12 +39,13 @@ export const PaymentPlans = () => {
 
     return (
         <div className="wrapper">
-            <div className="d-flex">
-                <div className="sidebar px-md-3" style={{ display: navbarShow ? 'block' : 'none' }} >
-                    <Sidebar></Sidebar>
+            <div className="dashboard-wrapper">
+                <div className={navbarShow ? 'sidebar px-md-3' : 'sidebar show px-md-3'} >
+                    <Sidebar> </Sidebar>
                 </div>
-                <div className="d-flex align-items-start" style={{ width: '100%' }}>
-                    <div className="content" style={{ width: '100%' }}>
+                <div className="right-content">
+                    <div className="content">
+
                         <TopNav />
                         {/* =============== Inner Section Start ============= */}
 
@@ -57,13 +58,13 @@ export const PaymentPlans = () => {
                             <div className="row justify-content-center">
 
                                 {isLoading && <Spinner color='#1f38fa'></Spinner>}
-                                {paymentPlans &&    
+                                {paymentPlans &&
                                     paymentPlans.map((data) => {
-                                        return (<div className="col-lg-3 col-md-6 mb-3" key={data.id}>
+                                        return (<div className="col-lg-3 col-md-6 col-9 mb-3" key={data.id}>
                                             <div className="card py-4  h-100">
                                                 <div className="card-body d-flex flex-column">
                                                     <div className="text-center">
-                                                        <img src={cardImage} className="img-fluid  mb-5" alt="Websearch" style={{height:'100px'}}/>
+                                                        <img src={cardImage} className="img-fluid  mb-5" alt="Websearch" style={{ height: '100px' }} />
                                                     </div>
 
                                                     <div className="card-title  mb-4 text-center fs-2">{data.name}</div>

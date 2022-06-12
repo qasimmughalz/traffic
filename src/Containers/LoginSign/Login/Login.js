@@ -42,7 +42,8 @@ export const Login = () => {
                 setLoading(false);
                 console.log("check from our APi Cal=========", res)
                 localStorage.setItem('expire', res.data.expiresIn)
-                const data = {idToken: res.data.token, expiresIn: res.data.expiresIn , email: values.Email}
+                localStorage.setItem('email', values.Email)
+                const data = {idToken: res.data.token, expiresIn: res.data.expiresIn , }
                 dispatch(loginHandler(data))
                 navigate('/dashboard')
             }).catch((e) => {

@@ -7,73 +7,59 @@ export const Sidebar = () => {
 
     return (
         <div className="" >
-        <div className="align-self-start text-center mt-md-4 mt-3">
-            <img style={{ height: '80px' , width:'90%' }} alt='logo-img'  src={logo} className="mt-3 rounded"></img>
-            <h5 className='mt-2 text-white'>Welcome, <br></br> Ram</h5>
-        </div>
-        <hr></hr>
-        <div className="mt-3">
-            <ul className=' rounded pl-4'>
-
-                <li className="nav-items font-weight-bold text-white">
-                  
-                    <div className='d-flex justify-content-between text-left' style={{width:'60%'}}>
-                        <div> <i className="far fa-credit-card "></i></div>
-                        <div>  <Link to='/dashboard'> <span className='text-white'>   Dashboard </span></Link> </div>   
-                    </div>
-                 
-                </li>
-
-
-                <li className="nav-items text-white font-weight-bold" data-toggle="collapse" data-target="#website">
-                    <div className='d-flex justify-content-between w-50 text-left'>
-                        <div>  <i className="fas fa-globe pr-1"></i></div>
-                        <div> <span>Website</span> </div>   
-                    </div>
-                  
-                    <div className="collapse collapse-data text-white bg-white rounded" id='website'>
-                        <div className="font-weight-normal">
-                        <Link to='/allsites'> <span className='nav-links text-dark'>All Websites</span></Link>  </div>
-                        <div className="font-weight-normal">
-                            <Link to='/addnew'>
-                                <span className='nav-links text-dark'>Add New Site</span>
-                            </Link>
+            <div className="align-self-start text-center mt-md-4 mt-5">
+                <img alt='logo-img' style={{width:'90%'}}  src={logo} className="sidebar-logo"></img>
+                <h5 className='mt-2 text-white'>Welcome, <br></br> Ram</h5>
+            </div>
+            <hr></hr>
+            <div className="mt-3">
+                <ul className='rounded sidebar-list-wrapper'>
+                    <li className="sidebar-item nav-items">
+                        <div className='link-wrapper'>
+                            <div className='icon-wrapper'><i className="far fa-credit-card "></i></div>
+                            <div className='text-wrapper'><Link to='/dashboard'> <span className='text-white hide-text'>Dashboard </span></Link> </div>   
+                        </div>                     
+                    </li>
+                    <li className="sidebar-item nav-items" data-toggle="collapse" data-target="#website">
+                        <div className='link-wrapper'>
+                            <div className='icon-wrapper'><i className="fas fa-globe pr-1"></i></div>
+                            <div className='text-wrapper'><span className='hide-text'>Website</span></div>   
                         </div>
-                    </div>
-                </li>
+                        <div className="sidebar-drop-down collapse collapse-data text-white bg-white" id='website'>
+                            <p className="inner-links-wrapper">
+                              <Link to='/allsites'>
+                                  <span className='nav-links text-dark'>All Websites</span>
+                              </Link>
+                            </p>
+                            <p className="inner-links-wrapper mb-0">
+                                <Link to='/addnew'>
+                                    <span className='nav-links text-dark'>Add New Site</span>
+                                </Link>
+                            </p>
+                        </div>
+                    </li>
+                    <li className="sidebar-item nav-items">
+                      <div className='link-wrapper'>
+                          <div className='icon-wrapper'><i className="fas fa-user "></i></div>
+                          <div className='text-wrapper'><Link to='/dashboard'> <span className='text-white hide-text'>Profile </span></Link> </div>   
+                      </div>
+                    </li>
+                    <li className="sidebar-item nav-items">
+                      <div className='link-wrapper'>
+                          <div className='icon-wrapper'><i className="far fa-credit-card "></i></div>
+                          <div className='text-wrapper'><Link to='/paymentplans'><span className='text-white hide-text'>Payment </span></Link> </div>   
+                      </div>
+                    </li>
+                    <li className="sidebar-item nav-items">          
+                      <div className='link-wrapper'>
+                          <div className='icon-wrapper'><i className="fas fa-phone-alt"></i></div>
+                          <div className='text-wrapper'><Link to='/dashboard'><span className='text-white hide-text'>Support </span></Link> </div>   
+                      </div>
+                    </li>
+                </ul>
 
-                    
-                
-                <li className="nav-items font-weight-bold text-white">
-                  
-                  <div className='d-flex justify-content-between text-left' style={{width:'44%'}}>
-                      <div> <i className="fas fa-user  "></i></div>
-                      <div>  <Link to='/dashboard'> <span className='text-white'>Profile </span></Link> </div>   
-                  </div>
-                </li>
-               
-
-
-                <li className="nav-items font-weight-bold text-white">
-                  
-                  <div className='d-flex justify-content-between text-left' style={{width:'52%'}}>
-                      <div> <i className="far fa-credit-card "></i></div>
-                      <div>  <Link to='/paymentplans'> <span className='text-white'>Payment </span></Link> </div>   
-                  </div>
-                </li>
-
-                <li className="nav-items font-weight-bold text-white">
-                  
-                  <div className='d-flex justify-content-between text-left' style={{width:'52%'}}>
-                      <div> <i className="fas fa-phone-alt"></i></div>
-                      <div>  <Link to='/dashboard'> <span className='text-white'>Support </span></Link> </div>   
-                  </div>
-                </li>
-               
-            </ul>
+            </div>
 
         </div>
-
-    </div>
     )
 }                     
