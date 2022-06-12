@@ -1,38 +1,69 @@
-.App {
-  text-align: center;
+.body{
+  background-color: #edf1f5 !important;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+.btn-primary{
+  background-color: #2285b6 ;
+} 
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
-.App-header {
-  background-color: #282c34;
+.sidebar{
+  max-width: 18%;
+  width: 100%;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background:linear-gradient(34deg, rgba(83, 167, 155, 1) 14%, rgba(34, 133, 182, 1) 50%);
 }
 
-.App-link {
-  color: #61dafb;
+
+
+pre {
+  background: #fff;
+  padding: 2rem;
+  overflow: auto;
+  border-radius: 5px;
+  max-width: 80ch;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+pre code {
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
 }
+
+
+
+
+
+
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .sidebar{
+    max-width: 70%;
+    width: 100%;
+}
+}
+
+@media only screen and (min-width: 600px) {
+  .sidebar{
+    max-width: 40%;
+    width: 100%;
+}
+}
+
+@media only screen and (min-width: 768px) {
+  .sidebar{
+    max-width: 18%;
+    width: 100%;
+}
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {}

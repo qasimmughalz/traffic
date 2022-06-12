@@ -1,25 +1,27 @@
-import logo from './logo.svg';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
+import {AuthenticatedRoutes} from './Containers/Routes/Authenticated'
+import {UnAuthenticatedRoutes} from './Containers/Routes/UnAuthenticated'
+import { FullScreenSpinner } from './Components/Spinner/FullScreenSpinner';
+import { settingInitialValues } from './Containers/Redux/UserAuth';
 
 function App() {
+
+  const dispatch = useDispatch()
+  const userToken = localStorage.getItem('token')
+  const userLoggedIn = !!userToken;
+
+  (userToken && 
+  dispatch(settingInitialValues({userToken , userLoggedIn})))
+  const userFound = useSelector(state=> state.UserAuth.isLoggedIn)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+          {userFound? <AuthenticatedRoutes/> : <UnAuthenticatedRoutes/>}
     </div>
   );
+
 }
 
 export default App;
