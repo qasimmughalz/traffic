@@ -15,7 +15,7 @@ import { loginHandler } from "../../Redux/UserAuth"
 
 export const AddNewSite = () => {
 
-    const [switchForm, setSwitchForm] = useState(true)
+    const [switchForm, setSwitchForm] = useState(false)
 
     const [domainName, setDomaniName] = useState('')
     const navbarShow = useSelector(state => state.navbarToggle.show)
@@ -49,7 +49,6 @@ export const AddNewSite = () => {
                     setSwitchForm(true)
                     setDomaniName(values.domain)
                 }
-
             }).catch((e) => {
                 setLoading(false)
                 setanyErrorMessage(true)
@@ -57,6 +56,16 @@ export const AddNewSite = () => {
             })
         }
     })
+
+    const newDomainPayment = ()=>{
+        console.log("Clicked==== ")
+        if(domainName){
+            navigate(`/paymentplans/${domainName}`)
+        }
+        else{
+            alert('Soorry')
+        }
+    }
 
 
     const obj = `<!-- Accessibility Code for "${domainName}" --> <script> (function(doc, head, body){ var coreCall = doc.createElement('script'); coreCall.src = 'https://cdn.equalweb.com/core/4.3.2/accessibility.js'; coreCall.defer = true; coreCall.integrity = 'sha512-73oZhkzO+7F1r8AXT5BtChHyVvx8GMuB3Pokx6jdnP5Lw7xyBUO4L5KKi7BwqovhoqOWjNmkah1iCiMniyt6Kw=='; coreCall.crossOrigin = 'anonymous'; coreCall.setAttribute('data-cfasync', true ); body? body.appendChild(coreCall) : head.appendChild(coreCall); })(document, document.head, document.body); </script>`;
@@ -111,13 +120,16 @@ export const AddNewSite = () => {
 
 
                                 {switchForm && <><div className="rounded bg-white p-3  text-dark"  >
-                                    <pre>
+                                    <pre className="py-5">
                                         <code className="text-dark">{obj}</code>
                                     </pre>
 
                                 </div>
                                     <div className='col-md-4 m-auto my-3 text-center '>
-                                        <button className='btn btn-form btn-primary my-4' value='submit' type='submit' style={{ width: '100%' }}> {isLoading ? <Spinner /> : `Pay Now`}  </button>
+                                        <form action={newDomainPayment}>
+                                            <button className='btn btn-form btn-primary my-4' value='submit' type='submit' style={{ width: '100%' }}> {isLoading ? <Spinner /> : `Pay Now`}  </button>
+                                        </form>
+                                      
                                         OR <br></br>
                                         <a href="/allsites">Proceed with 7 Day FREE Trial</a>
                                     </div></>}

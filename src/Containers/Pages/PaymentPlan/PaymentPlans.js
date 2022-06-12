@@ -7,9 +7,12 @@ import { useSelector } from "react-redux"
 import './PaymentPlan.css'
 import cardImage from '../../../assets/images/card.svg'
 import { Spinner } from "../../../Components/Spinner/Loader"
+import { useParams } from "react-router-dom"
 
 export const PaymentPlans = () => {
 
+    const params = useParams()
+    console.log("Params Domain", params.domani)
     const [isLoading, setIsLoading] = useState(false)
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const [paymentPlans, setPaymentPlans] = useState([])

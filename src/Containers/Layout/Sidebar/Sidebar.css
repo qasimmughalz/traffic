@@ -36,7 +36,9 @@ li{
     }   
 }
 
-
+.nav-text:hover{
+    border-bottom: 1px solid #fff ;
+}
 
 
 /* ==================== COLLAPSIBLE =================== */

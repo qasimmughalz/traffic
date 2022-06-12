@@ -20,6 +20,7 @@ export const AuthenticatedRoutes = ()=>{
             <Route path='/addnew' element={<AddNewSite/>}></Route>
             <Route path='/allsites' element={<AllSites/>}></Route>
             <Route path='/paymentplans' element={<PaymentPlans/>}></Route>
+            <Route path='/paymentplans/:domain' element={<PaymentPlans/>}></Route>
             <Route path='*' element={<Dashboard/>}></Route>
         </Routes>
     )
