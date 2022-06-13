@@ -33,12 +33,14 @@ export const Verify = () => {
             verifyCode: Yup.string().required('Required'),
         }),
         onSubmit: values => {
+            setLoading(true)
             console.log("Sending Verification Code", values)
             axios({
                 method: 'POST',
                 url: 'https://plugin-nodejs-server.herokuapp.com/api/verifyOTP',
                 data: { userId: param.id, otp: values.verifyCode }
             }).then((res) => {
+                setLoading(false)
                 console.log("Success", res)
                 setanyErrorMessage(true)
                 setErrorMessage(res.data.message)
@@ -98,7 +100,7 @@ export const Verify = () => {
 
                       {/* //===== Footer Options  ====*/}
 
-                    <div className='text-center py-4'><p>Did not get code ? <span className='text-danger'> Send Again.
+                    <div className='text-center py-4'><p>Did not get code ? <span className='text-danger'> Contact Us.
                     </span> </p>
                         <p><Link to='/signup'>
                             Back To Home Page
