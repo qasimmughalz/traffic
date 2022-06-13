@@ -37,7 +37,7 @@ export const Verify = () => {
             axios({
                 method: 'POST',
                 url: 'https://plugin-nodejs-server.herokuapp.com/api/verifyOTP',
-                data: { userId: '62a210133dee6af1b5e167df', otp: values.verifyCode }
+                data: { userId: param.id, otp: values.verifyCode }
             }).then((res) => {
                 console.log("Success", res)
                 setanyErrorMessage(true)
