@@ -1,10 +1,15 @@
-import { useSelector } from "react-redux"
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { TopNav } from "../../../Components/TopNav/TopNav"
 import { Sidebar } from "../../Layout/Sidebar/Sidebar"
-
+import { Sites } from "../../Redux/AllSites"
 export const AllSites = () => {
 
     const navbarShow = useSelector(state => state.navbarToggle.show)
+    const dispatch = useDispatch();
+    useEffect(()=> {
+        dispatch(Sites());
+    })
 
     return (<div className="wrapper">
         <div className="dashboard-wrapper">
