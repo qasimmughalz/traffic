@@ -47,6 +47,7 @@ export const Login = () => {
                 dispatch(loginHandler(data))
                 navigate('/dashboard')
             }).catch((e) => {
+                console.log("Login Error", e)
                 setLoading(false)
                 setanyErrorMessage(true)
                 setErrorMessage(e.response.data.error)

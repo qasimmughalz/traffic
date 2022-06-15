@@ -14,6 +14,9 @@ export const SignUp = () => {
     const [isLoading,setLoading]= useState(false)
     const [AlreadyEmailAlert, setAlreadyEmailAlert] = useState(false)
 
+    const [anyError, setanyErrorMessage] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+
     const phoneRegExp = /^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/
 
     const formik = useFormik({
@@ -53,6 +56,9 @@ export const SignUp = () => {
                     
             }).catch((e) => {
                 console.log("Error while connecting to Api ", e)
+                setLoading(false)
+                setanyErrorMessage(true)
+                setErrorMessage(e.message)
             })
         }
     })
@@ -82,6 +88,15 @@ export const SignUp = () => {
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+
+                    {/* //========= Error Message ======== */}
+
+                    <div className="alert alert-warning alert-dismissible fade show" role="alert" style={{ display: anyError ? 'block' : 'none' }}>
+                            <strong>{errorMessage}</strong> 
+                            <button type="button" className="close" onClick={() => setanyErrorMessage(!anyError)} aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
 
                       {/* //===== Sign Up Form   ====*/}
                         <form onSubmit={formik.handleSubmit}>
