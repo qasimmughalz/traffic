@@ -1,4 +1,5 @@
 import axios from "axios";
+import { errorLoading, setGetAllSites } from "./getAllSites";
 
 
 export const Sites = () => async dispatch => {
@@ -16,9 +17,10 @@ export const Sites = () => async dispatch => {
           },
     }).then((res) => {
         console.log("get All SItes Data =========", res)
-        // console.log("Response Status", res.status)
-        
+        dispatch(setGetAllSites(res.data))
     }).catch((e) => {
-        console.log("eror", e)
+        console.log("error", e)
+        dispatch(errorLoading(e.message))
+
     })
 }

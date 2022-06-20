@@ -7,15 +7,18 @@ import { useSelector } from "react-redux"
 import './PaymentPlan.css'
 import cardImage from '../../../assets/images/card.svg'
 import { Spinner } from "../../../Components/Spinner/Loader"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
+import { isAllOf } from "@reduxjs/toolkit"
 
 export const PaymentPlans = () => {
 
-    const params = useParams()
-    console.log("Params Domain", params.domani)
+
+    const navigate = useNavigate()
+
     const [isLoading, setIsLoading] = useState(false)
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const [paymentPlans, setPaymentPlans] = useState([])
+    const [anyError, setanyErrorMessage] = useState(false)
 
     useEffect(() => {
 
@@ -40,6 +43,38 @@ export const PaymentPlans = () => {
 
 
 
+    const onclickHandler=( id)=>{
+        console.log("id", id)
+        const email = localStorage.getItem('email')
+        const domain = localStorage.getItem('newDomain')
+        const getToken = localStorage.getItem('token')
+
+        if(domain === null){
+            setanyErrorMessage(true)
+            return
+        }else{
+            setanyErrorMessage(false)
+            const apiCall = async ()=>{
+                const response = await axios({
+                    method : 'POST',
+                    url:'https://plugin-nodejs-server.herokuapp.com/api/createSession',
+                    data:{email: email, priceId: id, domainName : domain},
+                    headers : {
+                        "authorization": `Bearer ${getToken}`
+                    }
+                }).then((res)=>{
+                    console.log('response', res)
+                    window.location.replace(res.data)
+                }).catch(e=> {
+                    console.log(e)
+                })
+            }
+            apiCall()
+        }
+
+    }
+
+
     return (
         <div className="wrapper">
             <div className="dashboard-wrapper">
@@ -58,31 +93,38 @@ export const PaymentPlans = () => {
                             <div className="d-sm-flex align-items-center justify-content-between mb-4">
                                 <h1 className="h3 mb-0 text-gray-800">Pricing Plans</h1>
                             </div>
+
+                            {/* //========= Error Message ======== */}
+
+                            <div className="alert alert-warning alert-dismissible fade show" role="alert" style={{ display: anyError ? 'block' : 'none' }}>
+                                    <strong>Please Select a Domain Name or Add a New Domain o Pay</strong>
+                                    <button type="button" className="close" onClick={() => setanyErrorMessage(!anyError)} aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+
                             <div className="row justify-content-center">
 
-                                {isLoading && <Spinner color='#1f38fa'></Spinner>}
-                                {paymentPlans &&
-                                    paymentPlans.map((data) => {
+                                {paymentPlans.length > 0 ? (paymentPlans.map((data) => {
                                         return (<div className="col-lg-3 col-md-6 col-9 mb-3" key={data.id}>
                                             <div className="card py-4  h-100">
                                                 <div className="card-body d-flex flex-column">
                                                     <div className="text-center">
                                                         <img src={cardImage} className="img-fluid  mb-5" alt="Websearch" style={{ height: '100px' }} />
                                                     </div>
-
                                                     <div className="card-title  mb-4 text-center fs-2">{data.name}</div>
                                                     <div className="text-center mt-auto mb-4">
                                                         <span className="font-weight-bold fs-2 card-price">${data.price}</span>/{data.interval}
                                                     </div>
-                                                    <div className="text-center"><button type="button" className="btn btn-primary">Choose Plan</button></div>
-
+                                                   
+                                                    <div className="text-center"><button type="submit" onClick={()=> onclickHandler(data.id)} value='submit' className="btn btn-primary">Choose Plan</button></div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        )
-                                    })
+                                        </div>  )
+                                    })) : <Spinner color='#1f38fa'></Spinner> 
                                 }
-
 
                             </div>
                         </div>

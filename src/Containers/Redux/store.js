@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import CounterReducer from './Counter'
+import getAllSites from './getAllSites'
+import CounterReducer, { setGetAllSites } from './getAllSites'
 import NavbarToggle from './NavbarToggle'
 import UserAuth from './UserAuth'
 
@@ -7,6 +8,7 @@ export const Store = configureStore({
     reducer: {
         counter : CounterReducer, 
         navbarToggle : NavbarToggle , 
-        UserAuth : UserAuth
+        UserAuth : UserAuth, 
+        getAllsites : getAllSites
     }
 })

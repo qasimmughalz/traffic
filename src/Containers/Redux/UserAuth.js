@@ -23,6 +23,9 @@ const UserAuth = createSlice({
             state.isLoggedIn = false
             state.expireTime = '';
             localStorage.removeItem('token')
+            localStorage.removeItem('newDomain')
+            localStorage.removeItem('email')
+            localStorage.removeItem('expire')
         },
         loginHandler: (state, action)=>{
             const {idToken, expiresIn } = action.payload

@@ -1,12 +1,17 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { Spinner } from "../../../Components/Spinner/Loader"
 import { TopNav } from "../../../Components/TopNav/TopNav"
 import { Sidebar } from "../../Layout/Sidebar/Sidebar"
 import { Sites } from "../../Redux/AllSites"
 export const AllSites = () => {
 
+    let tempCounter = 1
     const navbarShow = useSelector(state => state.navbarToggle.show)
+    const allSites = useSelector(state => state.getAllsites.sites)
     const dispatch = useDispatch();
+
+
     useEffect(()=> {
         dispatch(Sites());
     })
@@ -30,69 +35,36 @@ export const AllSites = () => {
 
 
                         <div className="table-responsive sites-table bg-white">
+                            
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Domain Name</th>
-                                        <th scope="col">Platform</th>
+                                        <th scope="col">Message</th>
                                         <th scope="col">Plan</th>
-                                        <th scope="col">Installation</th>
-                                        <th scope="col">Activated</th>
                                         <th scope="col">Payment</th>
                                         <th scope="col">Expiring</th>
+                                        <th scope="col">Installation</th>
                                         <th scope="col">Upgrade</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr scope='row'>
-                                        <th scope="row">1</th>
-                                        <td>www.hamza.com</td>
-                                        <td>Other Plateform</td>
-                                        <td>Free</td>
-                                        <td><button className="btn-primary btn">Get</button></td>
-                                        <td>
-                                            <label className="switch">
-                                                <input type="checkbox" className="slider-input" />
-                                                <span className="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>-None-</td>
-                                        <td>N/A</td>
-                                        <td><button className="get-btn">UPGRADE</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>www.hamza.com</td>
-                                        <td>Other Plateform</td>
-                                        <td>Free</td>
-                                        <td><button className="btn-primary btn">Get</button></td>
-                                        <td>
-                                            <label className="switch">
-                                                <input type="checkbox" className="slider-input" />
-                                                <span className="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>-None-</td>
-                                        <td>N/A</td>
-                                        <td><button className="get-btn">UPGRADE</button></td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>www.hamza.com</td>
-                                        <td>Other Plateform</td>
-                                        <td>Free</td>
-                                        <td><button className="btn-primary btn">Get</button></td>
-                                        <td>
-                                            <label className="switch">
-                                                <input type="checkbox" className="slider-input" />
-                                                <span className="slider round"></span>
-                                            </label>
-                                        </td>
-                                        <td>-None-</td>
-                                        <td>N/A</td>
-                                        <td><button className="get-btn">UPGRADE</button></td>
-                                    </tr>
+
+                                {allSites.length > 0 ? (allSites.map((data)=>{
+                                    return (<tr scope='row'>
+                                    <th scope="row">{tempCounter++}</th>
+                                    <td>{data.domain}</td>
+                                    <td>{data.message}</td>
+                                    <td>Free</td>
+                                    <td>-None-</td>
+                                    <td>{data.trialEndDate}</td>
+                                    <td className="text-center"><button className="btn-primary btn">Get</button></td>
+                                    <td><button className="btn btn-success">UPGRADE</button></td>
+                                </tr>)
+                                })) :  <Spinner color='#1f38fa'/> }
+                                    
+                                    
                                 </tbody>
                             </table>
                         </div>

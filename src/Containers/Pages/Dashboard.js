@@ -1,12 +1,23 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { TopNav } from "../../Components/TopNav/TopNav";
 import { Sidebar } from "../Layout/Sidebar/Sidebar";
+import { Sites } from "../Redux/AllSites";
 
 export const Dashboard = () => {
   const navbarShow = useSelector((state) => state.navbarToggle.show);
+  const sitesFromRedux = useSelector(state => state.getAllsites.sites)
+
+  const error = useSelector(state => state.getAllsites.error)
+  
+
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(Sites())
+  },[])
 
   return (
-    <div className="wrapper">
+    <>
       <div className="dashboard-wrapper">
         <div  className = { navbarShow ? 'sidebar px-md-3' : 'sidebar show px-md-3'} >
           <Sidebar> </Sidebar>
@@ -32,8 +43,7 @@ export const Dashboard = () => {
                             Total Sites
                           </div>
                           <div className="h5 mb-0 font-weight-bold text-gray-800">
-                            
-                            2
+                            {sitesFromRedux.length}
                           </div>
                         </div>
                         <div className="col-auto">
@@ -102,6 +112,6 @@ export const Dashboard = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
