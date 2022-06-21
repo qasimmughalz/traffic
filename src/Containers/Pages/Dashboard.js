@@ -48,7 +48,6 @@ export const Dashboard = () => {
                         </div>
                         <div className="col-auto">
                           <i className="fas fa-calendar fa-2x text-gray-300">
-                            
                           </i>
                         </div>
                       </div>
