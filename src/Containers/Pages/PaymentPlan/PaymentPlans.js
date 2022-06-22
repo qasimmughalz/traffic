@@ -97,7 +97,7 @@ export const PaymentPlans = () => {
                             {/* //========= Error Message ======== */}
 
                             <div className="alert alert-warning alert-dismissible fade show" role="alert" style={{ display: anyError ? 'block' : 'none' }}>
-                                    <strong>Please Select a Domain Name or Add a New Domain o Pay</strong>
+                                    <strong>Please Select Existing Domain or Add New One </strong>
                                     <button type="button" className="close" onClick={() => setanyErrorMessage(!anyError)} aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
