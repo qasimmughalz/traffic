@@ -4,17 +4,55 @@ import { Spinner } from "../../../Components/Spinner/Loader"
 import { TopNav } from "../../../Components/TopNav/TopNav"
 import { Sidebar } from "../../Layout/Sidebar/Sidebar"
 import { Sites } from "../../Redux/AllSites"
+import axios from "axios"
+import { Modal } from "../../../Components/Modal/Modal"
+import { useState } from "react"
 export const AllSites = () => {
 
-    let tempCounter = 1
+    let tempCounter = 1;
+    const [isLoading, setisLoading]= useState(false)
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const allSites = useSelector(state => state.getAllsites.sites)
+    const [script, setScript] = useState()
+    const [ShowModal, setShowModal] = useState(false)
+    const getToken = localStorage.getItem('token')
+    const user = localStorage.getItem('email')
     const dispatch = useDispatch();
 
 
     useEffect(()=> {
         dispatch(Sites());
-    })
+    },[])
+
+    const ShowScript = (domainName)=>{
+        setisLoading(true)
+        const RunTheTask = async () => {
+            const resp = await axios({
+                method: 'POST',
+                url: `https://plugin-nodejs-server.herokuapp.com/api/getScript`,
+                data: {email: user, domainName: domainName},
+                headers: {
+                    "authorization": `Bearer ${getToken}`
+                  },
+            }).then((res) => {
+                
+                console.log("res", res);
+                console.log('script:', res.script)
+                setScript({domain: domainName , script: res.data.script})
+                setShowModal(true)
+                setisLoading(false)
+               
+            }).catch((e) => {
+                setisLoading(false)
+                console.log("error", e)
+            })
+        }
+        RunTheTask()
+    }   
+
+    const handleConfirm = ()=>{
+            setShowModal(false)
+    }
 
     return (<div className="wrapper">
         <div className="dashboard-wrapper">
@@ -27,8 +65,9 @@ export const AllSites = () => {
                     <TopNav />
                     {/* =============== Inner Section Start ============= */}
 
-                    <div className="container-fluid ">
 
+                    {ShowModal && <Modal title="Script" message={script} onConfirm={handleConfirm}/> }
+                    <div className="container-fluid ">
                         <div className="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 className="h3 mb-0 text-gray-800">All Site</h1>
                         </div>
@@ -51,6 +90,7 @@ export const AllSites = () => {
                                 </thead>
                                 <tbody>
 
+                               
                                 {allSites.length > 0 ? (allSites.map((data)=>{
                                     return (<tr scope='row'>
                                     <th scope="row">{tempCounter++}</th>
@@ -59,7 +99,7 @@ export const AllSites = () => {
                                     <td>Free</td>
                                     <td>-None-</td>
                                     <td>{data.trialEndDate}</td>
-                                    <td className="text-center"><button className="btn-primary btn">Get</button></td>
+                                    <td className="text-center"><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>Get</button></td>
                                     <td><button className="btn btn-success">UPGRADE</button></td>
                                 </tr>)
                                 })) :  <Spinner color='#1f38fa'/> }

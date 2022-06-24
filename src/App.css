@@ -5,6 +5,9 @@
 .btn-primary {
     background-color: #2285b6;
 }
+.text-blue{
+    color: #2285b6;
+}
 .top-header{
     justify-content: end;
 }

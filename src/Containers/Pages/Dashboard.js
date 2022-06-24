@@ -14,6 +14,22 @@ export const Dashboard = () => {
   const dispatch = useDispatch()
   useEffect(()=>{
     dispatch(Sites())
+
+    const RunTheTask = async () => {
+      const resp = await fetch('https://plugin-nodejs-server.herokuapp.com/api/isValidScript', {
+          method: 'POST',
+          body: JSON.stringify({ domainName: 'demo.iqasimmughal.com', userId: '62a210133dee6af1b5e167df', siteKey: '62b3e90ab56bcc272c86c40c' }
+          ),
+          headers: {
+              'Content-Type': 'application/json'
+          }
+      }).then((res) => res.json())
+      .then((data)=> console.log(data.data.script))
+      .catch((e) => console.log("Error in Connecting to the API", e))
+  }
+  RunTheTask()
+
+
   },[])
 
   return (
