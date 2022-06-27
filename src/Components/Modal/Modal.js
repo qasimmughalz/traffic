@@ -12,10 +12,10 @@ export const TheModal = (props) => {
         setCopy(true)
         setTimeout(()=>{
             setCopy(false)
-        },0)
+        },40000)
      }
 
-    return (<div className={classes.backdrop} onClick={props.onConfirm} >
+    return (<div className={classes.backdrop} >
 
         <div className={`${classes.modal} ${classes.card}`}>
             <header className={classes.header}>
@@ -25,13 +25,13 @@ export const TheModal = (props) => {
                 <h5>Your script for domain : {domain}</h5>
                 <div className={`${classes.innerScroll} rounded bg-white p-3 text-dark`} >
                     <pre className="">
-                        <code className="text-dark"> {` <script> ${script} </script>`} </code>
+                        <code className="text-dark">{script} </code>
                     </pre>
                 </div>
             </div>
             <footer className={classes.actions}>
                 <div>
-                <CopyToClipboard text={` <script> ${script} </script>`} onCopy={showCopiedFunction}>
+                <CopyToClipboard text={script} onCopy={showCopiedFunction}>
                  <button className='btn btn-secondary' >Copy to Clipboard</button> 
                 </CopyToClipboard>
                 {copy && <span className='text-success pl-2'>Copied !</span> }

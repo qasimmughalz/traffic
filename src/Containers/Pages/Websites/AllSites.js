@@ -7,6 +7,7 @@ import { Sites } from "../../Redux/AllSites"
 import axios from "axios"
 import { Modal } from "../../../Components/Modal/Modal"
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 export const AllSites = () => {
 
     let tempCounter = 1;
@@ -18,6 +19,7 @@ export const AllSites = () => {
     const getToken = localStorage.getItem('token')
     const user = localStorage.getItem('email')
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
 
     useEffect(()=> {
@@ -54,6 +56,11 @@ export const AllSites = () => {
             setShowModal(false)
     }
 
+    const UpgradeScript = (domainName)=>{
+        localStorage.setItem('domain',  domainName)
+        navigate('/paymentplans')
+    }
+
     return (<div className="wrapper">
         <div className="dashboard-wrapper">
             <div className={navbarShow ? 'sidebar px-md-3' : 'sidebar show px-md-3'} >
@@ -74,7 +81,9 @@ export const AllSites = () => {
 
 
                         <div className="table-responsive sites-table bg-white">
-                            
+
+
+
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
@@ -90,8 +99,7 @@ export const AllSites = () => {
                                 </thead>
                                 <tbody>
 
-                               
-                                {allSites.length > 0 ? (allSites.map((data)=>{
+                                {allSites.length && (allSites.map((data)=>{
                                     return (<tr scope='row'>
                                     <th scope="row">{tempCounter++}</th>
                                     <td>{data.domain}</td>
@@ -100,15 +108,18 @@ export const AllSites = () => {
                                     <td>-None-</td>
                                     <td>{data.trialEndDate}</td>
                                     <td className="text-center"><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>Get</button></td>
-                                    <td><button className="btn btn-success">UPGRADE</button></td>
+                                    <td><button className="btn btn-success" onClick={()=> UpgradeScript(data.domain)}>UPGRADE</button></td>
                                 </tr>)
-                                })) :  <Spinner color='#1f38fa'/> }
-                                    
+                                })) }
                                     
                                 </tbody>
                             </table>
                         </div>
 
+                        {allSites.length == 0 ? (<div className="text-center my-4">
+                        <p>You have not Subscribes for any website </p>
+                        <a href="/addnew" className="btn btn-primary">Add a New Site Now</a></div>
+                        ):''}
 
                     </div>
 

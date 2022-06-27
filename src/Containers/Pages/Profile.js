@@ -63,18 +63,13 @@ export const Profile = () => {
                             <div className="row ml-4 ">
 
                             {isLoading ? <Spinner color='#1f38fa'></Spinner> : 
-                                (<div className="card ml-4 shadow">
+                                (<div className="col-md-8 card ml-4 shadow">
                                     <div className="card-body">
-                                        <h5 className="font-weight-bold">   Name : <span className="font-weight-normal">{userProfile.Name}</span>  </h5>
-                                        <h5 className="font-weight-bold">   Email : <span className="font-weight-normal">{userProfile.Email}</span> </h5>
-                                        <h5 className="font-weight-bold">   Phone No : <span className="font-weight-normal">{userProfile.PhoneNo}</span> </h5>
+                                        <h5 className="font-weight-bold my-4">   Name : <span className="font-weight-normal">{userProfile.Name}</span>  </h5>
+                                        <h5 className="font-weight-bold my-4">   Email : <span className="font-weight-normal">{userProfile.Email}</span> </h5>
+                                        <h5 className="font-weight-bold my-4">   Phone No : <span className="font-weight-normal">{userProfile.PhoneNo}</span> </h5>
                                     </div>
                                 </div>) }
-
-
-                                
-
-
                             </div>
                         </div>
                         {/* =============== Inner Section End ============= */}

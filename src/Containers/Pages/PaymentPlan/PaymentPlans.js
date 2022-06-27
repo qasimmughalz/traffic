@@ -46,7 +46,7 @@ export const PaymentPlans = () => {
     const onclickHandler=( id)=>{
         console.log("id", id)
         const email = localStorage.getItem('email')
-        const domain = localStorage.getItem('newDomain')
+        const domain = localStorage.getItem('domain')
         const getToken = localStorage.getItem('token')
 
         if(domain === null){

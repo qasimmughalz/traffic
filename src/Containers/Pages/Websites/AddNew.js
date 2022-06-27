@@ -29,9 +29,18 @@ export const AddNewSite = () => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if(inputWebsite === '') {
-            setanyError(true)
-            setErrorMessage('Please Enter Domain Name !')
+        if(inputWebsite === '' || inputWebsite.includes('/') || inputWebsite.includes('http')) {
+            if(inputWebsite === ''){
+                setanyError(true)
+                setErrorMessage('Please Enter Domain Name !')
+            }else if(inputWebsite.includes('http')){
+                setanyError(true)
+                setErrorMessage('Please remove the protocols http/https. Type domain like "www.example.com"')
+            }else{
+                setanyError(true)
+                setErrorMessage('Please remove all / backslashes  !')
+            }
+            
         }else if (!inputWebsite.includes('www')) {
             setanyError(true)
             setErrorMessage('Incomplete Domain Name !')
