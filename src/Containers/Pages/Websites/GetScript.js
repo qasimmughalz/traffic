@@ -1,16 +1,14 @@
-import { useDispatch, useSelector } from "react-redux"
+import {  useSelector } from "react-redux"
 import { TopNav } from "../../../Components/TopNav/TopNav"
 import { Sidebar } from "../../Layout/Sidebar/Sidebar"
-import { useState } from "react"
 import sample from '../../../assets/images/example.PNG'
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { Link,  useParams } from "react-router-dom"
 export const GetScript = () => {
 
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const userEmail = localStorage.getItem('email')
     console.log("current user email", userEmail)
 
-    const navigate = useNavigate()
 
     const params = useParams()
     console.log("domainName", params.domainName)
@@ -93,7 +91,7 @@ export const GetScript = () => {
                                 <p>Widget Page Display Example </p>
 
                                 <p className="my-3" >{params.domainName === '' ? 'example' : params.domainName}</p>
-                                <img src={sample} alt="Sample Image" />
+                                <img src={sample} alt="Sample" />
                             </div>
                         </div>
 

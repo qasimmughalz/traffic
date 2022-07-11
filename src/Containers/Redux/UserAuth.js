@@ -1,6 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 
 const UserAuth = createSlice({
@@ -8,7 +6,6 @@ const UserAuth = createSlice({
     initialState:  {
         token:'', 
         isLoggedIn:false, 
-        expireTime:'', 
         Useremail:''
     }, 
     reducers:{
@@ -22,22 +19,19 @@ const UserAuth = createSlice({
             state.token = '';
             state.isLoggedIn = false
             state.expireTime = '';
-            localStorage.removeItem('token')
-            localStorage.removeItem('newDomain')
-            localStorage.removeItem('email')
-            localStorage.removeItem('expire')
+            localStorage.clear()
         },
         loginHandler: (state, action)=>{
-            const {idToken, expiresIn } = action.payload
-            state.token = idToken;
+            const {token } = action.payload
+            console.log("Token in redux ", token)
+            state.token = token;
             state.Useremail = localStorage.getItem('email')
             state.isLoggedIn = true
-            state.expireTime = expiresIn;
-            localStorage.setItem('token', idToken )
+            localStorage.setItem('token', token )
             // Token Expire Time 
-            const totalTime = new Date( new Date().getTime() + (+expiresIn * 1000))
-            const currTime = new Date().getTime();
-            const finalTime = totalTime - currTime;
+            // const totalTime = new Date( new Date().getTime() + (+expiresIn * 1000))
+            // const currTime = new Date().getTime();
+            // const finalTime = totalTime - currTime;
             // setTimeout(()=> logoutHandler  , 3000); 
         }
     }

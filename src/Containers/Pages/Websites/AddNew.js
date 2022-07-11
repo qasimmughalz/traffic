@@ -148,7 +148,7 @@ export const AddNewSite = () => {
                                 <p>Widget Page Display Example </p>
 
                                 <p className="my-3" >{inputWebsite === '' ? 'example' : inputWebsite}</p>
-                                <img src={sample} alt="Sample Image" />
+                                <img src={sample} alt="Sample" />
                             </div>
                         </div>
                     </div>

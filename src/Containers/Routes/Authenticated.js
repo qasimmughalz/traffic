@@ -2,13 +2,11 @@
 import { Routes, Route} from "react-router-dom"
 import { Dashboard } from "../Pages/Dashboard"
 import { PaymentPlans } from "../Pages/PaymentPlan/PaymentPlans"
-import { ContactUs, Table } from "../Pages/ContactUs"
-import { Profile, Users } from "../Pages/Profile"
+import { ContactUs } from "../Pages/ContactUs"
+import { Profile } from "../Pages/Profile"
 import { AddNewSite } from "../Pages/Websites/AddNew"
 import { AllSites } from "../Pages/Websites/AllSites"
 import { GetScript } from "../Pages/Websites/GetScript"
-
-
 
 
 export const AuthenticatedRoutes = ()=>{

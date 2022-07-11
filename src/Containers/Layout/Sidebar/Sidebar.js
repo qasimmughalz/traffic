@@ -9,7 +9,7 @@ export const Sidebar = () => {
     return (
         <>
             <div className="align-self-start text-center mt-md-4 mt-5">
-                <img alt='logo-img' style={{width:'90%'}}  src={logo} className="sidebar-logo"></img>
+                <img alt='logo' style={{width:'90%'}}  src={logo} className="sidebar-logo"></img>
                 <h5 className='mt-2 text-white'>Welcome, <br></br> Ram</h5>
             </div>
             <hr></hr>

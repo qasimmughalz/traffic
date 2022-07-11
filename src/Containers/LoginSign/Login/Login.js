@@ -9,6 +9,7 @@ import { Spinner } from '../../../Components/Spinner/Loader'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { loginHandler } from '../../Redux/UserAuth'
+import { Buffer } from 'buffer'
 
 
 export const Login = () => {
@@ -40,17 +41,14 @@ export const Login = () => {
                 data: { email: values.Email, password: values.Password , returnSecureToken : true }
             }).then((res) => {
                 setLoading(false);
-                console.log("check from our APi Cal=========", res)
-                localStorage.setItem('expire', res.data.expiresIn)
-                localStorage.setItem('email', values.Email)
-                const data = {idToken: res.data.token, expiresIn: res.data.expiresIn , }
-                dispatch(loginHandler(data))
+                console.log("Response from API", res)
+                dispatch(loginHandler(res.data))
                 navigate('/dashboard')
             }).catch((e) => {
                 console.log("Login Error", e)
                 setLoading(false)
                 setanyErrorMessage(true)
-                setErrorMessage(e.response.data.error)
+                e.message ? setErrorMessage(e.message) : setErrorMessage(e.response.data.error)
             })
         }
     })
@@ -63,14 +61,10 @@ export const Login = () => {
                         <img style={{ height: '80px' }} src={logo} alt='logo' className='img-fluid '></img>
                         <h3 className='heading-two'>Login to Your Account</h3>
                     </div>
-
-
                     <div className='px-md-3 m-auto text-left my-5' style={{ width: '80%', textAlign: 'left' }}>
-
-
                         {/* //========= Error Message ======== */}
-
-                        <div className="alert alert-warning alert-dismissible fade show" role="alert" style={{ display: anyError ? 'block' : 'none' }}>
+                        <div className="alert alert-warning alert-dismissible fade show"
+                         role="alert" style={{ display: anyError ? 'block' : 'none' }}>
                             <strong>{errorMessage}</strong> 
                             <button type="button" className="close" onClick={() => setanyErrorMessage(!anyError)} aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
