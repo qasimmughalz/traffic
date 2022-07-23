@@ -37,12 +37,6 @@ export const GetScript = () => {
     document.body.append(outerCircle)
 
 
-    
-
-
-
- 
-
     return (<div className="wrapper">
         <div className="dashboard-wrapper">
             <div className={navbarShow ? 'sidebar px-md-3' : 'sidebar show px-md-3'} >
@@ -79,10 +73,6 @@ export const GetScript = () => {
                                         <Link to='/paymentplans'>
                                         <button className='btn btn-form btn-primary my-4' value='submit' type='submit' style={{ width: '100%' }}> Pay Now  </button>
                                         </Link>
-                                    OR <br></br>
-                                    <Link to='/allsites'>
-                                    <p >Proceed with 7 Day FREE Trial</p>
-                                    </Link>
                                 </div>
                             </div>
 

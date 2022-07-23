@@ -41,7 +41,7 @@ export const Login = () => {
                 data: { email: values.Email, password: values.Password , returnSecureToken : true }
             }).then((res) => {
                 setLoading(false);
-                console.log("Response from API", res)
+                localStorage.setItem('email', values.Email)
                 dispatch(loginHandler(res.data))
                 navigate('/dashboard')
             }).catch((e) => {

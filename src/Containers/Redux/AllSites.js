@@ -17,6 +17,5 @@ export const Sites = () => async dispatch => {
         dispatch(setGetAllSites(res.data))
     }).catch((e) => {
         dispatch(errorLoading(e.message))
-
     })
 }

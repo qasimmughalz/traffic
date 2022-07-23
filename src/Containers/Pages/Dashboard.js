@@ -9,39 +9,39 @@ export const Dashboard = () => {
   const sitesFromRedux = useSelector(state => state.getAllsites.sites)
 
   const error = useSelector(state => state.getAllsites.error)
-  
+
 
   const dispatch = useDispatch()
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(Sites())
 
-    const RunTheTask = async () => {
-      const resp = await fetch('https://plugin-nodejs-server.herokuapp.com/api/isValidScript', {
-          method: 'POST',
-          body: JSON.stringify({ domainName: 'demo.iqasimmughal.com', userId: '62a210133dee6af1b5e167df', siteKey: '62b3e90ab56bcc272c86c40c' }
-          ),
-          headers: {
-              'Content-Type': 'application/json'
-          }
-      }).then((res) => res.json())
-      .then((data)=> console.log(data.data.script))
-      .catch((e) => console.log("Error in Connecting to the API", e))
-  }
-  RunTheTask()
+    // const RunTheTask = async () => {
+    //   const resp = await fetch('https://plugin-nodejs-server.herokuapp.com/api/isValidScript', {
+    //     method: 'POST',
+    //     body: JSON.stringify({ domainName: 'demo.iqasimmughal.com', userId: '62a210133dee6af1b5e167df', siteKey: '62b3e90ab56bcc272c86c40c' }
+    //     ),
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     }
+    //   }).then((res) => res.json())
+    //     .then((data) => console.log(data.data.script))
+    //     .catch((e) => console.log("Error in Connecting to the API", e))
+    // }
+    // RunTheTask()
 
 
-  },[])
+  }, [])
 
   return (
     <>
       <div className="dashboard-wrapper">
-        <div  className = { navbarShow ? 'sidebar px-md-3' : 'sidebar show px-md-3'} >
+        <div className={navbarShow ? 'sidebar px-md-3' : 'sidebar show px-md-3'} >
           <Sidebar> </Sidebar>
         </div>
         <div className="right-content">
           <div className="content">
 
-            <TopNav /> 
+            <TopNav />
             {/* =============== Inner Section Start ============= */}
 
 
@@ -63,7 +63,7 @@ export const Dashboard = () => {
                           </div>
                         </div>
                         <div className="col-auto">
-                          <i className="fas fa-calendar fa-2x text-gray-300">
+                          <i className="fas fa-calendar fa-2x text-success">
                           </i>
                         </div>
                       </div>
@@ -76,21 +76,21 @@ export const Dashboard = () => {
                       <div className="row no-gutters align-items-center">
                         <div className="col mr-2">
                           <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
-                            
+
                             Activations
                           </div>
                           <div className="row no-gutters align-items-center">
                             <div className="col-auto">
                               <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                
+
                                 3
                               </div>
                             </div>
                           </div>
                         </div>
                         <div className="col-auto">
-                          <i className="fas fa-clipboard-list fa-2x text-gray-300">
-                            
+                          <i className="fas fa-clipboard-list fa-2x text-info">
+
                           </i>
                         </div>
                       </div>
@@ -106,13 +106,13 @@ export const Dashboard = () => {
                             Payments
                           </div>
                           <div className="h5 mb-0 font-weight-bold text-gray-800">
-                            
+
                             Nill
                           </div>
                         </div>
                         <div className="col-auto">
-                          <i className="fas fa-dollar-sign fa-2x text-gray-300">
-                            
+                          <i className="fas fa-dollar-sign fa-2x text-warning">
+
                           </i>
                         </div>
                       </div>
@@ -121,9 +121,9 @@ export const Dashboard = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* =============== Inner Section End ============= */}
-           
+
           </div>
         </div>
       </div>

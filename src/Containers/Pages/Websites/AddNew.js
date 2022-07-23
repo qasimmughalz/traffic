@@ -138,10 +138,7 @@ export const AddNewSite = () => {
                                         <Link to='/paymentplans'>
                                             <button className='btn btn-form btn-primary my-4' value='submit' type='submit' style={{ width: '100%' }}> Pay Now  </button>
                                         </Link>
-                                        OR <br></br>
-                                        <Link to='/allsites'>
-                                            <p >Proceed with 7 Day FREE Trial</p>
-                                        </Link>
+                                      
                                     </div>
                                 </div>)}
                             <div className="col-md-4 text-center mt-5">
