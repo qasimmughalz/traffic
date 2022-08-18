@@ -39,6 +39,24 @@ export const Sidebar = () => {
                             </p>
                         </div>
                     </li>
+                    <li className="sidebar-item nav-items" data-toggle="collapse" data-target="#trafic">
+                        <div className='link-wrapper'>
+                            <div className='icon-wrapper'><i className="fas fa-globe pr-1"></i></div>
+                            <div className='text-wrapper'><span className='hide-text nav-text'>Trafic</span></div>   
+                        </div>
+                        <div className="sidebar-drop-down collapse collapse-data text-white bg-white" id='trafic'>
+                            <p className="inner-links-wrapper">
+                              <Link to='/allsessions'>
+                                  <span className='nav-links text-dark'>All Sessions</span>
+                              </Link>
+                            </p>
+                            <p className="inner-links-wrapper mb-0">
+                                <Link to='/addnew'>
+                                    <span className='nav-links text-dark'>Add New Trafic</span>
+                                </Link>
+                            </p>
+                        </div>
+                    </li>
                     <li className="sidebar-item nav-items">
                       <div className='link-wrapper'>
                           <div className='icon-wrapper'><i className="far fa-credit-card "></i></div>

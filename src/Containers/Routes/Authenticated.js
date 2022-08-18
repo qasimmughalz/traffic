@@ -7,6 +7,8 @@ import { Profile } from "../Pages/Profile"
 import { AddNewSite } from "../Pages/Websites/AddNew"
 import { AllSites } from "../Pages/Websites/AllSites"
 import { GetScript } from "../Pages/Websites/GetScript"
+import { AllSessions } from "../Pages/Websites/AllSessions"
+import Replay from "../Pages/Websites/Replay"
 
 
 export const AuthenticatedRoutes = ()=>{
@@ -16,6 +18,8 @@ export const AuthenticatedRoutes = ()=>{
             <Route path="/dashboard" element={<Dashboard/>}></Route>
             <Route path='/addnew' element={<AddNewSite/>}></Route>
             <Route path='/allsites' element={<AllSites/>}></Route>
+            <Route path='/allsessions' element={<AllSessions/>}></Route>
+            <Route path='/replay' element={<Replay/>}></Route>
             <Route path='/paymentplans' exact element={<PaymentPlans/>}></Route>
             <Route path='/profile' exact element={<Profile/>}></Route>
             <Route path="/contactus"exact element={<ContactUs/>}></Route>

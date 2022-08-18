@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 
 
-export const AddNewSite = () => {
+export const AddNewSite = ({traffic=true}) => {
 
     const [newScript, setNewScript] = useState('')
     const [showScript, setShowScript] = useState(false)
