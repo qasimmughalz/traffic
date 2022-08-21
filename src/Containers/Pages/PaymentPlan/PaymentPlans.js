@@ -36,10 +36,8 @@ export const PaymentPlans = () => {
             }).then((res) => {
                 setIsLoading(false)
                 setPaymentPlans(res.data)
-                console.log("Response from Api", res)
             }).catch((e) => {
                 setIsLoading(false)
-                console.log("Error", e)
             })
         }
         fetchData()
@@ -48,7 +46,6 @@ export const PaymentPlans = () => {
 
 
     const onclickHandler = (id) => {
-        console.log("id", id)
         const email = localStorage.getItem('email')
         const domain = localStorage.getItem('domain')
         const getToken = localStorage.getItem('token')
@@ -67,10 +64,8 @@ export const PaymentPlans = () => {
                         "authorization": `Bearer ${getToken}`
                     }
                 }).then((res) => {
-                    console.log('response', res)
                     window.location.replace(res.data)
                 }).catch(e => {
-                    console.log(e)
                 })
             }
             apiCall()

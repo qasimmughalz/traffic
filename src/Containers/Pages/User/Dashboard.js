@@ -1,15 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TopNav } from "../../Components/TopNav/TopNav";
-import { Sidebar } from "../Layout/Sidebar/Sidebar";
-import { Sites } from "../Redux/AllSites";
+import { TopNav } from "../../../Components/TopNav/TopNav";
+import { Sidebar } from "../../Layout/Sidebar/Sidebar";
+import { Sites } from "../../Redux/AllSites";
 
 export const Dashboard = () => {
   const navbarShow = useSelector((state) => state.navbarToggle.show);
   const sitesFromRedux = useSelector(state => state.getAllsites.sites)
 
   const error = useSelector(state => state.getAllsites.error)
-
 
   const dispatch = useDispatch()
   useEffect(() => {

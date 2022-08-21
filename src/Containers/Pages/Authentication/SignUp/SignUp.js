@@ -4,8 +4,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import axios from 'axios'
 import {  useState } from 'react'
-import logo from '../../../assets/images/logo-small.jpg'
-import { Spinner } from '../../../Components/Spinner/Loader'
+import logo from '../../../../assets/images/logo-small.jpg'
+import { Spinner } from '../../../../Components/Spinner/Loader'
 
 
 export const SignUp = () => {
@@ -35,27 +35,22 @@ export const SignUp = () => {
             ConfirmPass: Yup.string().min(8, 'Minimum 8 Characters long').oneOf([Yup.ref('Password')], 'Password did not match').required('Required'),
         }),
         onSubmit: values => {
-            console.log("my values SENDING", values)
             setLoading(true)
             axios({ 
                 method: 'POST',
                 url: 'https://plugin-nodejs-server.herokuapp.com/api/signup',
                 data: { name: values.Name, email: values.Email, password: values.Password , phoneNo: values.Phone }
             }).then((res) => {
-                console.log(res)
                 if (res.status === 200 && res.data.error) {
-                    console.log("Email is already registered !")
                     setLoading(false)
                     setAlreadyEmailAlert(true)
                 }
                 if (res.status === 201 ){
-                    console.log("New Email Creating Bro ");   
                     setLoading(false)
                     navigate(`/verify/${res.data.data.userId}`)
                 }
                     
             }).catch((e) => {
-                console.log("Error while connecting to Api ", e)
                 setLoading(false)
                 setanyErrorMessage(true)
                 setErrorMessage(e.message)

@@ -7,20 +7,22 @@ import { Sites } from "../../Redux/AllSites"
 import axios from "axios"
 import { Modal } from "../../../Components/Modal/Modal"
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-export const AllSites = () => {
+import { Link, useNavigate } from "react-router-dom"
+
+
+export const AllTrafficSites = () => {
 
     let tempCounter = 1;
     const [isLoading, setisLoading]= useState(false)
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const allSites = useSelector(state => state.getAllsites.sites)
+   const FilterTrafficSties = allSites.filter((res)=> res.feature === 'ANALYTICS')
     const [script, setScript] = useState()
     const [ShowModal, setShowModal] = useState(false)
     const getToken = localStorage.getItem('token')
     const user = localStorage.getItem('email')
     const dispatch = useDispatch();
     const navigate = useNavigate()
-
 
     useEffect(()=> {
         dispatch(Sites());
@@ -37,16 +39,17 @@ export const AllSites = () => {
                     "authorization": `Bearer ${getToken}`
                   },
             }).then((res) => {
-                
-                console.log("res", res);
-                console.log('script:', res.script)
                 setScript({domain: domainName , script: res.data.script})
                 setShowModal(true)
                 setisLoading(false)
                
             }).catch((e) => {
                 setisLoading(false)
-                console.log("error", e)
+                if(!e.response.data.isActive){
+                    setScript({message:'You need to clear payment before activation.Pay Now !'})
+                    setShowModal(true)
+                    setisLoading(false)
+                    }
             })
         }
         RunTheTask()
@@ -82,8 +85,6 @@ export const AllSites = () => {
 
                         <div className="table-responsive sites-table bg-white">
 
-
-
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
@@ -99,7 +100,7 @@ export const AllSites = () => {
                                 </thead>
                                 <tbody>
 
-                                {allSites.length && (allSites.map((data)=>{
+                                {FilterTrafficSties.length && (FilterTrafficSties.map((data)=>{
                                     return (<tr scope='row'>
                                     <th scope="row">{tempCounter++}</th>
                                     <td>{data.domain}</td>
@@ -116,7 +117,7 @@ export const AllSites = () => {
                             </table>
                         </div>
 
-                        {allSites.length == 0 ? (<div className="text-center my-4">
+                        {FilterTrafficSties.length == 0 ? (<div className="text-center my-4">
                         <p>You have not Subscribes for any website </p>
                         <a href="/addnew" className="btn btn-primary">Add a New Site Now</a></div>
                         ):''}
@@ -128,7 +129,5 @@ export const AllSites = () => {
             </div>
         </div>
     </div>
-
-
     )
 }

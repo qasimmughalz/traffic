@@ -12,7 +12,6 @@ function App() {
 
   const dispatch = useDispatch();
   let userFound = useSelector((state) => state.UserAuth.isLoggedIn);
-  console.log("UserFound in Reducer", userFound);
   const token = localStorage.getItem("token");
 
   function isTokenExpired(token) {
@@ -20,11 +19,9 @@ function App() {
     const decodedJson = Buffer.from(payloadBase64, "base64").toString();
     const decoded = JSON.parse(decodedJson);
     const exp = decoded.exp;
-    console.log("Token Expiry Time is from function", exp);
     const expired = Date.now() >= exp * 1000;
     return expired;
   }
-
 
   const ValidateToken = (token) => {
     const resp = axios({
@@ -39,25 +36,19 @@ function App() {
       })
       .catch((er) => {
         setcheck(false);
-        console.log("Login Check Error", er)
       });
   };
 
   if (!token) {
-    console.log("Logout ! Not Found Token")
     dispatch(logoutHandler);
   } else {
     dispatch(settingInitialValues({ userToken:token , userLoggedIn :true}))
     ValidateToken(token);
     if (check) {
-      console.log("Token Found", token);
-      console.log("Token Expired or not", isTokenExpired(token));
       if (isTokenExpired(token)) {
-        console.log("Logout ! Token Expired")
         dispatch(logoutHandler);
       }
     } else {    
-        console.log("Logout ! checked is falsed")
       dispatch(logoutHandler);
     }
   }

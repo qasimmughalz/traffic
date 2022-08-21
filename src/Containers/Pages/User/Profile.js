@@ -1,10 +1,10 @@
 
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { Sidebar } from "../Layout/Sidebar/Sidebar"
-import { TopNav } from "../../Components/TopNav/TopNav"
+import { Sidebar } from "../../Layout/Sidebar/Sidebar"
+import { TopNav } from "../../../Components/TopNav/TopNav"
 import { useSelector } from "react-redux"
-import { Spinner } from "../../Components/Spinner/Loader"
+import { Spinner } from "../../../Components/Spinner/Loader"
 import { useParams } from "react-router-dom"
 
 export const Profile = () => {
@@ -12,16 +12,14 @@ export const Profile = () => {
     const currEmail = localStorage.getItem('email')
     const token = localStorage.getItem('token')
     const params = useParams()
-    console.log("Params Domain", params.domani)
     const [isLoading, setIsLoading] = useState(false)
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const [userProfile , setUserProfile] = useState({})
 
     useEffect(() => {
-
         const fetchData = async () => {
             setIsLoading(true)
-            const response = await axios({
+             await axios({
                 method:'GET',
                 url:`https://plugin-nodejs-server.herokuapp.com/api/getUser/${currEmail}`,
                 data:{},
@@ -30,12 +28,10 @@ export const Profile = () => {
                 }
             }).then((res) => {
                     setIsLoading(false)
-                    console.log('Data from api', res.data)
                     setUserProfile(res.data)
 
                 }).catch(error => {
                     setIsLoading(false)
-                    console.log('Error', error)
                 })
         }
         fetchData()

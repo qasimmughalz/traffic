@@ -4,13 +4,13 @@ import { Sidebar } from "../../Layout/Sidebar/Sidebar"
 import { Spinner } from "../../../Components/Spinner/Loader"
 import { useState, useEffect } from "react"
 import axios from "axios"
-import sample from '../../../assets/images/example.PNG'
+import sample from '../../../assets/images/traffic.svg'
 import * as Yup from 'yup'
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
 
 
-export const AddNewSite = ({traffic=true}) => {
+export const AddNewTrafficSite = ({traffic=true}) => {
 
     const [newScript, setNewScript] = useState('')
     const [showScript, setShowScript] = useState(false)
@@ -49,7 +49,6 @@ export const AddNewSite = ({traffic=true}) => {
             const editDomain = inputWebsite.split('.')
             editDomain.shift();
             const FinalDomain = editDomain.join('.')
-            console.log("Final Domain Name : ", FinalDomain)
 
             setanyError(false)
             setInputError(false)
@@ -58,12 +57,11 @@ export const AddNewSite = ({traffic=true}) => {
             axios({
                 method: 'POST',
                 url: 'https://plugin-nodejs-server.herokuapp.com/api/addNewSite',
-                data: { email: userEmail, domain: FinalDomain, language: 'English', platform: 'WordPress' },
+                data: { email: userEmail, domain: FinalDomain, language: 'English', platform: 'WordPress', feature:'ANALYTICS' },
                 headers: {
                     "authorization": `Bearer ${getToken}`
                 }
             }).then((res) => {
-                console.log("Response From Api", res)
                 setLoading(false);
                 if (res.status === 200) {
                     localStorage.setItem('newDomain', inputWebsite)
@@ -72,7 +70,6 @@ export const AddNewSite = ({traffic=true}) => {
 
                 }
             }).catch((e) => {
-                console.log("Error", e.response.data.error)
                 setLoading(false)
                 setanyError(true)
                 setErrorMessage(e.response.data.error)
@@ -93,7 +90,7 @@ export const AddNewSite = ({traffic=true}) => {
                             {!showScript ?
                                 (<div className="col-md-8 m-auto">
                                     <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                                        <h1 className="h3 mb-0 text-gray-800">Add New Site</h1>
+                                        <h1 className="h3 mb-0 text-gray-800">Monitor New Site</h1>
                                     </div>
                                     {/* //========= Error Message ======== */}
                                     <div className="alert alert-warning alert-dismissible fade show" role="alert" style={{ display: anyError ? 'block' : 'none' }}>
@@ -142,9 +139,7 @@ export const AddNewSite = ({traffic=true}) => {
                                     </div>
                                 </div>)}
                             <div className="col-md-4 text-center mt-5">
-                                <p>Widget Page Display Example </p>
-
-                                <p className="my-3" >{inputWebsite === '' ? 'example' : inputWebsite}</p>
+                                <p className="my-3" >{inputWebsite === '' ? 'www.example.com' : inputWebsite}</p>
                                 <img src={sample} alt="Sample" />
                             </div>
                         </div>

@@ -1,21 +1,19 @@
 import React, { useRef, useEffect } from "react";
-import rrwebPlayer from "rrweb-player";
+import rrwebPlayer from 'rrweb-player';
 import "rrweb-player/dist/style.css";
 import { TopNav } from "../../../Components/TopNav/TopNav";
 import { Sidebar } from "../../Layout/Sidebar/Sidebar";
 import { useSelector } from "react-redux";
-import events from "./event.json";
 
 const Replay = () => {
   const containerRef = useRef();
   const navbarShow = useSelector((state) => state.navbarToggle.show);
+  const events = useSelector((state) => state.getAllsites.events);
+  console.log("my events here", events)
+
   useEffect(() => {
-    if (!containerRef.current || events.length === 0) {
-      return;
-    }
-
+    
     containerRef.current.innerHTML = "";
-
     const replayer = new rrwebPlayer({
       target: containerRef.current,
       props: {
@@ -32,7 +30,7 @@ const Replay = () => {
       }
     });
 
-    console.log("rerender");
+
     return () => {
       replayer.pause();
     };

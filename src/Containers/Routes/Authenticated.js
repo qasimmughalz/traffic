@@ -1,14 +1,17 @@
 
 import { Routes, Route} from "react-router-dom"
-import { Dashboard } from "../Pages/Dashboard"
+import { Dashboard } from "../Pages/User/Dashboard"
 import { PaymentPlans } from "../Pages/PaymentPlan/PaymentPlans"
 import { ContactUs } from "../Pages/ContactUs"
-import { Profile } from "../Pages/Profile"
-import { AddNewSite } from "../Pages/Websites/AddNew"
-import { AllSites } from "../Pages/Websites/AllSites"
-import { GetScript } from "../Pages/Websites/GetScript"
-import { AllSessions } from "../Pages/Websites/AllSessions"
-import Replay from "../Pages/Websites/Replay"
+import { Profile } from "../Pages/User/Profile"
+
+import { AllAccessSites, AllSites } from "../Pages/AccessTool/AllSites"
+import { GetScript } from "../Pages/AccessTool/GetScript"
+import { AllSessions, AllTrafficSites } from "../Pages/TrafficMonitor/AllSites"
+import Replay from "../Pages/TrafficMonitor/Replay"
+import { AddNewAccessSite } from "../Pages/AccessTool/AddNew"
+import { AddNewTrafficSite } from "../Pages/TrafficMonitor/AddNew"
+import { TrafficStates } from "../Pages/TrafficMonitor/TrafficStats/TrafficStats"
 
 
 export const AuthenticatedRoutes = ()=>{
@@ -16,9 +19,12 @@ export const AuthenticatedRoutes = ()=>{
         <Routes>
             <Route path="/" element={<Dashboard/>}></Route>
             <Route path="/dashboard" element={<Dashboard/>}></Route>
-            <Route path='/addnew' element={<AddNewSite/>}></Route>
-            <Route path='/allsites' element={<AllSites/>}></Route>
-            <Route path='/allsessions' element={<AllSessions/>}></Route>
+            <Route path='/addNewAccess' element={<AddNewAccessSite/>}></Route>
+            <Route path='/addNewTraffic' element={<AddNewTrafficSite/>}></Route>
+            <Route path='/allAccessSites' element={<AllAccessSites/>}></Route>
+            <Route path='/allTrafficSites' element={<AllTrafficSites/>}></Route>
+            <Route path='/trafficStats' element={<TrafficStates/>}></Route>
+            
             <Route path='/replay' element={<Replay/>}></Route>
             <Route path='/paymentplans' exact element={<PaymentPlans/>}></Route>
             <Route path='/profile' exact element={<Profile/>}></Route>

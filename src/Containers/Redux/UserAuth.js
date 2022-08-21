@@ -15,7 +15,6 @@ const UserAuth = createSlice({
             state.isLoggedIn = userLoggedIn
         },
         logoutHandler: (state)=>{
-            console.log("Log out called")
             state.token = '';   
             state.isLoggedIn = false
             state.expireTime = '';
@@ -23,7 +22,6 @@ const UserAuth = createSlice({
         },
         loginHandler: (state, action)=>{
             const {token } = action.payload
-            console.log("Token in redux ", token)
             state.token = token;
             state.Useremail = localStorage.getItem('email')
             state.isLoggedIn = true

@@ -7,11 +7,9 @@ export const GetScript = () => {
 
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const userEmail = localStorage.getItem('email')
-    console.log("current user email", userEmail)
 
-
+   
     const params = useParams()
-    console.log("domainName", params.domainName)
     
 
     const obj = `<!-- Accessibility Code for "${params.domainName}" --> <script> window.interdeal = { "sitekey": "a02ed6d4784f2af01462cea69461238d", "userId": "12345678", "Menulang": "EN", "domains": { "js": "https://cdn.equalweb.com/", "acc": "https://access.equalweb.com/" }, "btnStyle": { "vPosition": [ "80%", null ], "scale": [ "0.8", "0.8" ], "icon": { "type": 7, "shape": "semicircle", "outline": false } } }; (function(doc, head, body){ var coreCall = doc.createElement('script'); coreCall.src = 'https://iqasimmughal.com/test.js'; coreCall.defer = true; coreCall.integrity = 'sha512-73oZhkzO+7F1r8AXT5BtChHyVvx8GMuB3Pokx6jdnP5Lw7xyBUO4L5KKi7BwqovhoqOWjNmkah1iCiMniyt6Kw=='; coreCall.crossOrigin = 'anonymous'; coreCall.setAttribute('data-cfasync', true ); body? body.appendChild(coreCall) : head.appendChild(coreCall); })(document, document.head, document.body); </script>`

@@ -1,8 +1,8 @@
 import { Routes, Route} from "react-router-dom"
-import { Login } from "../LoginSign/Login/Login"
-import { SignUp } from "../LoginSign/SignUp/SignUp"
-import { ThankYou } from "../LoginSign/SignUp/ThankYou"
-import { Verify } from "../LoginSign/SignUp/Verify"
+import { Login } from "../Pages/Authentication/Login/Login"
+import { SignUp } from "../Pages/Authentication/SignUp/SignUp"
+import { ThankYou } from "../Pages/Authentication/SignUp/ThankYou"
+import { Verify } from "../Pages/Authentication/SignUp/Verify"
 
 export const UnAuthenticatedRoutes = ()=>{
     return(

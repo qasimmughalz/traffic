@@ -1,13 +1,12 @@
 
 import { useFormik } from 'formik'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import logo from '../../../assets/images/logo-small.jpg'
-import { Spinner } from '../../../Components/Spinner/Loader'
+import logo from '../../../../assets/images/logo-small.jpg'
+import { Spinner } from '../../../../Components/Spinner/Loader'
 import { useState } from 'react'
 import '../registration.css'
 import * as Yup from 'yup'
 import axios from 'axios'
-
 
 
 
@@ -23,7 +22,6 @@ export const Verify = () => {
     const navigate = useNavigate()
 
     const param = useParams();
-    console.log("Dekhlo Params", param)
 
     const formik = useFormik({
         initialValues: {
@@ -34,14 +32,12 @@ export const Verify = () => {
         }),
         onSubmit: values => {
             setLoading(true)
-            console.log("Sending Verification Code", values)
             axios({
                 method: 'POST',
                 url: 'https://plugin-nodejs-server.herokuapp.com/api/verifyOTP',
                 data: { userId: param.id, otp: values.verifyCode }
             }).then((res) => {
                 setLoading(false)
-                console.log("Success", res)
                 setanyErrorMessage(true)
                 setErrorMessage(res.data.message)
                 setTimeout(() => {

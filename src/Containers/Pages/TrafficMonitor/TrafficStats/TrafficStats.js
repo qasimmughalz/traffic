@@ -1,19 +1,23 @@
-import { useEffect } from "react"
+import { useEffect , useMemo} from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Spinner } from "../../../Components/Spinner/Loader"
-import { TopNav } from "../../../Components/TopNav/TopNav"
-import { Sidebar } from "../../Layout/Sidebar/Sidebar"
-import { Sites } from "../../Redux/AllSites"
+import { Spinner } from "../../../../Components/Spinner/Loader"
+import { TopNav } from "../../../../Components/TopNav/TopNav"
+import { Sidebar } from "../../../Layout/Sidebar/Sidebar"
+import { Sites } from "../../../Redux/AllSites"
 import axios from "axios"
-import { Modal } from "../../../Components/Modal/Modal"
+import { Modal } from "../../../../Components/Modal/Modal"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-export const AllSessions = () => {
+import { setEvents } from "../../../Redux/getAllSites"
+import { Chart } from "react-chartjs-2"
 
-    let tempCounter = 1;
+
+export const TrafficStates = () => {
+
     const [isLoading, setisLoading]= useState(false)
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const allSites = useSelector(state => state.getAllsites.sites)
+   const FilterTrafficSties = allSites.filter((res)=> res.feature === 'ANALYTICS')
     const [script, setScript] = useState()
     const [ShowModal, setShowModal] = useState(false)
     const getToken = localStorage.getItem('token')
@@ -21,32 +25,26 @@ export const AllSessions = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
-
     useEffect(()=> {
         dispatch(Sites());
     },[])
 
-    const ShowScript = (domainName)=>{
+    const ShowScript = (userId, sitekey)=>{
         setisLoading(true)
         const RunTheTask = async () => {
             const resp = await axios({
                 method: 'POST',
-                url: `https://plugin-nodejs-server.herokuapp.com/api/getScript`,
-                data: {email: user, domainName: domainName},
+                url: `https://plugin-nodejs-server.herokuapp.com/api/getEvents`,
+                data: {userId: '62a210133dee6af1b5e167df', siteKey: '63022d199286e63e57dd0cdf'},
                 headers: {
                     "authorization": `Bearer ${getToken}`
                   },
             }).then((res) => {
-                
-                console.log("res", res);
-                console.log('script:', res.script)
-                setScript({domain: domainName , script: res.data.script})
-                setShowModal(true)
-                setisLoading(false)
-               
+                console.log("response events", res)
+                dispatch(setEvents(res.data.events.events))
+                navigate('/replay')
             }).catch((e) => {
-                setisLoading(false)
-                console.log("error", e)
+                console.log("Error", e)
             })
         }
         RunTheTask()
@@ -60,6 +58,33 @@ export const AllSessions = () => {
         localStorage.setItem('domain',  domainName)
         navigate('/paymentplans')
     }
+
+    const data = useMemo(
+        () => [
+          {
+            label: 'Series 1',
+            data: [{ x: 1, y: 10 }, { x: 2, y: 10 }, { x: 3, y: 10 }]
+          },
+          {
+            label: 'Series 2',
+            data: [{ x: 1, y: 10 }, { x: 2, y: 10 }, { x: 3, y: 10 }]
+          },
+          {
+            label: 'Series 3',
+            data: [{ x: 1, y: 10 }, { x: 2, y: 10 }, { x: 3, y: 10 }]
+          }
+        ],
+        []
+      )
+     
+      const axes = useMemo(
+        () => [
+          { primary: true, type: 'linear', position: 'bottom' },
+          { type: 'linear', position: 'left' }
+        ],
+        []
+      )
+     
 
     return (<div className="wrapper">
         <div className="dashboard-wrapper">
@@ -76,39 +101,39 @@ export const AllSessions = () => {
                     {ShowModal && <Modal title="Script" message={script} onConfirm={handleConfirm}/> }
                     <div className="container-fluid ">
                         <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 className="h3 mb-0 text-gray-800">All Site</h1>
+                            <h1 className="h3 mb-0 text-gray-800">Traffic Stats</h1>
                         </div>
 
+                                <div
+                                style={{
+                                    width: '400px',
+                                    height: '300px'
+                                }}
+                                >
+                                <Chart data={data} axes={axes} />
+                                </div>
+                          
 
                         <div className="table-responsive sites-table bg-white">
-
-
 
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Domain Name</th>
-                                        <th scope="col">Message</th>
-                                        <th scope="col">Plan</th>
-                                        <th scope="col">Payment</th>
-                                        <th scope="col">Expiring</th>
-                                        <th scope="col">Replay</th>
-                                        <th scope="col">Installation</th>
-                                        <th scope="col">Upgrade</th>
+                                        
+                                        <th scope="col">IP Address</th>
+                                        <th scope="col">Source</th>
+                                        <th scope="col">Clicks</th>
+                                        <th scope="col">Area</th>
+                                        <th scope="col">Video</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                {allSites.length && (allSites.map((data)=>{
+                                {FilterTrafficSties.length && (FilterTrafficSties.map((data)=>{
                                     return (<tr scope='row'>
-                                    <th scope="row">{tempCounter++}</th>
                                     <td>{data.domain}</td>
                                     <td>{data.message}</td>
-                                    <td>Free</td>
-                                    <td>-None-</td>
                                     <td>{data.trialEndDate}</td>
-                                    <td className="text-center">  <Link to='/replay'><button className="btn-primary btn" >Replay</button> </Link></td>
                                     <td className="text-center"><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>Get</button></td>
                                     <td><button className="btn btn-success" onClick={()=> UpgradeScript(data.domain)}>UPGRADE</button></td>
                                 </tr>)
@@ -118,7 +143,7 @@ export const AllSessions = () => {
                             </table>
                         </div>
 
-                        {allSites.length == 0 ? (<div className="text-center my-4">
+                        {FilterTrafficSties.length == 0 ? (<div className="text-center my-4">
                         <p>You have not Subscribes for any website </p>
                         <a href="/addnew" className="btn btn-primary">Add a New Site Now</a></div>
                         ):''}
@@ -130,7 +155,5 @@ export const AllSessions = () => {
             </div>
         </div>
     </div>
-
-
     )
 }

@@ -4,11 +4,11 @@ import '../registration.css'
 import { Link, useNavigate } from 'react-router-dom'
 import * as Yup from 'yup'
 import axios from 'axios'
-import logo from '../../../assets/images/logo-small.jpg'
-import { Spinner } from '../../../Components/Spinner/Loader'
+import logo from '../../../../assets/images/logo-small.jpg'
+import { Spinner } from '../../../../Components/Spinner/Loader'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { loginHandler } from '../../Redux/UserAuth'
+import { loginHandler } from '../../../Redux/UserAuth'
 import { Buffer } from 'buffer'
 
 
@@ -33,7 +33,6 @@ export const Login = () => {
             Password: Yup.string().required('Required'),
         }),
         onSubmit: values => {
-            console.log("Values from the Form ", values)
             setLoading(true)
             axios({
                 method: 'POST',
@@ -45,7 +44,6 @@ export const Login = () => {
                 dispatch(loginHandler(res.data))
                 navigate('/dashboard')
             }).catch((e) => {
-                console.log("Login Error", e)
                 setLoading(false)
                 setanyErrorMessage(true)
                 e.message ? setErrorMessage(e.message) : setErrorMessage(e.response.data.error)

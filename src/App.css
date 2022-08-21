@@ -1,6 +1,9 @@
 .body {
     background-color: #edf1f5 !important;
 }
+p{
+    font-size: 14px;
+}
 
 .btn-primary {
     background-color: #2285b6;

@@ -14,7 +14,6 @@ export const ContactUs = () => {
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const userEmail = localStorage.getItem('email')
     const getToken = localStorage.getItem('token')
-    console.log("current user email", userEmail)
 
     const navigate = useNavigate()
 
@@ -30,7 +29,6 @@ export const ContactUs = () => {
             domain: Yup.string().required('Required'),
         }),
         onSubmit: values => {
-            console.log("Values from the Form ", values)
             setLoading(true)
             axios({
                 method: 'POST',
@@ -41,8 +39,6 @@ export const ContactUs = () => {
                 }
             }).then((res) => {
                 setLoading(false);
-                console.log("check Domain Add New Response=========", res)
-                console.log("Response Status", res.status)
                 if(res.status === 200) {
                     localStorage.setItem('newDomain',values.domain )
                     navigate(`/getscript/${values.domain}`)

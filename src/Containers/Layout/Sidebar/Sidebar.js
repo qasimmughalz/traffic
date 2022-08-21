@@ -5,7 +5,6 @@ import { useEffect } from 'react'
 
 export const Sidebar = () => {
 
-
     return (
         <>
             <div className="align-self-start text-center mt-md-4 mt-5">
@@ -24,36 +23,41 @@ export const Sidebar = () => {
                     <li className="sidebar-item nav-items" data-toggle="collapse" data-target="#website">
                         <div className='link-wrapper'>
                             <div className='icon-wrapper'><i className="fas fa-globe pr-1"></i></div>
-                            <div className='text-wrapper'><span className='hide-text nav-text'>Website</span></div>   
+                            <div className='text-wrapper'><span className='hide-text nav-text'>AccessTool</span></div>   
                         </div>
                         <div className="sidebar-drop-down collapse collapse-data text-white bg-white" id='website'>
                             <p className="inner-links-wrapper">
-                              <Link to='/allsites'>
-                                  <span className='nav-links text-dark'>All Websites</span>
+                              <Link to='/allAccessSites'>
+                                  <span className='nav-links text-dark'>Sites</span>
                               </Link>
                             </p>
                             <p className="inner-links-wrapper mb-0">
-                                <Link to='/addnew'>
-                                    <span className='nav-links text-dark'>Add New Site</span>
+                                <Link to='/addNewAccess'>
+                                    <span className='nav-links text-dark'>Add New</span>
                                 </Link>
                             </p>
                         </div>
                     </li>
                     <li className="sidebar-item nav-items" data-toggle="collapse" data-target="#trafic">
                         <div className='link-wrapper'>
-                            <div className='icon-wrapper'><i className="fas fa-globe pr-1"></i></div>
-                            <div className='text-wrapper'><span className='hide-text nav-text'>Trafic</span></div>   
+                            <div className='icon-wrapper'><i className="far fa-chart-bar"></i></div>
+                            <div className='text-wrapper'><span className='hide-text nav-text'>Traffic Monitor</span></div>   
                         </div>
                         <div className="sidebar-drop-down collapse collapse-data text-white bg-white" id='trafic'>
-                            <p className="inner-links-wrapper">
-                              <Link to='/allsessions'>
-                                  <span className='nav-links text-dark'>All Sessions</span>
+                         <p className="inner-links-wrapper">
+                              <Link to='/trafficStats'>
+                                  <span className='nav-links text-dark'>Traffic Stats</span>
                               </Link>
                             </p>
-                            <p className="inner-links-wrapper mb-0">
-                                <Link to='/addnew'>
-                                    <span className='nav-links text-dark'>Add New Trafic</span>
+                            <p className="inner-links-wrapper ">
+                                <Link to='/addNewTraffic'>
+                                    <span className='nav-links text-dark'>Add New </span>
                                 </Link>
+                            </p>
+                            <p className="inner-links-wrapper mb-0">
+                              <Link to='/allTrafficSites'>
+                                  <span className='nav-links text-dark'>All Sites</span>
+                              </Link>
                             </p>
                         </div>
                     </li>
@@ -76,7 +80,6 @@ export const Sidebar = () => {
                       </div>
                     </li>
                 </ul>
-
             </div>
 
         </>
