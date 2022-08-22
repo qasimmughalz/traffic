@@ -4,12 +4,12 @@ import "rrweb-player/dist/style.css";
 import { TopNav } from "../../../Components/TopNav/TopNav";
 import { Sidebar } from "../../Layout/Sidebar/Sidebar";
 import { useSelector } from "react-redux";
-
+import events from './myevents.json'
 const Replay = () => {
   const containerRef = useRef();
   const navbarShow = useSelector((state) => state.navbarToggle.show);
-  const events = useSelector((state) => state.getAllsites.events);
-  console.log("my events here", events)
+  // const GetEvents = useSelector((state) => state.getAllsites.events);
+  // const {events} = GetEvents
 
   useEffect(() => {
     

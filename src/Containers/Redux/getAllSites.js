@@ -6,7 +6,7 @@ const getAllSites = createSlice({
     initialState:{
         sites:[], 
         error:'', 
-        events:[]
+        events:{}
     },
     reducers:{
         setGetAllSites:(state, action)=>{

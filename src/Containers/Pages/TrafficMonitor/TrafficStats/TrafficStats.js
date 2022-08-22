@@ -19,7 +19,10 @@ export const TrafficStates = () => {
     const [isLoading, setisLoading]= useState(false)
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const allSites = useSelector(state => state.getAllsites.sites)
-   const FilterTrafficSties = allSites.filter((res)=> res.feature === 'ANALYTICS')
+    const allEvents = useSelector(state => state.getAllsites.events)
+
+    const FilterTrafficSties = allSites.filter((res)=> res.feature === 'ANALYTICS')
+
     const [script, setScript] = useState()
     const [ShowModal, setShowModal] = useState(false)
     const getToken = localStorage.getItem('token')
@@ -42,10 +45,11 @@ export const TrafficStates = () => {
                     "authorization": `Bearer ${getToken}`
                   },
             }).then((res) => {
-                console.log("response events", res)
+              setisLoading(false)
                 dispatch(setEvents(res.data.events.events))
                 navigate('/replay')
             }).catch((e) => {
+              setisLoading(false)
                 console.log("Error", e)
             })
         }
@@ -87,10 +91,19 @@ export const TrafficStates = () => {
 
                     {ShowModal && <Modal title="Script" message={script} onConfirm={handleConfirm}/> }
                     <div className="container-fluid ">
-                        <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                        <div className="d-flex align-items-center justify-content-between mb-4">
                             <h1 className="h3 mb-0 text-gray-800">Traffic Stats</h1>
+                            <div>
+                              <form >
+                                  <select className="form-select form-select-sm" >
+                                    {FilterTrafficSties && FilterTrafficSties.map((res)=>{
+                                      return  <option value={res.domain}>{res.domain}</option>
+                                    })}
+                                  </select>
+                                  <button className="btn btn-primary btn-sm mx-3">Check Stats</button>
+                              </form>
+                            </div>
                         </div>
-
                                 <div
                                 style={{
                                     width: '600px',
@@ -99,103 +112,24 @@ export const TrafficStates = () => {
                                 >
                                     <Line data={data}></Line>
                                 </div>
-
-                                <div className="row my-4">
-                <div className="col-xl-3 col-md-6 mb-4">
-                  <div className="card  shadow h-100 py-2">
-                    <div className="card-body">
-                      <div className="row no-gutters align-items-center">
-                        <div className="col mr-2">
-                          <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
-                            Total Sites
-                          </div>
-                          <div className="h5 mb-0 font-weight-bold text-gray-800">
-                            23
-                          </div>
-                        </div>
-                        <div className="col-auto">
-                          <i className="fas fa-calendar fa-2x text-success">
-                          </i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-xl-3 col-md-6 mb-4">
-                  <div className="card shadow h-100 py-2">
-                    <div className="card-body">
-                      <div className="row no-gutters align-items-center">
-                        <div className="col mr-2">
-                          <div className="text-xs font-weight-bold text-info text-uppercase mb-1">
-
-                            Activations
-                          </div>
-                          <div className="row no-gutters align-items-center">
-                            <div className="col-auto">
-                              <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-
-                                3
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="col-auto">
-                          <i className="fas fa-clipboard-list fa-2x text-info">
-
-                          </i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-xl-3 col-md-6 mb-4">
-                  <div className="card  shadow h-100 py-2">
-                    <div className="card-body">
-                      <div className="row no-gutters align-items-center">
-                        <div className="col mr-2">
-                          <div className="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            Payments
-                          </div>
-                          <div className="h5 mb-0 font-weight-bold text-gray-800">
-
-                            Nill
-                          </div>
-                        </div>
-                        <div className="col-auto">
-                          <i className="fas fa-dollar-sign fa-2x text-warning">
-
-                          </i>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            
-
-                          
+                                
+      
 
                         <div className="table-responsive sites-table bg-white">
-
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
-                                        
                                         <th scope="col">IP Address</th>
                                         <th scope="col">Source</th>
-                                        <th scope="col">Clicks</th>
-                                        <th scope="col">Area</th>
                                         <th scope="col">Video</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                 {FilterTrafficSties.length && (FilterTrafficSties.map((data)=>{
                                     return (<tr scope='row'>
-                                    <td>{data.domain}</td>
-                                    <td>{data.message}</td>
-                                    <td>{data.trialEndDate}</td>
-                                    <td className="text-center"><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>Get</button></td>
+                                    <td>{data.date}</td>
+                                   
+                                    <td className="text-center"><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>{isLoading ? <Spinner color='#fff'/> : 'Video'}</button></td>
                                     <td><button className="btn btn-success" onClick={()=> UpgradeScript(data.domain)}>UPGRADE</button></td>
                                 </tr>)
                                 })) }
@@ -206,7 +140,7 @@ export const TrafficStates = () => {
 
                         {FilterTrafficSties.length == 0 ? (<div className="text-center my-4">
                         <p>You have not Subscribes for any website </p>
-                        <a href="/addnew" className="btn btn-primary">Add a New Site Now</a></div>
+                        <a href="/addnew" className="btn btn-primary">No Record Found</a></div>
                         ):''}
 
                     </div>
