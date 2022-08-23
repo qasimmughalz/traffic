@@ -95,7 +95,8 @@ export const TrafficStates = () => {
                             <h1 className="h3 mb-0 text-gray-800">Traffic Stats</h1>
                             <div>
                               <form >
-                                  <select className="form-select form-select-sm" >
+                                <label className="mr-2">Domain: </label>
+                                  <select className="custom-select w-auto" >
                                     {FilterTrafficSties && FilterTrafficSties.map((res)=>{
                                       return  <option value={res.domain}>{res.domain}</option>
                                     })}
@@ -104,7 +105,7 @@ export const TrafficStates = () => {
                               </form>
                             </div>
                         </div>
-                                <div
+                                <div className="m-auto"
                                 style={{
                                     width: '600px',
                                     height: '300px'
@@ -114,7 +115,7 @@ export const TrafficStates = () => {
                                 </div>
                                 
       
-                        <div className="table-responsive sites-table bg-white">
+                        <div className="table-responsive sites-table bg-white mt-5">
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
@@ -128,7 +129,7 @@ export const TrafficStates = () => {
                                     return (<tr scope='row'>
                                     <td>{data.date}</td>
                                    
-                                    <td className="text-center"><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>{isLoading ? <Spinner color='#fff'/> : 'Video'}</button></td>
+                                    <td ><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>{isLoading ? <Spinner color='#fff'/> : 'Video'}</button></td>
                                     <td><button className="btn btn-success" onClick={()=> UpgradeScript(data.domain)}>UPGRADE</button></td>
                                 </tr>)
                                 })) }
