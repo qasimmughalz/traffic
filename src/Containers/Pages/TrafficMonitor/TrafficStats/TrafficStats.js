@@ -11,10 +11,14 @@ import { Link, useNavigate } from "react-router-dom"
 import { setEvents } from "../../../Redux/getAllSites"
 import { Chart  ,Title , Tooltip, LineElement, Legend, CategoryScale, LinearScale, PointElement} from "chart.js"
 import { Line } from 'react-chartjs-2'
+import { useRef } from "react"
 
 Chart.register(Title, Tooltip, LineElement, Legend , CategoryScale, LinearScale, PointElement )
 
 export const TrafficStates = () => {
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const [isLoading, setisLoading]= useState(false)
     const navbarShow = useSelector(state => state.navbarToggle.show)
@@ -23,16 +27,26 @@ export const TrafficStates = () => {
 
     const FilterTrafficSties = allSites.filter((res)=> res.feature === 'ANALYTICS')
 
+    const [record, setRecord] = useState([])
+
     const [script, setScript] = useState()
     const [ShowModal, setShowModal] = useState(false)
     const getToken = localStorage.getItem('token')
     const user = localStorage.getItem('email')
-    const dispatch = useDispatch();
-    const navigate = useNavigate()
+
+    const selectedDomain = useRef()
+    
+
+
+
 
     useEffect(()=> {
         dispatch(Sites());
     },[])
+
+    useEffect(()=> {
+            console.log("Selected Domain is", selectedDomain.current)
+    },[selectedDomain])
 
     const ShowScript = (userId, sitekey)=>{
         setisLoading(true)
@@ -78,6 +92,39 @@ export const TrafficStates = () => {
         }]
       };
 
+
+
+
+
+
+      const handleSelectedDomain = (e)=>{
+        console.log("check selected", e)
+        setisLoading(true)
+
+        const bringRecord = async () => {
+            const resp = await axios({
+                method: 'POST',
+                url: `https://plugin-nodejs-server.herokuapp.com/api/getEvents`,
+                data: {email: user, domainName: e},
+            }).then((res) => {
+                console.log("Response getting EVENTS =====",res)
+                setisLoading(false)
+                setRecord(res.data.events)
+            }).catch((e) => {
+                console.log("Error", e)
+                setRecord([])
+                setisLoading(false)
+            })
+        }
+        bringRecord()
+
+      }
+
+
+
+
+
+
     return (<div className="wrapper">
         <div className="dashboard-wrapper">
             <div className={navbarShow ? 'sidebar px-md-3' : 'sidebar show px-md-3'} >
@@ -90,21 +137,26 @@ export const TrafficStates = () => {
                     {/* =============== Inner Section Start ============= */}
 
                     {ShowModal && <Modal title="Script" message={script} onConfirm={handleConfirm}/> }
-                    <div className="container-fluid ">
+                    <div className="container-fluid mb-5 ">
                         <div className="d-flex align-items-center justify-content-between mb-4">
                             <h1 className="h3 mb-0 text-gray-800">Traffic Stats</h1>
                             <div>
-                              <form >
+
+                             
                                 <label className="mr-2">Domain: </label>
-                                  <select className="custom-select w-auto" >
+                                  <select className="custom-select w-auto" placeholder="please select domain name" onChange={(e)=> handleSelectedDomain(e.target.value)} >
+                                    <option value="" >Please Select domain</option>
                                     {FilterTrafficSties && FilterTrafficSties.map((res)=>{
                                       return  <option value={res.domain}>{res.domain}</option>
                                     })}
                                   </select>
-                                  <button className="btn btn-primary btn-sm mx-3">Check Stats</button>
-                              </form>
                             </div>
                         </div>
+
+                        {record.length == 0 ? (<div className="text-center my-4">
+                        <p> No Results </p>
+                        </div>
+                        ):(
                                 <div className="m-auto"
                                 style={{
                                     width: '600px',
@@ -113,24 +165,26 @@ export const TrafficStates = () => {
                                 >
                                     <Line data={data}></Line>
                                 </div>
+                        )}
+                        {isLoading ? (<div className="text-center my-4">
+                        <Spinner color='#2285b6'></Spinner>
+                        </div>
+                        ):''}
                                 
-      
                         <div className="table-responsive sites-table bg-white mt-5">
-                            <table className="table table-striped">
+                            <table className="table ">
                                 <thead>
                                     <tr>
                                         <th scope="col">IP Address</th>
-                                        <th scope="col">Source</th>
-                                        <th scope="col">Video</th>
+                                        <th scope="col">Date</th>
+                                       
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {FilterTrafficSties.length && (FilterTrafficSties.map((data)=>{
+                                {record && (record.map((data)=>{
                                     return (<tr scope='row'>
                                     <td>{data.date}</td>
-                                   
-                                    <td ><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>{isLoading ? <Spinner color='#fff'/> : 'Video'}</button></td>
-                                    <td><button className="btn btn-success" onClick={()=> UpgradeScript(data.domain)}>UPGRADE</button></td>
+                                    <td ><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>Video</button></td>
                                 </tr>)
                                 })) }
                                     
@@ -138,9 +192,14 @@ export const TrafficStates = () => {
                             </table>
                         </div>
 
-                        {FilterTrafficSties.length == 0 ? (<div className="text-center my-4">
-                        <p>You have not Subscribes for any website </p>
-                        <a href="/addnew" className="btn btn-primary">No Record Found</a></div>
+                        {record.length == 0 ? (<div className="text-center my-4">
+                        <p> No Results </p>
+                        </div>
+                        ):''}
+
+                        {isLoading ? (<div className="text-center my-4">
+                        <Spinner color='#2285b6'></Spinner>
+                        </div>
                         ):''}
 
                     </div>
