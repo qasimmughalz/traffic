@@ -40,30 +40,19 @@ function App() {
       });
   };
 
-
-  async function setFinalState(){
-        await ValidateToken(token);
-        
-      if (check) {
-        if (isTokenExpired(token)) {
-          dispatch(logoutHandler());
-        }
-      } else {    
-        console.log("i'm into logout")
-        dispatch(logoutHandler());
-      }
-  }
-
   if (!token) {
     dispatch(logoutHandler);
   } else {
     dispatch(settingInitialValues({ userToken:token , userLoggedIn :true}))
-
-    
-
-    setFinalState()
-
-    
+    ValidateToken(token);
+    if (check) {
+      if (isTokenExpired(token)) {
+        dispatch(logoutHandler);
+      }
+    } else {    
+      console.log("i'm into logout")
+      dispatch(logoutHandler);
+    }
   }
 
   return (
