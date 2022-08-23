@@ -24,6 +24,7 @@ export const AuthenticatedRoutes = ()=>{
             <Route path='/allAccessSites' element={<AllAccessSites/>}></Route>
             <Route path='/allTrafficSites' element={<AllTrafficSites/>}></Route>
             <Route path='/trafficStats' element={<TrafficStates/>}></Route>
+            <Route path='/replay' element={<Replay/>}></Route>
             
             <Route path='/replay' element={<Replay/>}></Route>
             <Route path='/paymentplans' exact element={<PaymentPlans/>}></Route>
