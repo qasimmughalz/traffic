@@ -70,7 +70,7 @@ export const TrafficStates = () => {
     const data = {
         labels: labels,
         datasets: [{
-          label: 'Traffic Stats',
+          label: 'Expenses Stats',
           data: [0, 3, 0, 5, 2, 15, 24,15,16,17,14,18],
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
@@ -114,7 +114,6 @@ export const TrafficStates = () => {
                                 </div>
                                 
       
-
                         <div className="table-responsive sites-table bg-white">
                             <table className="table table-striped">
                                 <thead>

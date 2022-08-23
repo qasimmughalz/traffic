@@ -19,6 +19,7 @@ const UserAuth = createSlice({
             state.isLoggedIn = false
             state.expireTime = '';
             localStorage.clear()
+            console.log("Logout called")
         },
         loginHandler: (state, action)=>{
             const {token } = action.payload

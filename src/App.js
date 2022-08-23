@@ -23,8 +23,8 @@ function App() {
     return expired;
   }
 
-  const ValidateToken = (token) => {
-    const resp = axios({
+  const ValidateToken = async (token) => {
+    const resp = await axios({
       method: "POST",
       url: "https://plugin-nodejs-server.herokuapp.com/api/login",
       headers: {
@@ -36,21 +36,34 @@ function App() {
       })
       .catch((er) => {
         setcheck(false);
+        console.log("settted check " ,check)
       });
   };
+
+
+  async function setFinalState(){
+        await ValidateToken(token);
+        
+      if (check) {
+        if (isTokenExpired(token)) {
+          dispatch(logoutHandler());
+        }
+      } else {    
+        console.log("i'm into logout")
+        dispatch(logoutHandler());
+      }
+  }
 
   if (!token) {
     dispatch(logoutHandler);
   } else {
     dispatch(settingInitialValues({ userToken:token , userLoggedIn :true}))
-    ValidateToken(token);
-    if (check) {
-      if (isTokenExpired(token)) {
-        dispatch(logoutHandler);
-      }
-    } else {    
-      dispatch(logoutHandler);
-    }
+
+    
+
+    setFinalState()
+
+    
   }
 
   return (

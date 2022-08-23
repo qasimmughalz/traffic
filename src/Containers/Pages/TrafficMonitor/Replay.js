@@ -4,6 +4,7 @@ import "rrweb-player/dist/style.css";
 import { TopNav } from "../../../Components/TopNav/TopNav";
 import { Sidebar } from "../../Layout/Sidebar/Sidebar";
 import { useSelector } from "react-redux";
+
 import events from './myevents.json'
 const Replay = () => {
   const containerRef = useRef();
