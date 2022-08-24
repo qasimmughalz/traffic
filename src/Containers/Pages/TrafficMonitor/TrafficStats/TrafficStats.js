@@ -12,6 +12,9 @@ import { setEvents } from "../../../Redux/getAllSites"
 import { Chart  ,Title , Tooltip, LineElement, Legend, CategoryScale, LinearScale, PointElement} from "chart.js"
 import { Line } from 'react-chartjs-2'
 import { useRef } from "react"
+import classes from './trafficStats.module.css'
+
+
 
 Chart.register(Title, Tooltip, LineElement, Legend , CategoryScale, LinearScale, PointElement )
 
@@ -84,7 +87,7 @@ export const TrafficStates = () => {
     const data = {
         labels: labels,
         datasets: [{
-          label: 'Expenses Stats',
+          label: 'Visitors Stats',
           data: [0, 3, 0, 5, 2, 15, 24,15,16,17,14,18],
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
@@ -157,12 +160,7 @@ export const TrafficStates = () => {
                         <p> No Results </p>
                         </div>
                         ):(
-                                <div className="m-auto"
-                                style={{
-                                    width: '600px',
-                                    height: '300px'
-                                }}
-                                >
+                                <div className={classes.graph} >
                                     <Line data={data}></Line>
                                 </div>
                         )}
@@ -172,18 +170,40 @@ export const TrafficStates = () => {
                         ):''}
                                 
                         <div className="table-responsive sites-table bg-white mt-5">
-                            <table className="table ">
+                            <table className={`${classes.table} table`}>
                                 <thead>
                                     <tr>
                                         <th scope="col">IP Address</th>
-                                        <th scope="col">Date</th>
+                                        <th scope="col">TimeZone</th>
+                                        <th scope="col">Clicks</th>
+                                        <th scope="col">First Click</th>
+                                        <th scope="col">Last Click</th>
+                                        <th scope="col">Keypress</th>
+                                        <th scope="col">Mouse </th>
+                                        <th scope="col">Scroll</th>
+                                        <th scope="col">Area</th>
+                                        <th scope="col">Actions</th>
                                        
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {record && (record.map((data)=>{
                                     return (<tr scope='row'>
-                                    <td>{data.date}</td>
+                                    <td>192.168.1.1</td>
+                                    <td>{data.timezone}</td>
+                                    <td>{data.totalClicks}</td>
+                                    <td> 
+                                        <p className="m-0 text-muted">{data.firstClick.split('T')[0]}</p> 
+                                        <p className="m-0">{data.firstClick.split('T')[1].split('.')[0]}</p> 
+                                    </td>
+                                    <td>
+                                        <p className="m-0 text-muted">{data.lastClick.split('T')[0]}</p> 
+                                        <p className="m-0">{data.lastClick.split('T')[1].split('.')[0]}</p> 
+                                    </td>
+                                    <td>{data.totalkeyPress}</td>
+                                    <td>{data.totalMouseMove}</td>
+                                    <td>{data.totalScroll}</td>
+                                    <td><i class="fas fa-map-marker-alt text-primary"></i></td>
                                     <td ><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>Video</button></td>
                                 </tr>)
                                 })) }
