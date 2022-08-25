@@ -13,6 +13,8 @@ import { Chart  ,Title , Tooltip, LineElement, Legend, CategoryScale, LinearScal
 import { Line } from 'react-chartjs-2'
 import { useRef } from "react"
 import classes from './trafficStats.module.css'
+import { VideoModal } from "../../../../Components/Modal/VideoModal"
+import { MapModel } from "../../../../Components/Modal/MapModal"
 
 
 
@@ -20,27 +22,25 @@ Chart.register(Title, Tooltip, LineElement, Legend , CategoryScale, LinearScale,
 
 export const TrafficStates = () => {
 
+
+    const selectedDomain = useRef()
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
-    const [isLoading, setisLoading]= useState(false)
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const allSites = useSelector(state => state.getAllsites.sites)
     const allEvents = useSelector(state => state.getAllsites.events)
 
-    const FilterTrafficSties = allSites.filter((res)=> res.feature === 'ANALYTICS')
 
     const [record, setRecord] = useState([])
-
-    const [script, setScript] = useState()
+    const [isLoading, setisLoading]= useState(false)
     const [ShowModal, setShowModal] = useState(false)
+    const [ShowMapModel, setShowMapModel] = useState(false)
+
     const getToken = localStorage.getItem('token')
     const user = localStorage.getItem('email')
 
-    const selectedDomain = useRef()
-    
-
-
+    const FilterTrafficSties = allSites.filter((res)=> res.feature === 'ANALYTICS')
 
 
     useEffect(()=> {
@@ -73,16 +73,6 @@ export const TrafficStates = () => {
         RunTheTask()
     }   
 
-    const handleConfirm = ()=>{
-            setShowModal(false)
-    }
-
-    const UpgradeScript = (domainName)=>{
-        localStorage.setItem('domain',  domainName)
-        navigate('/paymentplans')
-    }
-
-
     const labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY','JUNE','JULY','AUG', 'SEP','OCT','NOV','DEC']
     const data = {
         labels: labels,
@@ -94,9 +84,6 @@ export const TrafficStates = () => {
           tension: 0.1
         }]
       };
-
-
-
 
 
 
@@ -120,13 +107,21 @@ export const TrafficStates = () => {
             })
         }
         bringRecord()
-
       }
 
 
 
+      const showVideo= ()=>{
+        setShowModal(true)
+      }
+      const showMapModel= ()=>{
+        setShowMapModel(true)
+      } 
 
-
+      const handleConfirm = ()=>{
+        setShowModal(false)
+        setShowMapModel(false)
+    }
 
     return (<div className="wrapper">
         <div className="dashboard-wrapper">
@@ -135,17 +130,17 @@ export const TrafficStates = () => {
             </div>
             <div className="right-content">
                 <div className="content">
-
                     <TopNav />
                     {/* =============== Inner Section Start ============= */}
 
-                    {ShowModal && <Modal title="Script" message={script} onConfirm={handleConfirm}/> }
+                    {ShowModal && <VideoModal title='map' cancel={handleConfirm}></VideoModal>}
+                    {ShowMapModel && <MapModel title='map' cancel={handleConfirm}></MapModel>}
+
                     <div className="container-fluid mb-5 ">
                         <div className="d-flex align-items-center justify-content-between mb-4">
                             <h1 className="h3 mb-0 text-gray-800">Traffic Stats</h1>
                             <div>
 
-                             
                                 <label className="mr-2">Domain: </label>
                                   <select className="custom-select w-auto" placeholder="please select domain name" onChange={(e)=> handleSelectedDomain(e.target.value)} >
                                     <option value="" >Please Select domain</option>
@@ -168,8 +163,44 @@ export const TrafficStates = () => {
                         <Spinner color='#2285b6'></Spinner>
                         </div>
                         ):''}
+
+
+                        {record.length == 0 ? (<div className="text-center my-4">
+                        <p> No Results </p>
+                        </div>
+                        ):(
+                            <div className="row">
+                            <div className="col-xl-3 col-md-6 my-4">
+                            <div className="card  h-100 py-2">
+                                <div className="card-body">
+                                <div className="row no-gutters align-items-center">
+                                    <div className="col mr-2">
+                                    <div className="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                        Total Visitors
+                                    </div>
+                                    <div className="h5 mb-0 font-weight-bold text-gray-800">
+                                        {record && record.length}
+                                    </div>
+                                    </div>
+                                    <div className="col-auto">
+                                    <i className="fas fa-calendar fa-2x text-success">
+                                    </i>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        )}
+                        {isLoading ? (<div className="text-center my-4">
+                        <Spinner color='#2285b6'></Spinner>
+                        </div>
+                        ):''}
                                 
-                        <div className="table-responsive sites-table bg-white mt-5">
+                            
+
+
+                        <div className="table-responsive sites-table bg-white mt-1">
                             <table className={`${classes.table} table`}>
                                 <thead>
                                     <tr>
@@ -193,18 +224,18 @@ export const TrafficStates = () => {
                                     <td>{data.timezone}</td>
                                     <td>{data.totalClicks}</td>
                                     <td> 
-                                        <p className="m-0 text-muted">{data.firstClick.split('T')[0]}</p> 
-                                        <p className="m-0">{data.firstClick.split('T')[1].split('.')[0]}</p> 
+                                        <p className="m-0 text-muted">{data.firstClick && data.firstClick.split('T')[0]}</p> 
+                                        <p className="m-0">{data.firstClick && data.firstClick?.split('T')[1].split('.')[0]}</p> 
                                     </td>
                                     <td>
-                                        <p className="m-0 text-muted">{data.lastClick.split('T')[0]}</p> 
-                                        <p className="m-0">{data.lastClick.split('T')[1].split('.')[0]}</p> 
+                                        <p className="m-0 text-muted">{data.lastClick && data.lastClick.split('T')[0]}</p> 
+                                        <p className="m-0">{data.lastClick && data.lastClick.split('T')[1].split('.')[0]}</p> 
                                     </td>
                                     <td>{data.totalkeyPress}</td>
                                     <td>{data.totalMouseMove}</td>
                                     <td>{data.totalScroll}</td>
-                                    <td><i class="fas fa-map-marker-alt text-primary"></i></td>
-                                    <td ><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>Video</button></td>
+                                    <td><i class="fas fa-map-marker-alt text-primary" ></i></td>
+                                    <td ><button className="btn-primary btn" onClick={showVideo}>Video</button></td>
                                 </tr>)
                                 })) }
                                     

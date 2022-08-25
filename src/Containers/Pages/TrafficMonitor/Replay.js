@@ -6,14 +6,16 @@ import { Sidebar } from "../../Layout/Sidebar/Sidebar";
 import { useSelector } from "react-redux";
 
 import events from './myevents.json'
-const Replay = () => {
+
+
+
+  const Replay = () => {
   const containerRef = useRef();
   const navbarShow = useSelector((state) => state.navbarToggle.show);
   // const GetEvents = useSelector((state) => state.getAllsites.events);
   // const {events} = GetEvents
 
   useEffect(() => {
-    
     containerRef.current.innerHTML = "";
     const replayer = new rrwebPlayer({
       target: containerRef.current,
@@ -30,12 +32,13 @@ const Replay = () => {
         }
       }
     });
-
-
     return () => {
       replayer.pause();
     };
   }, [containerRef, events]);
+
+
+
   return (
     <div className="wrapper">
       <div className="dashboard-wrapper">

@@ -8,7 +8,6 @@ export const TheModal = (props) => {
     const [copy, setCopy] = useState(false)
      const {domain, script , message}= props.message;
 
-     
 
      const showCopiedFunction = ()=>{
         setCopy(true)
