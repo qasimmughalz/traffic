@@ -8,7 +8,6 @@ import axios from "axios"
 import { Modal } from "../../../../Components/Modal/Modal"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import { setEvents } from "../../../Redux/getAllSites"
 import { Chart  ,Title , Tooltip, LineElement, Legend, CategoryScale, LinearScale, PointElement} from "chart.js"
 import { Line } from 'react-chartjs-2'
 import { useRef } from "react"
@@ -29,10 +28,10 @@ export const TrafficStates = () => {
 
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const allSites = useSelector(state => state.getAllsites.sites)
-    const allEvents = useSelector(state => state.getAllsites.events)
 
 
     const [record, setRecord] = useState([])
+    const [VideoEvents, setVideoEvents] = useState([])
     const [isLoading, setisLoading]= useState(false)
     const [ShowModal, setShowModal] = useState(false)
     const [ShowMapModel, setShowMapModel] = useState(false)
@@ -51,27 +50,25 @@ export const TrafficStates = () => {
             console.log("Selected Domain is", selectedDomain.current)
     },[selectedDomain])
 
-    const ShowScript = (userId, sitekey)=>{
-        setisLoading(true)
-        const RunTheTask = async () => {
-            const resp = await axios({
-                method: 'POST',
-                url: `https://plugin-nodejs-server.herokuapp.com/api/getEvents`,
-                data: {userId: '62a210133dee6af1b5e167df', siteKey: '63022d199286e63e57dd0cdf'},
-                headers: {
-                    "authorization": `Bearer ${getToken}`
-                  },
-            }).then((res) => {
-              setisLoading(false)
-                dispatch(setEvents(res.data.events.events))
-                navigate('/replay')
-            }).catch((e) => {
-              setisLoading(false)
-                console.log("Error", e)
-            })
-        }
-        RunTheTask()
-    }   
+    // const ShowScript = (userId, sitekey)=>{
+    //     setisLoading(true)
+    //     const RunTheTask = async () => {
+    //         const resp = await axios({
+    //             method: 'POST',
+    //             url: `https://plugin-nodejs-server.herokuapp.com/api/getEvents`,
+    //             data: {userId: '62a210133dee6af1b5e167df', siteKey: '63022d199286e63e57dd0cdf'},
+    //             headers: {
+    //                 "authorization": `Bearer ${getToken}`
+    //               },
+    //         }).then((res) => {
+    //           setisLoading(false)
+    //         }).catch((e) => {
+    //           setisLoading(false)
+    //             console.log("Error", e)
+    //         })
+    //     }
+    //     RunTheTask()
+    // }   
 
     const labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY','JUNE','JULY','AUG', 'SEP','OCT','NOV','DEC']
     const data = {
@@ -123,6 +120,12 @@ export const TrafficStates = () => {
         setShowMapModel(false)
     }
 
+    const showEventsVideo = (data)=>{
+        setVideoEvents(data)
+        console.log("Video Events state =")
+        setShowModal(true)
+    }
+
     return (<div className="wrapper">
         <div className="dashboard-wrapper">
             <div className={navbarShow ? 'sidebar px-md-3' : 'sidebar show px-md-3'} >
@@ -133,7 +136,7 @@ export const TrafficStates = () => {
                     <TopNav />
                     {/* =============== Inner Section Start ============= */}
 
-                    {ShowModal && <VideoModal title='map' cancel={handleConfirm}></VideoModal>}
+                    {ShowModal && <VideoModal title='map' events={VideoEvents} cancel={handleConfirm}></VideoModal>}
                     {ShowMapModel && <MapModel title='map' cancel={handleConfirm}></MapModel>}
 
                     <div className="container-fluid mb-5 ">
@@ -150,7 +153,6 @@ export const TrafficStates = () => {
                                   </select>
                             </div>
                         </div>
-
                         {record.length == 0 ? (<div className="text-center my-4">
                         <p> No Results </p>
                         </div>
@@ -163,8 +165,6 @@ export const TrafficStates = () => {
                         <Spinner color='#2285b6'></Spinner>
                         </div>
                         ):''}
-
-
                         {record.length == 0 ? (<div className="text-center my-4">
                         <p> No Results </p>
                         </div>
@@ -197,11 +197,9 @@ export const TrafficStates = () => {
                         </div>
                         ):''}
                                 
-                            
-
 
                         <div className="table-responsive sites-table bg-white mt-1">
-                            <table className={`${classes.table} table`}>
+                            <table className={`${classes.table} table text-center`}>
                                 <thead>
                                     <tr>
                                         <th scope="col">IP Address</th>
@@ -214,12 +212,11 @@ export const TrafficStates = () => {
                                         <th scope="col">Scroll</th>
                                         <th scope="col">Area</th>
                                         <th scope="col">Actions</th>
-                                       
                                     </tr>
                                 </thead>
                                 <tbody>
                                 {record && (record.map((data)=>{
-                                    return (<tr scope='row'>
+                                    return (<tr scope='row' key={data.id}>
                                     <td>192.168.1.1</td>
                                     <td>{data.timezone}</td>
                                     <td>{data.totalClicks}</td>
@@ -234,8 +231,9 @@ export const TrafficStates = () => {
                                     <td>{data.totalkeyPress}</td>
                                     <td>{data.totalMouseMove}</td>
                                     <td>{data.totalScroll}</td>
-                                    <td><i class="fas fa-map-marker-alt text-primary" ></i></td>
-                                    <td ><button className="btn-primary btn" onClick={showVideo}>Video</button></td>
+                                    <td><i className="fas fa-map-marker-alt text-primary pointer" ></i></td>
+                                    {data.totalClicks > 0 ?  <td ><i className="fas fa-video text-primary pointer" onClick={()=> showEventsVideo(data.sessionEvents)}></i></td> : <td></td> }
+                                   
                                 </tr>)
                                 })) }
                                     
@@ -253,6 +251,7 @@ export const TrafficStates = () => {
                         </div>
                         ):''}
 
+                        <div className="my-5 "></div>
                     </div>
 
                     {/* =============== Inner Section End ============= */}

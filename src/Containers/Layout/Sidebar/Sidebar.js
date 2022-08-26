@@ -64,12 +64,6 @@ export const Sidebar = () => {
                     <li className="sidebar-item nav-items">
                       <div className='link-wrapper'>
                           <div className='icon-wrapper'><i className="far fa-credit-card "></i></div>
-                          <div className='text-wrapper'><Link to='/replay'><span className='text-white hide-text nav-text'>Tested Video  </span></Link> </div>   
-                      </div>
-                    </li>
-                    <li className="sidebar-item nav-items">
-                      <div className='link-wrapper'>
-                          <div className='icon-wrapper'><i className="far fa-credit-card "></i></div>
                           <div className='text-wrapper'><Link to='/paymentplans'><span className='text-white hide-text nav-text'>Pricing  </span></Link> </div>   
                       </div>
                     </li>

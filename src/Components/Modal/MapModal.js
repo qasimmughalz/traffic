@@ -29,15 +29,12 @@ export const TheMapModal = (props) => {
         setMap(null)
       }, [])
     
-
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         GoogleMapsApiKey : 'AIzaSyAIp6uipPGDn30rFnLkxlXU9vXMUZyw5GQ'
     })
         
-      
     return (<div className={classes.backdrop} onClick={props.onConfirm}>
-       
         <div className={`${classes.videomodal} ${classes.card}`}>
             <div className={classes.content}>
             {isLoaded ? 
@@ -48,7 +45,6 @@ export const TheMapModal = (props) => {
          : 'Loading'}
             </div>
         </div>
-       
     </div>
     )
 }

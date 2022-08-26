@@ -1,17 +1,19 @@
 import React, { useRef, useEffect  } from "react";
 import ReactDOM from 'react-dom'
+import { useSelector } from "react-redux";
 import rrwebPlayer from 'rrweb-player';
 import "rrweb-player/dist/style.css";
 import classes from './Modal.module.css'
-import events from './myevents.json'
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+// import events from './myevents.json'
 
 
 
 export const TheVideoModal = (props) => {
 
+    const {events} = props
     const containerRef = useRef();
- 
+  
+
      useEffect(() => {
         containerRef.current.innerHTML = "";
         const replayer = new rrwebPlayer({
@@ -41,7 +43,7 @@ export const TheVideoModal = (props) => {
         <div className={`${classes.videomodal} ${classes.card}`}>
             <div className={classes.content}>
                 <div className="playerWraper">
-                <div className="playerContainer rr-block" ref={containerRef}>
+                    <div className="playerContainer rr-block" ref={containerRef}>
                 </div>
               </div>
             </div>
@@ -53,6 +55,6 @@ export const TheVideoModal = (props) => {
 
 export const VideoModal = (props)=>{
     return <>
-            {ReactDOM.createPortal(<TheVideoModal title={props.title} onConfirm={props.cancel}></TheVideoModal>, document.getElementById('modal')) }
+            {ReactDOM.createPortal(<TheVideoModal title={props.title} events={props.events}  onConfirm={props.cancel}></TheVideoModal>, document.getElementById('modal')) }
     </>
 }
