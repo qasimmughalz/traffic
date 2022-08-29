@@ -54,16 +54,23 @@ export const Profile = () => {
 
 
                             <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 className="h3 mb-0 text-gray-800">My Profile</h1>
+                                {/* <h1 className="h3 mb-0 text-gray-800">My Profile</h1> */}
                             </div>
                             <div className="row ml-4 ">
 
                             {isLoading ? <Spinner color='#1f38fa'></Spinner> : 
-                                (<div className="col-md-8 card ml-4 shadow">
-                                    <div className="card-body">
-                                        <h5 className="font-weight-bold my-4">   Name : <span className="font-weight-normal">{userProfile.Name}</span>  </h5>
-                                        <h5 className="font-weight-bold my-4">   Email : <span className="font-weight-normal">{userProfile.Email}</span> </h5>
-                                        <h5 className="font-weight-bold my-4">   Phone No : <span className="font-weight-normal">{userProfile.PhoneNo}</span> </h5>
+                                (<div className="col-md-8  ml-4 ">
+                                    <div className="row">
+                                        <div className="col-">
+                                            <i class="fas fa-user fa-9x text-muted"></i>
+                                        </div>
+                                        <div className="col-">
+                                            <h5 className="font-weight-bold my-4">   Name : <span className="font-weight-normal text-muted">{userProfile.Name}</span>  </h5>
+                                            <h5 className="font-weight-bold my-4">   Email : <span className="font-weight-normal">{userProfile.Email}</span> </h5>
+                                            <h5 className="font-weight-bold my-4">   Phone No : <span className="font-weight-normal">{userProfile.PhoneNo}</span> </h5>
+                                        </div>
+                                        
+                                        
                                     </div>
                                 </div>) }
                             </div>

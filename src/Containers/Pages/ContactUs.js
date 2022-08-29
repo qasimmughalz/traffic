@@ -23,7 +23,7 @@ export const ContactUs = () => {
 
     const formik = useFormik({
         initialValues: {
-            domain: '',
+            message: '',
         },
         validationSchema: Yup.object({
             domain: Yup.string().required('Required'),
@@ -32,16 +32,15 @@ export const ContactUs = () => {
             setLoading(true)
             axios({
                 method: 'POST',
-                url: 'https://plugin-nodejs-server.herokuapp.com/api/addNewSite',
-                data: { email: userEmail, domain: values.domain, language: 'English', platform: 'WordPress' }, 
+                url: 'https://plugin-nodejs-server.herokuapp.com/api/contactUs',
+                data: { email: userEmail, name: values.domain, message: values.message  }, 
                 headers:{
                     "authorization": `Bearer ${getToken}`  
                 }
             }).then((res) => {
                 setLoading(false);
                 if(res.status === 200) {
-                    localStorage.setItem('newDomain',values.domain )
-                    navigate(`/getscript/${values.domain}`)
+                    console.log("Your Message is been sent !")
                 }
             }).catch((e) => {
                 setLoading(false)
@@ -85,15 +84,14 @@ export const ContactUs = () => {
                                 <div className="col-md-8 m-auto">
                                     <div className="row ">
                                             <form onSubmit={formik.handleSubmit} className='w-100'>
-
                                                 <div className='form-group my-3 ' >
                                                     <label > Please enter your message </label>
                                                     <textarea  cols="30" rows="5"
-                                                        name='domain'
+                                                        name='message'
                                                         onChange={formik.handleChange}
                                                         onBlur={formik.handleBlur}
-                                                        value={formik.values.domain} className='form-control' placeholder='I would like to discuss about ....'></textarea>
-                                                    {formik.touched.domain && formik.errors.domain ? <p className='text-danger mt-1'>{formik.errors.domain}</p> : null}
+                                                        value={formik.values.message} className='form-control' placeholder='I would like to discuss about ....'></textarea>
+                                                    {formik.touched.message && formik.errors.message ? <p className='text-danger mt-1'>{formik.errors.message}</p> : null}
                                                 </div>
 
                                                 <div className='form-group my-3 text-center'>

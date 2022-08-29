@@ -34,7 +34,7 @@ export const AllAccessSites = () => {
             const resp = await axios({
                 method: 'POST',
                 url: `https://plugin-nodejs-server.herokuapp.com/api/getScript`,
-                data: {email: user, domainName: domainName},
+                data: {email: user, domainName: domainName , feature:'PLUGIN'},
                 headers: {
                     "authorization": `Bearer ${getToken}`
                   },

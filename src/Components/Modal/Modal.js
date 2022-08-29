@@ -25,14 +25,14 @@ export const TheModal = (props) => {
             <div className={classes.content}>
                 {domain && <h5>Your script for domain : {domain}</h5>}
                 <div className={`${classes.innerScroll} rounded bg-white p-3 text-dark`} >
-                    <pre className="">
+                    <pre className="my-4">
                         <code className="text-dark">{message ? message : script} </code>
                     </pre>
                 </div>
             </div>
             <footer className={classes.actions}>
                 {domain && (
-                    <div>
+                <div>
                 <CopyToClipboard text={script} onCopy={showCopiedFunction}>
                  <button className='btn btn-secondary' >Copy to Clipboard</button> 
                 </CopyToClipboard>
