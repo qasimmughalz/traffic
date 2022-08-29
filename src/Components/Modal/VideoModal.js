@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import rrwebPlayer from 'rrweb-player';
 import "rrweb-player/dist/style.css";
 import classes from './Modal.module.css'
-// import events from './myevents.json'
+
 
 
 

@@ -7,6 +7,7 @@ import { useState } from "react"
 import axios from "axios"
 import * as Yup from 'yup'
 import { useNavigate } from "react-router-dom"
+import { NotifyModal } from "../../Components/Modal/NotifyModel"
 
 
 export const ContactUs = () => {
@@ -18,37 +19,41 @@ export const ContactUs = () => {
     const navigate = useNavigate()
 
     const [isLoading, setLoading] = useState(false)
-    const [anyError, setanyErrorMessage] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
+   
+    const [modalShow,setModalShow] = useState(false)
+    const [message,setMessage] = useState('')
 
     const formik = useFormik({
         initialValues: {
             message: '',
         },
         validationSchema: Yup.object({
-            domain: Yup.string().required('Required'),
+            message: Yup.string().required('Required'),
         }),
         onSubmit: values => {
             setLoading(true)
             axios({
                 method: 'POST',
                 url: 'https://plugin-nodejs-server.herokuapp.com/api/contactUs',
-                data: { email: userEmail, name: values.domain, message: values.message  }, 
+                data: { email: userEmail, message: values.message }, 
                 headers:{
                     "authorization": `Bearer ${getToken}`  
                 }
             }).then((res) => {
                 setLoading(false);
-                if(res.status === 200) {
-                    console.log("Your Message is been sent !")
-                }
+                    setMessage('Your Message has been Sent !')
+                    setModalShow(true)
             }).catch((e) => {
                 setLoading(false)
-                setanyErrorMessage(true)
-                setErrorMessage(e.response)
+                setMessage("There was an error sending message, Try Again Later !")
+                setModalShow(true)
             })
         }
     })
+
+    const handleConfirm = ()=>{
+        setModalShow(false)
+    }
 
 
     return (<div className="wrapper">
@@ -71,14 +76,9 @@ export const ContactUs = () => {
                                     <h1 className="h3 mb-0 text-gray-800">Contact Us</h1>
                                 </div>
 
-                                {/* //========= Error Message ======== */}
+                                {/* //========= MOdal  ======== */}
 
-                                <div className="alert alert-warning alert-dismissible fade show" role="alert" style={{ display: anyError ? 'block' : 'none' }}>
-                                    <strong>{errorMessage}</strong>
-                                    <button type="button" className="close" onClick={() => setanyErrorMessage(!anyError)} aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
+                               {modalShow && <NotifyModal title={'Response'} message={message} onConfirm={handleConfirm}></NotifyModal>}
 
 
                                 <div className="col-md-8 m-auto">
