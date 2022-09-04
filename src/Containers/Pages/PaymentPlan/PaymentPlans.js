@@ -3,27 +3,36 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { Sidebar } from "../../Layout/Sidebar/Sidebar"
 import { TopNav } from "../../../Components/TopNav/TopNav"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import './PaymentPlan.css'
 import cardImage from '../../../assets/images/card.svg'
 import { Spinner } from "../../../Components/Spinner/Loader"
 import { useNavigate, useParams } from "react-router-dom"
 import { isAllOf } from "@reduxjs/toolkit"
+import { Sites } from "../../Redux/AllSites"
 
 export const PaymentPlans = () => {
 
 
     const navigate = useNavigate()
-
+    const dispatch = useDispatch()
     const [isLoading, setIsLoading] = useState(false)
+    const [payDomain , setPayDomain]= useState('')
     const navbarShow = useSelector(state => state.navbarToggle.show)
+    const allSites = useSelector(state => state.getAllsites.sites)
+   
     const [paymentPlans, setPaymentPlans] = useState([])
     const [anyError, setanyErrorMessage] = useState(false)
 
     const getToken= localStorage.getItem('token')
 
-    useEffect(() => {
 
+    useEffect(()=> {
+        dispatch(Sites());
+    },[])
+
+    useEffect(() => {
+        
         const fetchData = async () => {
             setIsLoading(true)
             await axios({
@@ -43,14 +52,13 @@ export const PaymentPlans = () => {
         fetchData()
     }, [])
 
-
+   
 
     const onclickHandler = (id) => {
         const email = localStorage.getItem('email')
-        const domain = localStorage.getItem('domain')
         const getToken = localStorage.getItem('token')
-
-        if (domain === null) {
+        console.log("This is in paydomain", payDomain)
+        if (payDomain === null) {
             setanyErrorMessage(true)
             return
         } else {
@@ -59,7 +67,7 @@ export const PaymentPlans = () => {
                 const response = await axios({
                     method: 'POST',
                     url: 'https://plugin-nodejs-server.herokuapp.com/api/createSession',
-                    data: { email: email, priceId: id, domainName: domain },
+                    data: { email: email, priceId: id, domainName: payDomain },
                     headers: {
                         "authorization": `Bearer ${getToken}`
                     }
@@ -74,6 +82,10 @@ export const PaymentPlans = () => {
     }
 
 
+    const handleSelectedDomain = (domain)=>{
+        setPayDomain(domain)
+    }
+
     return (
         <div className="wrapper">
             <div className="dashboard-wrapper">
@@ -82,16 +94,23 @@ export const PaymentPlans = () => {
                 </div>
                 <div className="right-content">
                     <div className="content">
-
                         <TopNav />
                         {/* =============== Inner Section Start ============= */}
 
                         <div className="container-fluid mt-5">
 
-
-                            <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                                <h1 className="h3 mb-0 text-gray-800">Pricing Plans</h1>
-                            </div>
+                                <div className="d-flex align-items-center justify-content-between mb-4">
+                                    <h1 className="h3 mb-0 text-gray-800">Pricing Plans</h1>
+                                    <div>
+                                        <label className="mr-2">Domain: </label>
+                                        <select className="custom-select w-auto" placeholder={payDomain != null ? payDomain : 'Please Select Domain'} onChange={(e)=> handleSelectedDomain(e.target.value)} >
+                                            <option value="" >Please Select domain</option>
+                                            {allSites && allSites.map((res)=>{
+                                            return  <option value={res.domain}>{res.domain}</option>
+                                            })}
+                                        </select>
+                                    </div>
+                                </div>
 
                             {/* //========= Error Message ======== */}
 
@@ -101,7 +120,6 @@ export const PaymentPlans = () => {
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-
 
 
                             <div className="row justify-content-center">

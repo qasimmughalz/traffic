@@ -20,7 +20,7 @@ export const Sidebar = () => {
                             <div className='text-wrapper'><Link to='/dashboard'> <span className='text-white hide-text nav-text'>Dashboard </span></Link> </div>   
                         </div>                     
                     </li>
-                    <li className="sidebar-item nav-items" data-toggle="collapse" data-target="#website">
+                    {/* <li className="sidebar-item nav-items" data-toggle="collapse" data-target="#website">
                         <div className='link-wrapper'>
                             <div className='icon-wrapper'><i className="fas fa-globe pr-1"></i></div>
                             <div className='text-wrapper'><span className='hide-text nav-text'>AccessTool</span></div>   
@@ -37,16 +37,17 @@ export const Sidebar = () => {
                                 </Link>
                             </p>
                         </div>
-                    </li>
+                    </li> */}
                     <li className="sidebar-item nav-items" data-toggle="collapse" data-target="#trafic">
                         <div className='link-wrapper'>
                             <div className='icon-wrapper'><i className="far fa-chart-bar"></i></div>
-                            <div className='text-wrapper'><span className='hide-text nav-text'>Traffic Monitor</span></div>   
+                            <div className='text-wrapper'><span className='hide-text nav-text'>Access + Traffic </span></div>   
                         </div>
                         <div className="sidebar-drop-down collapse collapse-data text-white bg-white" id='trafic'>
-                         <p className="inner-links-wrapper">
-                              <Link to='/trafficStats'>
-                                  <span className='nav-links text-dark'>Traffic Stats</span>
+                           
+                            <p className="inner-links-wrapper ">
+                              <Link to='/allTrafficSites'>
+                                  <span className='nav-links text-dark'>All Sites</span>
                               </Link>
                             </p>
                             <p className="inner-links-wrapper ">
@@ -54,11 +55,13 @@ export const Sidebar = () => {
                                     <span className='nav-links text-dark'>Add New </span>
                                 </Link>
                             </p>
-                            <p className="inner-links-wrapper mb-0">
-                              <Link to='/allTrafficSites'>
-                                  <span className='nav-links text-dark'>All Sites</span>
+                           <p className="inner-links-wrapper mb-0">
+                              <Link to='/trafficStats'>
+                                  <span className='nav-links text-dark '>Traffic Stats</span>
                               </Link>
                             </p>
+                            
+                            
                         </div>
                     </li>
                     <li className="sidebar-item nav-items">

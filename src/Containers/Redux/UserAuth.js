@@ -24,9 +24,9 @@ const UserAuth = createSlice({
         loginHandler: (state, action)=>{
             const {token } = action.payload
             state.token = token;
-            state.Useremail = localStorage.getItem('email')
             state.isLoggedIn = true
-            localStorage.setItem('token', token )
+            state.Useremail = localStorage.getItem('email')
+            localStorage.setItem('token', token)
             // Token Expire Time 
             // const totalTime = new Date( new Date().getTime() + (+expiresIn * 1000))
             // const currTime = new Date().getTime();
@@ -36,5 +36,5 @@ const UserAuth = createSlice({
     }
 })
 
-export const {settingInitialValues , loginHandler, logoutHandler} = UserAuth.actions
+export const {settingInitialValues , loginHandler, logoutHandler } = UserAuth.actions
 export default UserAuth.reducer

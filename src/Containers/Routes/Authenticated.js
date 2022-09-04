@@ -1,10 +1,9 @@
-
+import React from "react"
 import { Routes, Route} from "react-router-dom"
-import { Dashboard } from "../Pages/User/Dashboard"
 import { PaymentPlans } from "../Pages/PaymentPlan/PaymentPlans"
 import { ContactUs } from "../Pages/ContactUs"
 import { Profile } from "../Pages/User/Profile"
-
+import {Dashboard} from "../Pages/User/Dashboard"
 import { AllAccessSites, AllSites } from "../Pages/AccessTool/AllSites"
 import { GetScript } from "../Pages/AccessTool/GetScript"
 import { AllSessions, AllTrafficSites } from "../Pages/TrafficMonitor/AllSites"
@@ -12,6 +11,10 @@ import Replay from "../Pages/TrafficMonitor/Replay"
 import { AddNewAccessSite } from "../Pages/AccessTool/AddNew"
 import { AddNewTrafficSite } from "../Pages/TrafficMonitor/AddNew"
 import { TrafficStates } from "../Pages/TrafficMonitor/TrafficStats/TrafficStats"
+
+
+
+// const Dashboard = React.lazy(()=> import("../Pages/User/Dashboard"));
 
 
 export const AuthenticatedRoutes = ()=>{

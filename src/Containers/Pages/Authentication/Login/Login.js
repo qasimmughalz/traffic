@@ -46,7 +46,7 @@ export const Login = () => {
             }).catch((e) => {
                 setLoading(false)
                 setanyErrorMessage(true)
-                e.message ? setErrorMessage(e.message) : setErrorMessage(e.response.data.error)
+                e.response.data == undefined ? setErrorMessage(e.response.data.error) : setErrorMessage(e.message)
             })
         }
     })

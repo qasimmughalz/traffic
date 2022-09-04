@@ -6,59 +6,74 @@ import { logoutHandler, settingInitialValues } from "./Containers/Redux/UserAuth
 import { AuthenticatedRoutes } from "./Containers/Routes/Authenticated";
 import { UnAuthenticatedRoutes } from "./Containers/Routes/UnAuthenticated";
 import { Buffer } from "buffer";
+import { useEffect } from "react";
+import { Suspense } from "react";
+import { Spinner } from "./Components/Spinner/Loader";
+
 
 function App() {
-  const [check, setcheck] = useState(false);
 
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false)
   let userFound = useSelector((state) => state.UserAuth.isLoggedIn);
+  let reduxToken = useSelector((state) => state.UserAuth.token);
   const token = localStorage.getItem("token");
 
-  function isTokenExpired(token) {
-    const payloadBase64 = token.split(".")[1];
-    const decodedJson = Buffer.from(payloadBase64, "base64").toString();
-    const decoded = JSON.parse(decodedJson);
-    const exp = decoded.exp;
-    const expired = Date.now() >= exp * 1000;
-    return expired;
-  }
 
-  const ValidateToken = async (token) => {
+//  function isTokenExpired(token) {
+//     const payloadBase64 = token.split(".")[1];
+//     const decodedJson = Buffer.from(payloadBase64, "base64").toString();
+//     const decoded = JSON.parse(decodedJson);
+//     const exp = decoded.exp;
+//     const expired = Date.now() >= exp * 1000;
+//     return expired;
+//   }
+
+  const ValidateToken = async (currToken) => {
+   
     const resp = await axios({
       method: "POST",
       url: "https://plugin-nodejs-server.herokuapp.com/api/login",
       headers: {
-        authorization: `Bearer ${token}`,
+        authorization: `Bearer ${currToken}`,
       },
     })
       .then((res) => {
-        setcheck(true);
+        setIsLoading(false)
+        console.log("Logged In")
+
+        const checkExpiry = true;
+        if(checkExpiry){
+          console.log("Time not expired")
+          dispatch(settingInitialValues({ userToken:token , userLoggedIn :true}))
+        }else{
+          console.log("Time expired")
+          dispatch(logoutHandler())
+        }
       })
       .catch((er) => {
-        setcheck(false);
-        console.log("settted check " ,check)
+       
+        console.log("Error in Validation", er)
+        dispatch(logoutHandler());
       });
   };
 
-  if (!token) {
-    dispatch(logoutHandler);
-  } else {
-    dispatch(settingInitialValues({ userToken:token , userLoggedIn :true}))
-    ValidateToken(token);
-    if (check) {
-      if (isTokenExpired(token)) {
-        dispatch(logoutHandler);
-      }
-    } else {    
-      console.log("i'm into logout")
+
+    if (!token) {
       dispatch(logoutHandler);
+    } else {
+    
+      ValidateToken(token);
     }
-  }
+
+
 
   return (
+    <Suspense fallback={<Spinner color='#2285b6'/>}>
     <div className="App">
       {userFound ? <AuthenticatedRoutes /> : <UnAuthenticatedRoutes />}
     </div>
+    </Suspense>
   );
 }
 

@@ -57,14 +57,14 @@ export const AddNewTrafficSite = ({traffic=true}) => {
             axios({
                 method: 'POST',
                 url: 'https://plugin-nodejs-server.herokuapp.com/api/addNewSite',
-                data: { email: userEmail, domain: FinalDomain, language: 'English', platform: 'WordPress', feature:'ANALYTICS' },
+                data: { email: userEmail, domain: FinalDomain, language: 'English', platform: 'WordPress', feature:'PLUGIN_ANALYTICS_COMBO' },
                 headers: {
                     "authorization": `Bearer ${getToken}`
                 }
             }).then((res) => {
                 setLoading(false);
                 if (res.status === 200) {
-                    localStorage.setItem('newDomain', inputWebsite)
+                    localStorage.setItem('domain', inputWebsite)
                     setNewScript(res.data)
                     setShowScript(true)
 
@@ -90,7 +90,7 @@ export const AddNewTrafficSite = ({traffic=true}) => {
                             {!showScript ?
                                 (<div className="col-md-8 m-auto">
                                     <div className="d-sm-flex align-items-center justify-content-between mb-4">
-                                        <h1 className="h3 mb-0 text-gray-800">Monitor New Site</h1>
+                                        <h1 className="h3 mb-0 text-gray-800">New Site for Access + Traffic Analytics</h1>
                                     </div>
                                     {/* //========= Error Message ======== */}
                                     <div className="alert alert-warning alert-dismissible fade show" role="alert" style={{ display: anyError ? 'block' : 'none' }}>
@@ -131,7 +131,9 @@ export const AddNewTrafficSite = ({traffic=true}) => {
                                             <code className="text-dark"> <p> {newScript}</p></code>
                                         </pre>
                                     </div>
+                                    <p className="my-3 text-center"> <span className="font-weight-bold"> NOTE: </span> This script will not work untill you process the payment.</p>
                                     <div className='col-md-4 m-auto my-3 text-center '>
+                                        
                                         <Link to='/paymentplans'>
                                             <button className='btn btn-form btn-primary my-4' value='submit' type='submit' style={{ width: '100%' }}> Pay Now  </button>
                                         </Link>

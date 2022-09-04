@@ -4,7 +4,7 @@ import { TopNav } from "../../../Components/TopNav/TopNav";
 import { Sidebar } from "../../Layout/Sidebar/Sidebar";
 import { Sites } from "../../Redux/AllSites";
 
-export const Dashboard = () => {
+ export const Dashboard = () => {
   const navbarShow = useSelector((state) => state.navbarToggle.show);
   const sitesFromRedux = useSelector(state => state.getAllsites.sites)
 
@@ -81,7 +81,6 @@ export const Dashboard = () => {
                           <div className="row no-gutters align-items-center">
                             <div className="col-auto">
                               <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-
                                 3
                               </div>
                             </div>
@@ -129,3 +128,4 @@ export const Dashboard = () => {
     </>
   );
 };
+

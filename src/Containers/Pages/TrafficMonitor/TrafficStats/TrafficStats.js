@@ -21,7 +21,6 @@ Chart.register(Title, Tooltip, LineElement, Legend , CategoryScale, LinearScale,
 
 export const TrafficStates = () => {
 
-
     const selectedDomain = useRef()
     const dispatch = useDispatch();
     const navigate = useNavigate()
@@ -143,7 +142,6 @@ export const TrafficStates = () => {
                         <div className="d-flex align-items-center justify-content-between mb-4">
                             <h1 className="h3 mb-0 text-gray-800">Traffic Stats</h1>
                             <div>
-
                                 <label className="mr-2">Domain: </label>
                                   <select className="custom-select w-auto" placeholder="please select domain name" onChange={(e)=> handleSelectedDomain(e.target.value)} >
                                     <option value="" >Please Select domain</option>
@@ -197,7 +195,6 @@ export const TrafficStates = () => {
                         </div>
                         ):''}
                                 
-
                         <div className="table-responsive sites-table bg-white mt-1">
                             <table className={`${classes.table} table text-center`}>
                                 <thead>
@@ -216,8 +213,8 @@ export const TrafficStates = () => {
                                 </thead>
                                 <tbody>
                                 {record && (record.map((data)=>{
-                                    return (<tr scope='row' key={data.id}>
-                                    <td>192.168.1.1</td>
+                                    return (<tr scope='row'>
+                                    <td>{data.ipAddress}</td>
                                     <td>{data.timezone}</td>
                                     <td>{data.totalClicks}</td>
                                     <td> 

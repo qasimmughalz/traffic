@@ -16,7 +16,7 @@ export const AllTrafficSites = () => {
     const [isLoading, setisLoading]= useState(false)
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const allSites = useSelector(state => state.getAllsites.sites)
-   const FilterTrafficSties = allSites.filter((res)=> res.feature === 'ANALYTICS')
+    const FilterTrafficSties = allSites.filter((res)=> res.feature === 'PLUGIN_ANALYTICS_COMBO')
     const [script, setScript] = useState()
     const [ShowModal, setShowModal] = useState(false)
     const getToken = localStorage.getItem('token')
@@ -34,7 +34,7 @@ export const AllTrafficSites = () => {
             const resp = await axios({
                 method: 'POST',
                 url: `https://plugin-nodejs-server.herokuapp.com/api/getScript`,
-                data: {email: user, domainName: domainName, feature:'ANALYTICS'},
+                data: {email: user, domainName: domainName, feature:'PLUGIN_ANALYTICS_COMBO'},
                 headers: {
                     "authorization": `Bearer ${getToken}`
                   },
@@ -75,7 +75,6 @@ export const AllTrafficSites = () => {
                     <TopNav />
                     {/* =============== Inner Section Start ============= */}
 
-
                     {ShowModal && <Modal title="Script" message={script} onConfirm={handleConfirm}/> }
                     <div className="container-fluid ">
                         <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -91,7 +90,6 @@ export const AllTrafficSites = () => {
                                         <th scope="col">#</th>
                                         <th scope="col">Domain Name</th>
                                         <th scope="col">Message</th>
-                                        <th scope="col">Plan</th>
                                         <th scope="col">Payment</th>
                                         <th scope="col">Expiring</th>
                                         <th scope="col">Installation</th>
@@ -99,19 +97,18 @@ export const AllTrafficSites = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-
-                                {FilterTrafficSties.length && (FilterTrafficSties.map((data)=>{
-                                    return (<tr scope='row'>
+                                {isLoading ? <Spinner color='#2285b6'></Spinner> : ''}
+                                {FilterTrafficSties.length > 0 ? (FilterTrafficSties.map((data)=>{
+                                    return (<tr scope='row' key={data.domain}>
                                     <th scope="row">{tempCounter++}</th>
                                     <td>{data.domain}</td>
                                     <td>{data.message}</td>
-                                    <td>Free</td>
-                                    <td>-None-</td>
+                                    <td>None</td>
                                     <td>{data.trialEndDate}</td>
                                     <td className="text-center"><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>Get</button></td>
-                                    <td><button className="btn btn-success" onClick={()=> UpgradeScript(data.domain)}>UPGRADE</button></td>
+                                    <td><button className="btn btn-success" onClick={()=> UpgradeScript(data.domain)}>Upgrade</button></td>
                                 </tr>)
-                                })) }
+                                })) : '' }
                                     
                                 </tbody>
                             </table>
@@ -119,7 +116,7 @@ export const AllTrafficSites = () => {
 
                         {FilterTrafficSties.length == 0 ? (<div className="text-center my-4">
                         <p>You have not Subscribes for any website </p>
-                        <a href="/addnew" className="btn btn-primary">Add a New Site Now</a></div>
+                        <a href="/addNewTraffic" className="btn btn-primary">Add a New Site Now</a></div>
                         ):''}
 
                     </div>
