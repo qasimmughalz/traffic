@@ -79,6 +79,10 @@ export const AllTrafficSites = () => {
                     <div className="container-fluid ">
                         <div className="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 className="h3 mb-0 text-gray-800">All Site</h1>
+                            <div>
+                                 {isLoading ? <Spinner color='#2285b6'></Spinner> : ''}
+                            </div>
+                           
                         </div>
 
 
@@ -90,23 +94,21 @@ export const AllTrafficSites = () => {
                                         <th scope="col">#</th>
                                         <th scope="col">Domain Name</th>
                                         <th scope="col">Message</th>
-                                        <th scope="col">Payment</th>
                                         <th scope="col">Expiring</th>
                                         <th scope="col">Installation</th>
-                                        <th scope="col">Upgrade</th>
+                                        {/* <th scope="col">Upgrade</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {isLoading ? <Spinner color='#2285b6'></Spinner> : ''}
+                               
                                 {FilterTrafficSties.length > 0 ? (FilterTrafficSties.map((data)=>{
                                     return (<tr scope='row' key={data.domain}>
                                     <th scope="row">{tempCounter++}</th>
                                     <td>{data.domain}</td>
                                     <td>{data.message}</td>
-                                    <td>None</td>
-                                    <td>{data.trialEndDate}</td>
-                                    <td className="text-center"><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>Get</button></td>
-                                    <td><button className="btn btn-success" onClick={()=> UpgradeScript(data.domain)}>Upgrade</button></td>
+                                    <td>{data.subscriptionEndDate}</td>
+                                    <td className=""><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>Get Script</button></td>
+                                    {/* <td><button className="btn btn-success" onClick={()=> UpgradeScript(data.domain)}>Upgrade</button></td> */}
                                 </tr>)
                                 })) : '' }
                                     

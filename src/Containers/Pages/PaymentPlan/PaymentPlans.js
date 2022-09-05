@@ -58,7 +58,12 @@ export const PaymentPlans = () => {
         const email = localStorage.getItem('email')
         const getToken = localStorage.getItem('token')
         console.log("This is in paydomain", payDomain)
-        if (payDomain === null) {
+
+
+
+
+
+        if (payDomain === null || payDomain === '') {
             setanyErrorMessage(true)
             return
         } else {
@@ -67,7 +72,7 @@ export const PaymentPlans = () => {
                 const response = await axios({
                     method: 'POST',
                     url: 'https://plugin-nodejs-server.herokuapp.com/api/createSession',
-                    data: { email: email, priceId: id, domainName: payDomain },
+                    data: { email: email, priceId: id, domainName: payDomain , feature:'PLUGIN_ANALYTICS_COMBO' },
                     headers: {
                         "authorization": `Bearer ${getToken}`
                     }
@@ -78,9 +83,7 @@ export const PaymentPlans = () => {
             }
             apiCall()
         }
-
     }
-
 
     const handleSelectedDomain = (domain)=>{
         setPayDomain(domain)
@@ -115,7 +118,7 @@ export const PaymentPlans = () => {
                             {/* //========= Error Message ======== */}
 
                             <div className="alert alert-warning alert-dismissible fade show" role="alert" style={{ display: anyError ? 'block' : 'none' }}>
-                                <strong>Please Select Existing Domain or Add New One </strong>
+                                <strong>Please Select Existing Domain  </strong>
                                 <button type="button" className="close" onClick={() => setanyErrorMessage(!anyError)} aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -124,23 +127,23 @@ export const PaymentPlans = () => {
 
                             <div className="row justify-content-center">
 
-                                {paymentPlans.length > 0 ? (paymentPlans.map((data) => {
-                                    return (<div className="col-lg-3 col-md-6 col-9 mb-3" key={data.id}>
+                                {paymentPlans.length > 0 ? (
+                                    <div className="col-lg-3 col-md-6 col-9 mb-3" key={paymentPlans[0].id}>
                                         <div className="card py-4  h-100">
                                             <div className="card-body d-flex flex-column">
                                                 <div className="text-center">
                                                     <img src={cardImage} className="img-fluid  mb-5" alt="Websearch" style={{ height: '100px' }} />
                                                 </div>
-                                                <div className="card-title  mb-4 text-center fs-2">{data.name}</div>
+                                                <div className="card-title  mb-4 text-center fs-2">{paymentPlans[0].name}</div>
                                                 <div className="text-center mt-auto mb-4">
-                                                    <span className="font-weight-bold fs-2 card-price">${data.price}</span>/{data.interval}
+                                                    <span className="font-weight-bold fs-2 card-price">${paymentPlans[0].price}</span>/{paymentPlans[0].interval}
                                                 </div>
 
-                                                <div className="text-center"><button type="submit" onClick={() => onclickHandler(data.id)} value='submit' className="btn btn-primary">Choose Plan</button></div>
+                                                <div className="text-center"><button type="submit" onClick={() => onclickHandler(paymentPlans[0].id)} value='submit' className="btn btn-primary">Choose Plan</button></div>
                                             </div>
                                         </div>
-                                    </div>)
-                                })) : <Spinner color='#1f38fa'></Spinner>
+                                    </div>
+                                ) : <Spinner color='#1f38fa'></Spinner>
                                 }
 
                             </div>

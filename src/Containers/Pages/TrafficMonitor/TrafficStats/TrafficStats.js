@@ -38,7 +38,7 @@ export const TrafficStates = () => {
     const getToken = localStorage.getItem('token')
     const user = localStorage.getItem('email')
 
-    const FilterTrafficSties = allSites.filter((res)=> res.feature === 'ANALYTICS')
+    const FilterTrafficSties = allSites.filter((res)=> res.feature === 'PLUGIN_ANALYTICS_COMBO')
 
 
     useEffect(()=> {

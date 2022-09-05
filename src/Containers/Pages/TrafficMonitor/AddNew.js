@@ -64,10 +64,8 @@ export const AddNewTrafficSite = ({traffic=true}) => {
             }).then((res) => {
                 setLoading(false);
                 if (res.status === 200) {
-                    localStorage.setItem('domain', inputWebsite)
                     setNewScript(res.data)
                     setShowScript(true)
-
                 }
             }).catch((e) => {
                 setLoading(false)
