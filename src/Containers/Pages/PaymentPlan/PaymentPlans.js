@@ -1,6 +1,6 @@
 
 import axios from "axios"
-import { useEffect, useState } from "react"
+import React,{ useEffect, useState } from "react"
 import { Sidebar } from "../../Layout/Sidebar/Sidebar"
 import { TopNav } from "../../../Components/TopNav/TopNav"
 import { useDispatch, useSelector } from "react-redux"
@@ -8,12 +8,17 @@ import './PaymentPlan.css'
 import cardImage from '../../../assets/images/card.svg'
 import { Spinner } from "../../../Components/Spinner/Loader"
 import { useNavigate, useParams } from "react-router-dom"
-import { isAllOf } from "@reduxjs/toolkit"
+import { isAllOf, isPending } from "@reduxjs/toolkit"
 import { Sites } from "../../Redux/AllSites"
+import ReactDOM from "react-dom"
+import PaypalButtonWrapper from "./PaypalButtonWrapper"
+// import { PayPalButtons } from "@paypal/react-paypal-js"
 
 export const PaymentPlans = () => {
 
-
+    // const [{ isPending }] = usePayPalScriptReducer();
+    // console.log(isPending);
+    // const PayPalButton = paypal.Buttons.driver("react", { React, ReactDOM });
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [isLoading, setIsLoading] = useState(false)
@@ -23,7 +28,7 @@ export const PaymentPlans = () => {
    
     const [paymentPlans, setPaymentPlans] = useState([])
     const [anyError, setanyErrorMessage] = useState(false)
-
+    const [choose,setChoose] = useState(false);
     const getToken= localStorage.getItem('token')
 
 
@@ -67,26 +72,34 @@ export const PaymentPlans = () => {
             setanyErrorMessage(true)
             return
         } else {
-            setanyErrorMessage(false)
-            const apiCall = async () => {
-                const response = await axios({
-                    method: 'POST',
-                    url: 'https://plugin-nodejs-server.herokuapp.com/api/createSession',
-                    data: { email: email, priceId: id, domainName: payDomain , feature:'PLUGIN_ANALYTICS_COMBO' },
-                    headers: {
-                        "authorization": `Bearer ${getToken}`
-                    }
-                }).then((res) => {
-                    window.location.replace(res.data)
-                }).catch(e => {
-                })
-            }
-            apiCall()
+            setChoose(true);
+            setanyErrorMessage(false);
+            /* code of stripe */
+            // setanyErrorMessage(false)
+            // const apiCall = async () => {
+            //     const response = await axios({
+            //         method: 'POST',
+            //         url: 'https://plugin-nodejs-server.herokuapp.com/api/createSession',
+            //         data: { email: email, priceId: id, domainName: payDomain , feature:'PLUGIN_ANALYTICS_COMBO' },
+            //         headers: {
+            //             "authorization": `Bearer ${getToken}`
+            //         }
+            //     }).then((res) => {
+            //         window.location.replace(res.data)
+            //     }).catch(e => {
+            //     })
+            // }
+            // apiCall()
+            /* code of stripe */
         }
     }
 
     const handleSelectedDomain = (domain)=>{
         setPayDomain(domain)
+    }
+    const cancelHandler = () => {
+        setChoose(false);
+        setanyErrorMessage(false);   
     }
 
     return (
@@ -125,26 +138,30 @@ export const PaymentPlans = () => {
                             </div>
 
 
+
+                            
                             <div className="row justify-content-center">
+                            
+                                <div className="col-lg-3 col-md-6 col-9 mb-3">
+                                <div className="card py-4">
+                                <div className="card-body d-flex flex-column">
+                                <div className="text-center">
+                                  <img src={cardImage} className="img-fluid  mb-5" alt="Websearch" style={{ height: '100px' }} />
+                                </div>
+                                <div className="card-title  mb-4 text-center fs-2">Plugin Analytic Combo</div>
+                               {!choose ? <div>
+                                <div className="text-center mt-auto mb-4">
+                                    <span className="font-weight-bold fs-2 card-price">$10</span>/month
+                                </div>
+                                <div className="text-center"><button type="submit" onClick={() => onclickHandler(paymentPlans[0].id)} value='submit' className="btn btn-primary">Choose Plan</button></div>
+                                </div> :
+                                <div><PaypalButtonWrapper /><div className="text-center"><button onClick={cancelHandler} className="btn btn-warning">Cancel</button></div></div> }
+                                </div>
+                                
+                                </div>
+                                </div>
 
-                                {paymentPlans.length > 0 ? (
-                                    <div className="col-lg-3 col-md-6 col-9 mb-3" key={paymentPlans[0].id}>
-                                        <div className="card py-4  h-100">
-                                            <div className="card-body d-flex flex-column">
-                                                <div className="text-center">
-                                                    <img src={cardImage} className="img-fluid  mb-5" alt="Websearch" style={{ height: '100px' }} />
-                                                </div>
-                                                <div className="card-title  mb-4 text-center fs-2">{paymentPlans[0].name}</div>
-                                                <div className="text-center mt-auto mb-4">
-                                                    <span className="font-weight-bold fs-2 card-price">${paymentPlans[0].price}</span>/{paymentPlans[0].interval}
-                                                </div>
-
-                                                <div className="text-center"><button type="submit" onClick={() => onclickHandler(paymentPlans[0].id)} value='submit' className="btn btn-primary">Choose Plan</button></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                ) : <Spinner color='#1f38fa'></Spinner>
-                                }
+                               
 
                             </div>
                         </div>
