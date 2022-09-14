@@ -9,6 +9,7 @@ import { Modal } from "../../../Components/Modal/Modal"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { OrderDetailsModal } from "../../../Components/Modal/OrderDetails"
+import { backend } from "../../../Components/backendURL"
 
 
 export const AllTrafficSites = () => {
@@ -39,7 +40,7 @@ export const AllTrafficSites = () => {
         const RunTheTask = async () => {
             const resp = await axios({
                 method: 'POST',
-                url: `https://plugin-nodejs-server.herokuapp.com/api/getScript`,
+                url: `${backend}/api/getScript`,
                 data: {email: user, domainName: domainName, feature:'PLUGIN_ANALYTICS_COMBO'},
                 headers: {
                     "authorization": `Bearer ${getToken}`
@@ -110,7 +111,6 @@ export const AllTrafficSites = () => {
                                         <th scope="col">Feature</th>
                                         <th scope="col">Installation</th>
                                         <th scope="col">Details</th>
-                                        {/* <th scope="col">Upgrade</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>

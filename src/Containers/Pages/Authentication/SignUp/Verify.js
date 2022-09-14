@@ -7,6 +7,7 @@ import { useState } from 'react'
 import '../registration.css'
 import * as Yup from 'yup'
 import axios from 'axios'
+import { backend } from '../../../../Components/backendURL'
 
 
 
@@ -34,7 +35,7 @@ export const Verify = () => {
             setLoading(true)
             axios({
                 method: 'POST',
-                url: 'https://plugin-nodejs-server.herokuapp.com/api/verifyOTP',
+                url: `${backend}/api/verifyOTP`,
                 data: { userId: param.id, otp: values.verifyCode }
             }).then((res) => {
                 setLoading(false)

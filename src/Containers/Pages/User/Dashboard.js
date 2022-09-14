@@ -13,22 +13,6 @@ import { Sites } from "../../Redux/AllSites";
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(Sites())
-
-    // const RunTheTask = async () => {
-    //   const resp = await fetch('https://plugin-nodejs-server.herokuapp.com/api/isValidScript', {
-    //     method: 'POST',
-    //     body: JSON.stringify({ domainName: 'demo.iqasimmughal.com', userId: '62a210133dee6af1b5e167df', siteKey: '62b3e90ab56bcc272c86c40c' }
-    //     ),
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   }).then((res) => res.json())
-    //     .then((data) => console.log(data.data.script))
-    //     .catch((e) => console.log("Error in Connecting to the API", e))
-    // }
-    // RunTheTask()
-
-
   }, [])
 
   return (
@@ -110,7 +94,6 @@ import { Sites } from "../../Redux/AllSites";
                         </div>
                         <div className="col-auto">
                           <i className="fas fa-dollar-sign fa-2x text-warning">
-
                           </i>
                         </div>
                       </div>

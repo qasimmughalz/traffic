@@ -6,6 +6,7 @@ import { TopNav } from "../../../Components/TopNav/TopNav"
 import { useSelector } from "react-redux"
 import { Spinner } from "../../../Components/Spinner/Loader"
 import { useParams } from "react-router-dom"
+import { backend } from "../../../Components/backendURL"
 
 export const Profile = () => {
 
@@ -21,7 +22,7 @@ export const Profile = () => {
             setIsLoading(true)
              await axios({
                 method:'GET',
-                url:`https://plugin-nodejs-server.herokuapp.com/api/getUser/${currEmail}`,
+                url:`${backend}/api/getUser/${currEmail}`,
                 data:{},
                 headers:{
                     'authorization':`Bearer ${token}`

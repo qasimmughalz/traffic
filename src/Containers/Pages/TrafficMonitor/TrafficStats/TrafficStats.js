@@ -14,6 +14,7 @@ import { useRef } from "react"
 import classes from './trafficStats.module.css'
 import { VideoModal } from "../../../../Components/Modal/VideoModal"
 import { MapModel } from "../../../../Components/Modal/MapModal"
+import { backend } from "../../../../Components/backendURL"
 
 
 
@@ -90,7 +91,7 @@ export const TrafficStates = () => {
         const bringRecord = async () => {
             const resp = await axios({
                 method: 'POST',
-                url: `https://plugin-nodejs-server.herokuapp.com/api/getEvents`,
+                url:   `${backend}/api/getEvents`,
                 data: {email: user, domainName: e},
             }).then((res) => {
                 console.log("Response getting EVENTS =====",res)

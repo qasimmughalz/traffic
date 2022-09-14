@@ -26,16 +26,15 @@ const initialOptions = {
 
   currency: "USD",
   intent: "subscription",
-  // "data-client-token": "EP2DX6iF74UYN5WOhPw64J73_FTyqHILkAAJNha8BvqD-LUGc2T-b3-FFNIML3QbgdRMPWoBcvLOCx7v",
   vault:true,
 };
 
   return (
     <Suspense fallback={<Spinner color='#2285b6'/>}>
     <div className="App">
-    <PayPalScriptProvider  options={initialOptions}>
-    <AppRoutes />
-    </PayPalScriptProvider> 
+      <PayPalScriptProvider  options={initialOptions}>
+        <AppRoutes />
+      </PayPalScriptProvider> 
     </div>
     </Suspense>
   );
