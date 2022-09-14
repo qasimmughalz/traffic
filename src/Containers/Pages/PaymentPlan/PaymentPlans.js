@@ -26,7 +26,6 @@ export const PaymentPlans = () => {
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const allSites = useSelector(state => state.getAllsites.sites)
    
-    const [paymentPlans, setPaymentPlans] = useState([])
     const [anyError, setanyErrorMessage] = useState(false)
     const [choose,setChoose] = useState(false);
     const getToken= localStorage.getItem('token')
@@ -36,37 +35,33 @@ export const PaymentPlans = () => {
         dispatch(Sites());
     },[])
 
-    useEffect(() => {
+    // useEffect(() => {
         
-        const fetchData = async () => {
-            setIsLoading(true)
-            await axios({
-                method: 'GET',
-                url: `https://plugin-nodejs-server.herokuapp.com/api/getPlans`,
-                data: {},
-                headers: {
-                    "authorization": `Bearer ${getToken}`
-                },
-            }).then((res) => {
-                setIsLoading(false)
-                setPaymentPlans(res.data)
-            }).catch((e) => {
-                setIsLoading(false)
-            })
-        }
-        fetchData()
-    }, [])
-
+    //     const fetchData = async () => {
+    //         setIsLoading(true)
+    //         await axios({
+    //             method: 'GET',
+    //             url: `https://plugin-nodejs-server.herokuapp.com/api/getPlans`,
+    //             data: {},
+    //             headers: {
+    //                 "authorization": `Bearer ${getToken}`
+    //             },
+    //         }).then((res) => {
+    //             console.log("Check plans", res)
+    //             setIsLoading(false)
+    //             setPaymentPlans(res.data)
+    //         }).catch((e) => {
+    //             console.log("Err",e)
+    //             setIsLoading(false)
+    //         })
+    //     }
+    //     fetchData()
+    // }, [])
    
-
     const onclickHandler = (id) => {
         const email = localStorage.getItem('email')
         const getToken = localStorage.getItem('token')
         console.log("This is in paydomain", payDomain)
-
-
-
-
 
         if (payDomain === null || payDomain === '') {
             setanyErrorMessage(true)
@@ -93,7 +88,6 @@ export const PaymentPlans = () => {
             /* code of stripe */
         }
     }
-
     const handleSelectedDomain = (domain)=>{
         setPayDomain(domain)
     }
@@ -121,6 +115,7 @@ export const PaymentPlans = () => {
                                         <label className="mr-2">Domain: </label>
                                         <select className="custom-select w-auto" placeholder={payDomain != null ? payDomain : 'Please Select Domain'} onChange={(e)=> handleSelectedDomain(e.target.value)} >
                                             <option value="" >Please Select domain</option>
+                                            <option value='temporary'>temporary.com</option>
                                             {allSites && allSites.map((res)=>{
                                             return  <option value={res.domain}>{res.domain}</option>
                                             })}
@@ -137,8 +132,6 @@ export const PaymentPlans = () => {
                                 </button>
                             </div>
 
-
-
                             
                             <div className="row justify-content-center">
                             
@@ -149,13 +142,16 @@ export const PaymentPlans = () => {
                                   <img src={cardImage} className="img-fluid  mb-5" alt="Websearch" style={{ height: '100px' }} />
                                 </div>
                                 <div className="card-title  mb-4 text-center fs-2">Plugin Analytic Combo</div>
-                               {!choose ? <div>
-                                <div className="text-center mt-auto mb-4">
-                                    <span className="font-weight-bold fs-2 card-price">$10</span>/month
-                                </div>
-                                <div className="text-center"><button type="submit" onClick={() => onclickHandler(paymentPlans[0].id)} value='submit' className="btn btn-primary">Choose Plan</button></div>
-                                </div> :
-                                <div><PaypalButtonWrapper /><div className="text-center"><button onClick={cancelHandler} className="btn btn-warning">Cancel</button></div></div> }
+                               {!choose ? (<div>
+                                    <div className="text-center mt-auto mb-4">
+                                        <span className="font-weight-bold fs-2 card-price">$10</span>/month
+                                    </div>
+                                    <div className="text-center"><button type="submit" onClick={() =>       onclickHandler()} value='submit' className="btn       btn-primary">Choose Plan</button>
+                                    </div>
+                                   
+                                </div> )
+                                :
+                                <div><PaypalButtonWrapper domain={payDomain}/><div className="text-center"><button onClick={cancelHandler} className="btn btn-warning">Cancel</button></div></div> }
                                 </div>
                                 
                                 </div>

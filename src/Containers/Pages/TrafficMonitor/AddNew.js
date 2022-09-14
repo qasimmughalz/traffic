@@ -8,6 +8,7 @@ import sample from '../../../assets/images/traffic.svg'
 import * as Yup from 'yup'
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom"
+import { backend } from "../../../Components/backendURL"
 
 
 export const AddNewTrafficSite = ({traffic=true}) => {
@@ -53,10 +54,9 @@ export const AddNewTrafficSite = ({traffic=true}) => {
             setanyError(false)
             setInputError(false)
             setLoading(true);
-
             axios({
                 method: 'POST',
-                url: 'https://plugin-nodejs-server.herokuapp.com/api/addNewSite',
+                url: `${backend}/api/addNewSite`,
                 data: { email: userEmail, domain: FinalDomain, language: 'English', platform: 'WordPress', feature:'PLUGIN_ANALYTICS_COMBO' },
                 headers: {
                     "authorization": `Bearer ${getToken}`
@@ -68,6 +68,7 @@ export const AddNewTrafficSite = ({traffic=true}) => {
                     setShowScript(true)
                 }
             }).catch((e) => {
+                console.log("Error", e)
                 setLoading(false)
                 setanyError(true)
                 setErrorMessage(e.response.data.error)

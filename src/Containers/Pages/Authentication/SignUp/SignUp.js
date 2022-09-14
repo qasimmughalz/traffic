@@ -6,6 +6,7 @@ import axios from 'axios'
 import {  useState } from 'react'
 import logo from '../../../../assets/images/logo-small.jpg'
 import { Spinner } from '../../../../Components/Spinner/Loader'
+import { backend } from '../../../../Components/backendURL'
 
 
 export const SignUp = () => {
@@ -38,7 +39,7 @@ export const SignUp = () => {
             setLoading(true)
             axios({ 
                 method: 'POST',
-                url: 'https://plugin-nodejs-server.herokuapp.com/api/signup',
+                url: `${backend}/api/signup`,
                 data: { name: values.Name, email: values.Email, password: values.Password , phoneNo: values.Phone }
             }).then((res) => {
                 if (res.status === 200 && res.data.error) {

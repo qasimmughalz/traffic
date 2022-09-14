@@ -8,6 +8,7 @@ import axios from "axios"
 import * as Yup from 'yup'
 import { useNavigate } from "react-router-dom"
 import { NotifyModal } from "../../Components/Modal/NotifyModel"
+import { backend } from "../../Components/backendURL"
 
 
 export const ContactUs = () => {
@@ -34,7 +35,7 @@ export const ContactUs = () => {
             setLoading(true)
             axios({
                 method: 'POST',
-                url: 'https://plugin-nodejs-server.herokuapp.com/api/contactUs',
+                url: `${backend}/api/contactUs`,
                 data: { email: userEmail, message: values.message }, 
                 headers:{
                     "authorization": `Bearer ${getToken}`  

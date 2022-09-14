@@ -1,4 +1,5 @@
 import axios from "axios";
+import { backend } from "../../Components/backendURL";
 import { errorLoading, setGetAllSites } from "./getAllSites";
 
 
@@ -8,7 +9,7 @@ export const Sites = () => async dispatch => {
 
     await axios({
         method: 'GET',
-        url: `https://plugin-nodejs-server.herokuapp.com/api/getSites/${email}`,
+        url: `${backend}/api/getSites/${email}`,
         data: {},
         headers: {
             "authorization": `Bearer ${getToken}`

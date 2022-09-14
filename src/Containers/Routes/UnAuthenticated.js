@@ -12,7 +12,6 @@ export const UnAuthenticatedRoutes = ()=>{
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/signup' element={<SignUp/>}></Route>
         <Route path='/thankyou' element={<ThankYou/>}></Route>
-
         <Route path='/verify/:id' element={<Verify/>}></Route>
         <Route path='*' element={<Login/>}></Route>
     </Routes>
