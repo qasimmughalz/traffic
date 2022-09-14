@@ -18,7 +18,12 @@ function App() {
 //   }
 // "client-id": "AV4wEWUa2lG_if-0Ci51L2XN4fyxxYz5AnHRf1YkwBRi1gTn3k9_ZHPGO1hmjv3K9Tr9h2AqA1Xo4BJn",
 const initialOptions = {
-  "client-id":"AeolzkC6pRpsHLxdR3HnbG0Ka0HBujlvh7r3P-TsvIwKt7GD1oDKQAgysZv-llre2Fo81R7Lbzxl1ZGQ",
+  // Waqas 
+  // "client-id":"AeolzkC6pRpsHLxdR3HnbG0Ka0HBujlvh7r3P-TsvIwKt7GD1oDKQAgysZv-llre2Fo81R7Lbzxl1ZGQ",
+
+  // qasim
+  "client-id":"AV4wEWUa2lG_if-0Ci51L2XN4fyxxYz5AnHRf1YkwBRi1gTn3k9_ZHPGO1hmjv3K9Tr9h2AqA1Xo4BJn",
+
   currency: "USD",
   intent: "subscription",
   // "data-client-token": "EP2DX6iF74UYN5WOhPw64J73_FTyqHILkAAJNha8BvqD-LUGc2T-b3-FFNIML3QbgdRMPWoBcvLOCx7v",

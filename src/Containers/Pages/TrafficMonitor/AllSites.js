@@ -8,16 +8,22 @@ import axios from "axios"
 import { Modal } from "../../../Components/Modal/Modal"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
+import { OrderDetailsModal } from "../../../Components/Modal/OrderDetails"
 
 
 export const AllTrafficSites = () => {
 
     let tempCounter = 1;
     const [isLoading, setisLoading]= useState(false)
+    const [showOrderDetails, setShowOrderDetails]= useState(false)
+    const [script, setScript] = useState()
+    const [subscriptionID, setSubscriptionId] = useState()
+
+
+
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const allSites = useSelector(state => state.getAllsites.sites)
     const FilterTrafficSties = allSites.filter((res)=> res.feature === 'PLUGIN_ANALYTICS_COMBO')
-    const [script, setScript] = useState()
     const [ShowModal, setShowModal] = useState(false)
     const getToken = localStorage.getItem('token')
     const user = localStorage.getItem('email')
@@ -57,11 +63,19 @@ export const AllTrafficSites = () => {
 
     const handleConfirm = ()=>{
             setShowModal(false)
+            setShowOrderDetails(false)
     }
 
-    const UpgradeScript = (domainName)=>{
-        localStorage.setItem('domain',  domainName)
-        navigate('/paymentplans')
+
+    const ShowMoreDetails =(id)=>{
+        setSubscriptionId(id)
+
+        if(subscriptionID === '' || subscriptionID === null){
+            alert('No Package Installed')
+        }
+        else{
+            setShowOrderDetails(true)
+        }
     }
 
     return (<div className="wrapper">
@@ -76,26 +90,26 @@ export const AllTrafficSites = () => {
                     {/* =============== Inner Section Start ============= */}
 
                     {ShowModal && <Modal title="Script" message={script} onConfirm={handleConfirm}/> }
+
+                    {showOrderDetails ? <OrderDetailsModal title='Order Details' id={subscriptionID} onConfirm={handleConfirm}/> : ''}
+
                     <div className="container-fluid ">
                         <div className="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 className="h3 mb-0 text-gray-800">All Site</h1>
                             <div>
                                  {isLoading ? <Spinner color='#2285b6'></Spinner> : ''}
                             </div>
-                           
                         </div>
-
-
                         <div className="table-responsive sites-table bg-white">
-
                             <table className="table table-striped">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Domain Name</th>
                                         <th scope="col">Message</th>
-                                        <th scope="col">Expiring</th>
+                                        <th scope="col">Feature</th>
                                         <th scope="col">Installation</th>
+                                        <th scope="col">Details</th>
                                         {/* <th scope="col">Upgrade</th> */}
                                     </tr>
                                 </thead>
@@ -106,12 +120,15 @@ export const AllTrafficSites = () => {
                                     <th scope="row">{tempCounter++}</th>
                                     <td>{data.domain}</td>
                                     <td>{data.message}</td>
-                                    <td>{data.subscriptionEndDate}</td>
-                                    <td className=""><button className="btn-primary btn" onClick={()=> ShowScript(data.domain)}>Get Script</button></td>
-                                    {/* <td><button className="btn btn-success" onClick={()=> UpgradeScript(data.domain)}>Upgrade</button></td> */}
+                                    <td>{data.message === 'No subscription activated' ? '' : data.feature }</td>
+                                    <td className=""><button className="btn-secondary btn" onClick={()=> ShowScript(data.domain)}>Get Script</button></td>
+                                    <td className="">
+                                        <button className="btn-primary btn"
+                                         onClick={()=> ShowMoreDetails(data.subscriptionId)}
+                                         disabled={data.message === 'No subscription activated' ? true : false}> Details</button>
+                                    </td>
                                 </tr>)
                                 })) : '' }
-                                    
                                 </tbody>
                             </table>
                         </div>
