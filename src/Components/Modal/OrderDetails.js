@@ -28,13 +28,10 @@ export const TheOrderDetails = (props) => {
                         password: 'EKc03SCfR4ugQDyg0GCPIhng0-omwMXHYXuyGxJbyC8IjhVPIZTtis5XOk2UXwuLJBeQoaFpax_HPpp3'
                       }
                     }).then(res => res.data.access_token)
-                    .catch(err => console.log("Error Tpken Paypal", err))
-                    console.log("Token===", token)
+                    .catch(err => console.log("Error T0ken Paypal", err))
+                    
                     
                     if(token){
-
-                        console.log("TOKENNNN ", token)
-                        console.log("Props id", props.id)
                         await axios({
                             method:'GET', 
                             url:`https://api-m.sandbox.paypal.com/v1/billing/subscriptions/${props.id}`,
@@ -48,7 +45,6 @@ export const TheOrderDetails = (props) => {
                             })
                             .catch(err => {
                                 setIsLoading(false)
-                                console.log("Error Token Paypal", err)
                             })
                     }
                     else{

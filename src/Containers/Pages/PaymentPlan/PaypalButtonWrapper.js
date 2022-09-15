@@ -24,7 +24,6 @@ const PaypalButtonWrapper = ({ currency, showSpinner ,domain}) => {
 
 
     const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
-   console.log(currency);
     useEffect(() => {
         dispatch({
             type: "resetOptions",

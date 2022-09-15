@@ -47,28 +47,7 @@ export const TrafficStates = () => {
     },[])
 
     useEffect(()=> {
-            console.log("Selected Domain is", selectedDomain.current)
     },[selectedDomain])
-
-    // const ShowScript = (userId, sitekey)=>{
-    //     setisLoading(true)
-    //     const RunTheTask = async () => {
-    //         const resp = await axios({
-    //             method: 'POST',
-    //             url: `https://plugin-nodejs-server.herokuapp.com/api/getEvents`,
-    //             data: {userId: '62a210133dee6af1b5e167df', siteKey: '63022d199286e63e57dd0cdf'},
-    //             headers: {
-    //                 "authorization": `Bearer ${getToken}`
-    //               },
-    //         }).then((res) => {
-    //           setisLoading(false)
-    //         }).catch((e) => {
-    //           setisLoading(false)
-    //             console.log("Error", e)
-    //         })
-    //     }
-    //     RunTheTask()
-    // }   
 
     const labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY','JUNE','JULY','AUG', 'SEP','OCT','NOV','DEC']
     const data = {
@@ -85,7 +64,6 @@ export const TrafficStates = () => {
 
 
       const handleSelectedDomain = (e)=>{
-        console.log("check selected", e)
         setisLoading(true)
 
         const bringRecord = async () => {
@@ -94,11 +72,9 @@ export const TrafficStates = () => {
                 url:   `${backend}/api/getEvents`,
                 data: {email: user, domainName: e},
             }).then((res) => {
-                console.log("Response getting EVENTS =====",res)
                 setisLoading(false)
                 setRecord(res.data.events)
             }).catch((e) => {
-                console.log("Error", e)
                 setRecord([])
                 setisLoading(false)
             })
@@ -122,7 +98,6 @@ export const TrafficStates = () => {
 
     const showEventsVideo = (data)=>{
         setVideoEvents(data)
-        console.log("Video Events state =")
         setShowModal(true)
     }
 
@@ -147,7 +122,7 @@ export const TrafficStates = () => {
                                   <select className="custom-select w-auto" placeholder="please select domain name" onChange={(e)=> handleSelectedDomain(e.target.value)} >
                                     <option value="" >Please Select domain</option>
                                     {FilterTrafficSties && FilterTrafficSties.map((res)=>{
-                                      return  <option value={res.domain}>{res.domain}</option>
+                                      return  <option value={res.domain} key={res.domain}>{res.domain}</option>
                                     })}
                                   </select>
                             </div>
@@ -215,7 +190,7 @@ export const TrafficStates = () => {
                                 </thead>
                                 <tbody>
                                 {record && (record.map((data)=>{
-                                    return (<tr scope='row'>
+                                    return (<tr scope='row' key={data.key}>
                                     <td>{data.ipAddress}</td>
                                     <td>{data.timezone}</td>
                                     <td>{data.totalClicks}</td>

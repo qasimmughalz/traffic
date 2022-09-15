@@ -68,7 +68,6 @@ export const AddNewTrafficSite = ({traffic=true}) => {
                     setShowScript(true)
                 }
             }).catch((e) => {
-                console.log("Error", e)
                 setLoading(false)
                 setanyError(true)
                 setErrorMessage(e.response.data.error)

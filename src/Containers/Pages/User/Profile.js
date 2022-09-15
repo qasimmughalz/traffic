@@ -6,7 +6,6 @@ import { Sidebar } from "../../Layout/Sidebar/Sidebar"
 import { TopNav } from "../../../Components/TopNav/TopNav"
 import { useSelector } from "react-redux"
 import { Spinner } from "../../../Components/Spinner/Loader"
-import { useParams } from "react-router-dom"
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { backend } from "../../../Components/backendURL"
@@ -16,7 +15,6 @@ export const Profile = () => {
 
     const currEmail = localStorage.getItem('email')
     const token = localStorage.getItem('token')
-    const params = useParams()
     const [isLoading, setIsLoading] = useState(false)
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const [userProfile, setUserProfile] = useState({})
@@ -42,7 +40,6 @@ export const Profile = () => {
                 setUserProfile(res.data)
 
             }).catch(error => {
-                console.log("catch", error)
                 setIsLoading(false)
             })
         }
@@ -63,15 +60,12 @@ export const Profile = () => {
                 "authorization": `Bearer ${token}`
             }
         }).then((res) => {
-            console.log("res", res);
             if (res.status === 200) {
-                console.log("res", res);
                 localStorage.setItem('email', emailnewlocal)
                 setanySuccessT(true)
             }
         }).catch((e) => {
             setanySuccessT(false)
-            console.log("err!!", e);
         })
 
     }
@@ -98,8 +92,7 @@ export const Profile = () => {
                     setErrorMessage('New password have been successfully updated')
                 }                
             }).catch((e) => {
-                console.log("catch from pass",e)
-                e.response.data.error == undefined ? setErrorMessage(e.message) : setErrorMessage(e.response.data.error)
+                e.response.data.error === undefined ? setErrorMessage(e.message) : setErrorMessage(e.response.data.error)
                 setanySuccessP(true)
             })
         }
@@ -144,22 +137,22 @@ export const Profile = () => {
 
                                             <div className="container m-auto">
 
-                                                <h1>edit prifile</h1>
+                                                <h1>Edit Profile</h1>
                                                 {/* <img alt='user' src={user} className="avatar "></img> */}
                                                 <form onSubmit={handleSubmit}>
                                                     <div className="row mt-5">
                                                         <div className="col-5">
-                                                            <label for="name">name</label><br></br>
+                                                            <label htmlFor="name">name</label><br></br>
                                                             <input type="text" id="name" name="namenew" onChange={(e) => setInputName(e.target.value)} defaultValue={userProfile.Name} className="fromsize"></input>
                                                         </div>
                                                         <div className="col-5">
-                                                            <label for="phone">phone</label><br></br>
+                                                            <label htmlFor="phone">phone</label><br></br>
                                                             <input type="text" id="phone" name="phoneNonew" minLength={9} onChange={(e) => setInputPhoneNo(e.target.value)} defaultValue={userProfile.PhoneNo} className="fromsize"></input>
                                                         </div>
                                                     </div>
                                                     <div className="row mt-5">
                                                         <div className="col-10">
-                                                            <label for="email">email</label><br></br>
+                                                            <label htmlFor="email">email</label><br></br>
                                                             <input type="email" id="email" name="emailnew" onChange={(e) => setInputEmail(e.target.value)} defaultValue={userProfile.Email} className="fromsize"></input>
                                                         </div>
                                                     </div>

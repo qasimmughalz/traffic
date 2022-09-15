@@ -7,7 +7,6 @@ import { Sites } from "../../Redux/AllSites";
 
  export const Dashboard = () => {
 
-
   const navbarShow = useSelector((state) => state.navbarToggle.show);
   const sitesFromRedux = useSelector(state => state.getAllsites.sites)
   const sitesLoading = useSelector(state => state.getAllsites.sitesLoading)
@@ -52,7 +51,7 @@ import { Sites } from "../../Redux/AllSites";
                             Total Sites
                           </div>
                           <div className="h5 mb-0 font-weight-bold text-gray-800">
-                            {sitesFromRedux.length}
+                            {sitesFromRedux.length > 0 ? sitesFromRedux.length : 0}
                           </div>
                         </div>
                         <div className="col-auto">
@@ -75,7 +74,7 @@ import { Sites } from "../../Redux/AllSites";
                           <div className="row no-gutters align-items-center">
                             <div className="col-auto">
                               <div className="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                               {sitesFromRedux.length > 0 ? sitesFromRedux.filter((sites)=> sites.message === 'User have subscribed to a plan').length : ''}
+                               {sitesFromRedux.length > 0 ? sitesFromRedux.filter((sites)=> sites.message === 'User have subscribed to a plan').length : 0}
                               </div>
                             </div>
                           </div>
@@ -97,7 +96,7 @@ import { Sites } from "../../Redux/AllSites";
                             Payments
                           </div>
                           <div className="h5 mb-0 font-weight-bold text-gray-800">
-                          {sitesFromRedux.length > 0 ? sitesFromRedux.filter((sites)=> sites.message === 'User have subscribed to a plan').length : ''}
+                          {sitesFromRedux.length > 0 ? sitesFromRedux.filter((sites)=> sites.message === 'User have subscribed to a plan').length : 0}
                           </div>
                         </div>
                         <div className="col-auto">

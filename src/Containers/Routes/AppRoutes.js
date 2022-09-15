@@ -24,37 +24,25 @@ const AppRoutes = () => {
     })
       .then( async (res) => {
         setIsLoading(false)
-        console.log("Logged In")
-        
         const checkExpiry = true;
         if(checkExpiry){
-          console.log("Time not expired")
          dispatch(settingInitialValues({ userToken:currToken , userLoggedIn :true}))
      
         }else{
-          console.log("Time expired")
           dispatch(logoutHandler())
-          
         }
-        
       })
       .catch((er) => {
-        console.log("Error in Validation", er)
         dispatch(logoutHandler());
-       
       });
-
-    
   };
-
-
+  
     if (!token) {
       dispatch(logoutHandler);
     } 
     else {
       ValidateToken(token);
     }
-
     return(
       <>
     { token ? <AuthenticatedRoutes /> : <UnAuthenticatedRoutes />}  

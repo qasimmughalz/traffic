@@ -59,10 +59,8 @@ export const PaymentPlans = () => {
     // }, [])
    
     const onclickHandler = (id) => {
-        const email = localStorage.getItem('email')
-        const getToken = localStorage.getItem('token')
-        console.log("This is in paydomain", payDomain)
-
+        // const email = localStorage.getItem('email')
+        // const getToken = localStorage.getItem('token')
         if (payDomain === null || payDomain === '') {
             setanyErrorMessage(true)
             return
@@ -116,7 +114,7 @@ export const PaymentPlans = () => {
                                         <select className="custom-select w-auto" placeholder={payDomain != null ? payDomain : 'Please Select Domain'} onChange={(e)=> handleSelectedDomain(e.target.value)} >
                                             <option value="" >Please Select domain</option>
                                             {allSites && allSites.map((res)=>{
-                                            return  <option value={res.domain}>{res.domain}</option>
+                                            return  <option value={res.domain} key={res.domain}>{res.domain}</option>
                                             })}
                                         </select>
                                     </div>

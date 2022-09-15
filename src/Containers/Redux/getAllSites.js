@@ -10,7 +10,6 @@ const getAllSites = createSlice({
     },
     reducers:{
         setGetAllSites:(state, action)=>{
-            console.log("ALL SITES : ", action.payload)
             state.sitesLoading = false
             state.sites = action.payload
         }, 

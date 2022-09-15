@@ -42,10 +42,8 @@ export const AllAccessSites = () => {
                 setScript({ domain: domainName, script: res.data.script })
                 setShowModal(true)
                 setisLoading(false)
-                console.log("Get Script", res)
             }).catch((e) => {
                 setisLoading(false)
-                console.log("Get Script Error", e)
                 if (!e.response.data.isActive) {
                     setScript({ message: 'You need to clear payment before activation.Pay Now !' })
                     setShowModal(true)
