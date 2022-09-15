@@ -73,7 +73,7 @@ export const ContactUs = () => {
                         <div className="row align-items-start">
                             <div className="col-md-8 m-auto">
 
-                                <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                                <div className="d-flex align-items-center justify-content-between mb-4">
                                     <h1 className="h3 mb-0 text-gray-800">Contact Us</h1>
                                 </div>
 

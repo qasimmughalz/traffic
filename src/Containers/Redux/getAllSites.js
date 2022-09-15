@@ -5,11 +5,13 @@ const getAllSites = createSlice({
     name :'getAllSites',
     initialState:{
         sites:[], 
+        sitesLoading:true,
         error:'', 
     },
     reducers:{
         setGetAllSites:(state, action)=>{
             console.log("ALL SITES : ", action.payload)
+            state.sitesLoading = false
             state.sites = action.payload
         }, 
         errorLoading : (state)=>{

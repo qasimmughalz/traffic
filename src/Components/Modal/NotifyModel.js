@@ -20,7 +20,7 @@ export const TheNotifyModal = (props) => {
                 </div>
             </div>
             <footer className={classes.actions} style={{justifyContent:'flex-end'}}>
-                <button className='btn btn-primary' onClick={props.onConfirm}>Cancel</button>
+                <button className='btn btn-primary' onClick={props.onConfirm}>Okay</button>
             </footer>
         </div>
     </div>

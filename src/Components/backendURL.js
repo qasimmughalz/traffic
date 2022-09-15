@@ -1,1 +1,1 @@
-export const backend = 'http://plugin-nodejs-server.herokuapp.com'
+export const backend = 'https://plugin-nodejs-server.herokuapp.com'

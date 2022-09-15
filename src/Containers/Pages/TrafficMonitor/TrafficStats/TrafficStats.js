@@ -152,18 +152,19 @@ export const TrafficStates = () => {
                                   </select>
                             </div>
                         </div>
-                        {record.length == 0 ? (<div className="text-center my-4">
+                        {/* {record.length == 0 ? (<div className="text-center my-4">
                         <p> No Results </p>
                         </div>
                         ):(
-                                <div className={classes.graph} >
+                                <div className={`${classes.graph} d-none`} >
                                     <Line data={data}></Line>
                                 </div>
-                        )}
-                        {isLoading ? (<div className="text-center my-4">
+                        )} */}
+
+                        {/* {isLoading ? (<div className="text-center my-4">
                         <Spinner color='#2285b6'></Spinner>
                         </div>
-                        ):''}
+                        ):''} */}
                         {record.length == 0 ? (<div className="text-center my-4">
                         <p> No Results </p>
                         </div>
