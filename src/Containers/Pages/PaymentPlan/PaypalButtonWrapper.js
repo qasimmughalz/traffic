@@ -1,32 +1,15 @@
 import { useEffect } from "react";
 import {
-    PayPalScriptProvider,
-    PayPalButtons,
-    usePayPalScriptReducer
+    PayPalButtons
 } from "@paypal/react-paypal-js";
 import axios from "axios";
 import { backend } from "../../../Components/backendURL";
 // This values are the props in the UI
-const amount = "2";
 const currency = "USD";
 const style = {"layout":"vertical"};
 
 // Custom component to wrap the PayPalButtons and handle currency changes
-const PaypalButtonWrapper = ({ currency, showSpinner ,domain}) => {
-    // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
-    // This is the main reason to wrap the PayPalButtons in a new component
-    const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
-   console.log(currency);
-    useEffect(() => {
-        dispatch({
-            type: "resetOptions",
-            value: {
-                ...options,
-                currency: currency,
-            },
-        });
-    }, [currency, showSpinner]);
-
+const PaypalButtonWrapper = ({ currency ,domain}) => {
 
     const sendIdToDb = async (id)=>{
         const email = localStorage.getItem('email')
@@ -46,13 +29,12 @@ const PaypalButtonWrapper = ({ currency, showSpinner ,domain}) => {
 
 
     return (<>
-            { (showSpinner && isPending) && <div className="spinner" /> }
+            
             <PayPalButtons
                 style={style}
                 disabled={false}
-                forceReRender={[amount, currency, style]}
+                forceReRender={[currency, style]}
                 fundingSource={undefined}
-
                 createSubscription={ (data, actions) => {
                     return actions.subscription.create({
                       /* Creates the subscription */
