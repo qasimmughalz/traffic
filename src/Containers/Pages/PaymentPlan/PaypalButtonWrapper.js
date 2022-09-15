@@ -6,6 +6,8 @@ import {
 } from "@paypal/react-paypal-js";
 import axios from "axios";
 import { backend } from "../../../Components/backendURL";
+import { useState } from "react";
+import { NotifyModal } from "../../../Components/Modal/NotifyModel";
 // This values are the props in the UI
 const amount = "2";
 const currency = "USD";
@@ -13,8 +15,14 @@ const style = {"layout":"vertical"};
 
 // Custom component to wrap the PayPalButtons and handle currency changes
 const PaypalButtonWrapper = ({ currency, showSpinner ,domain}) => {
+
     // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
     // This is the main reason to wrap the PayPalButtons in a new component
+
+    const [message, setMessage] = useState(false)
+
+
+
     const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
    console.log(currency);
     useEffect(() => {
@@ -44,9 +52,15 @@ const PaypalButtonWrapper = ({ currency, showSpinner ,domain}) => {
         .catch(e=> console.log('error',e))
     }
 
+    const handleConfirm = ()=>{
+        setMessage(false)
+    }
 
     return (<>
             { (showSpinner && isPending) && <div className="spinner" /> }
+            
+            { message ? <NotifyModal  title='Success' message="Congratulations! Your Payment has be successfully done."  onConfirm={handleConfirm} /> : ''}
+
             <PayPalButtons
                 style={style}
                 disabled={false}
@@ -63,10 +77,8 @@ const PaypalButtonWrapper = ({ currency, showSpinner ,domain}) => {
                   }
                 }
                 onApprove={function (data, actions) {
-                    console.log("data from subscription", data);
-                    alert('Transaction Performed Successfully');
                     sendIdToDb(data.subscriptionID)
-                    // 1- domaiName , email , feature , paymentMethod="PAYPAL",subscription_ID, 
+                    setMessage(true)
                 }}
             />
         </>

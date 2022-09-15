@@ -21,9 +21,9 @@ export const AllTrafficSites = () => {
     const [subscriptionID, setSubscriptionId] = useState()
 
 
-
     const navbarShow = useSelector(state => state.navbarToggle.show)
     const allSites = useSelector(state => state.getAllsites.sites)
+    const sitesLoading = useSelector(state => state.getAllsites.sitesLoading)
     const FilterTrafficSties = allSites.filter((res)=> res.feature === 'PLUGIN_ANALYTICS_COMBO')
     const [ShowModal, setShowModal] = useState(false)
     const getToken = localStorage.getItem('token')
@@ -95,10 +95,10 @@ export const AllTrafficSites = () => {
                     {showOrderDetails ? <OrderDetailsModal title='Order Details' id={subscriptionID} onConfirm={handleConfirm}/> : ''}
 
                     <div className="container-fluid ">
-                        <div className="d-sm-flex align-items-center justify-content-between mb-4">
+                        <div className="d-flex align-items-center justify-content-between mb-4">
                             <h1 className="h3 mb-0 text-gray-800">All Site</h1>
                             <div>
-                                 {isLoading ? <Spinner color='#2285b6'></Spinner> : ''}
+                                 {sitesLoading || isLoading ? <Spinner color='#2285b6'></Spinner> : ''}
                             </div>
                         </div>
                         <div className="table-responsive sites-table bg-white">

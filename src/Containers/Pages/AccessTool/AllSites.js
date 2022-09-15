@@ -76,7 +76,6 @@ export const AllAccessSites = () => {
                     <TopNav />
                     {/* =============== Inner Section Start ============= */}
 
-
                     {ShowModal && <Modal title="Get Script" message={script} onConfirm={handleConfirm} />}
                     <div className="container-fluid ">
                         <div className="d-sm-flex align-items-center justify-content-between mb-4">

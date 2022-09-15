@@ -11,6 +11,7 @@ import Replay from "../Pages/TrafficMonitor/Replay"
 import { AddNewAccessSite } from "../Pages/AccessTool/AddNew"
 import { AddNewTrafficSite } from "../Pages/TrafficMonitor/AddNew"
 import { TrafficStates } from "../Pages/TrafficMonitor/TrafficStats/TrafficStats"
+import { UadiProfile } from "../Pages/User/Profile"
 
 
 

@@ -115,7 +115,6 @@ export const PaymentPlans = () => {
                                         <label className="mr-2">Domain: </label>
                                         <select className="custom-select w-auto" placeholder={payDomain != null ? payDomain : 'Please Select Domain'} onChange={(e)=> handleSelectedDomain(e.target.value)} >
                                             <option value="" >Please Select domain</option>
-                                            <option value='temporary'>temporary.com</option>
                                             {allSites && allSites.map((res)=>{
                                             return  <option value={res.domain}>{res.domain}</option>
                                             })}
