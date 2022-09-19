@@ -1,39 +1,15 @@
 import { useEffect } from "react";
 import {
-    PayPalScriptProvider,
-    PayPalButtons,
-    usePayPalScriptReducer
+    PayPalButtons
 } from "@paypal/react-paypal-js";
 import axios from "axios";
 import { backend } from "../../../Components/backendURL";
-import { useState } from "react";
-import { NotifyModal } from "../../../Components/Modal/NotifyModel";
 // This values are the props in the UI
-const amount = "2";
 const currency = "USD";
 const style = {"layout":"vertical"};
 
 // Custom component to wrap the PayPalButtons and handle currency changes
-const PaypalButtonWrapper = ({ currency, showSpinner ,domain}) => {
-
-    // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
-    // This is the main reason to wrap the PayPalButtons in a new component
-
-    const [message, setMessage] = useState(false)
-
-
-
-    const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
-    useEffect(() => {
-        dispatch({
-            type: "resetOptions",
-            value: {
-                ...options,
-                currency: currency,
-            },
-        });
-    }, [currency, showSpinner]);
-
+const PaypalButtonWrapper = ({ currency ,domain}) => {
 
     const sendIdToDb = async (id)=>{
         const email = localStorage.getItem('email')
@@ -51,21 +27,14 @@ const PaypalButtonWrapper = ({ currency, showSpinner ,domain}) => {
         .catch(e=> console.log('error',e))
     }
 
-    const handleConfirm = ()=>{
-        setMessage(false)
-    }
 
     return (<>
-            { (showSpinner && isPending) && <div className="spinner" /> }
             
-            { message ? <NotifyModal  title='Success' message="Congratulations! Your Payment has be successfully done."  onConfirm={handleConfirm} /> : ''}
-
             <PayPalButtons
                 style={style}
                 disabled={false}
-                forceReRender={[amount, currency, style]}
+                forceReRender={[currency, style]}
                 fundingSource={undefined}
-
                 createSubscription={ (data, actions) => {
                     return actions.subscription.create({
                       /* Creates the subscription */
@@ -76,8 +45,10 @@ const PaypalButtonWrapper = ({ currency, showSpinner ,domain}) => {
                   }
                 }
                 onApprove={function (data, actions) {
+                    console.log("data from subscription", data);
+                    alert('Transaction Performed Successfully');
                     sendIdToDb(data.subscriptionID)
-                    setMessage(true)
+                    // 1- domaiName , email , feature , paymentMethod="PAYPAL",subscription_ID, 
                 }}
             />
         </>

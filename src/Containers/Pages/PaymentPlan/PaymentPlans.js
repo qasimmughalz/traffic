@@ -10,15 +10,10 @@ import { Spinner } from "../../../Components/Spinner/Loader"
 import { useNavigate, useParams } from "react-router-dom"
 import { isAllOf, isPending } from "@reduxjs/toolkit"
 import { Sites } from "../../Redux/AllSites"
-import ReactDOM from "react-dom"
 import PaypalButtonWrapper from "./PaypalButtonWrapper"
-// import { PayPalButtons } from "@paypal/react-paypal-js"
 
 export const PaymentPlans = () => {
 
-    // const [{ isPending }] = usePayPalScriptReducer();
-    // console.log(isPending);
-    // const PayPalButton = paypal.Buttons.driver("react", { React, ReactDOM });
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [isLoading, setIsLoading] = useState(false)
@@ -59,35 +54,29 @@ export const PaymentPlans = () => {
     // }, [])
    
     const onclickHandler = (id) => {
-        // const email = localStorage.getItem('email')
-        // const getToken = localStorage.getItem('token')
+        const email = localStorage.getItem('email')
+        const getToken = localStorage.getItem('token')
+        console.log("This is in paydomain", payDomain)
+
         if (payDomain === null || payDomain === '') {
             setanyErrorMessage(true)
             return
         } else {
+            const exist = allSites.find(item => item.domain === payDomain)
+        //    console.log(exist);
+           if(exist.subscriptionId)
+           {
+            alert('This Domain subscription already Active');
+            return;
+           }    
             setChoose(true);
             setanyErrorMessage(false);
-            /* code of stripe */
-            // setanyErrorMessage(false)
-            // const apiCall = async () => {
-            //     const response = await axios({
-            //         method: 'POST',
-            //         url: 'https://plugin-nodejs-server.herokuapp.com/api/createSession',
-            //         data: { email: email, priceId: id, domainName: payDomain , feature:'PLUGIN_ANALYTICS_COMBO' },
-            //         headers: {
-            //             "authorization": `Bearer ${getToken}`
-            //         }
-            //     }).then((res) => {
-            //         window.location.replace(res.data)
-            //     }).catch(e => {
-            //     })
-            // }
-            // apiCall()
-            /* code of stripe */
+           
         }
     }
     const handleSelectedDomain = (domain)=>{
         setPayDomain(domain)
+        setChoose(false);
     }
     const cancelHandler = () => {
         setChoose(false);
@@ -113,8 +102,9 @@ export const PaymentPlans = () => {
                                         <label className="mr-2">Domain: </label>
                                         <select className="custom-select w-auto" placeholder={payDomain != null ? payDomain : 'Please Select Domain'} onChange={(e)=> handleSelectedDomain(e.target.value)} >
                                             <option value="" >Please Select domain</option>
+                                            <option value='temporary'>temporary.com</option>
                                             {allSites && allSites.map((res)=>{
-                                            return  <option value={res.domain} key={res.domain}>{res.domain}</option>
+                                            return  <option value={res.domain}>{res.domain}</option>
                                             })}
                                         </select>
                                     </div>
@@ -143,7 +133,7 @@ export const PaymentPlans = () => {
                                     <div className="text-center mt-auto mb-4">
                                         <span className="font-weight-bold fs-2 card-price">$10</span>/month
                                     </div>
-                                    <div className="text-center"><button type="submit" onClick={() =>       onclickHandler()} value='submit' className="btn       btn-primary">Choose Plan</button>
+                                    <div className="text-center"><button type="submit" onClick={onclickHandler} value='submit' className="btn       btn-primary">Choose Plan</button>
                                     </div>
                                    
                                 </div> )
