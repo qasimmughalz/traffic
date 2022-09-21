@@ -16,11 +16,11 @@ import { VideoModal } from "../../../../Components/Modal/VideoModal"
 import { MapModel } from "../../../../Components/Modal/MapModal"
 import { backend } from "../../../../Components/backendURL"
 
-
+import  PaginatedItems from '../../../../Components/Pagination/Pagination';
 
 Chart.register(Title, Tooltip, LineElement, Legend , CategoryScale, LinearScale, PointElement )
 
-export const TrafficStates = () => {
+export const TrafficStates = (props) => {
 
     const selectedDomain = useRef()
     const dispatch = useDispatch();
@@ -61,11 +61,12 @@ export const TrafficStates = () => {
         }]
       };
 
-
-
+ /* Paginate state */
+ const [currentItems, setCurrentItems] = useState([]);
+     
       const handleSelectedDomain = (e)=>{
         setisLoading(true)
-
+        
         const bringRecord = async () => {
             const resp = await axios({
                 method: 'POST',
@@ -81,8 +82,7 @@ export const TrafficStates = () => {
         }
         bringRecord()
       }
-
-
+     
 
       const showVideo= ()=>{
         setShowModal(true)
@@ -189,7 +189,7 @@ export const TrafficStates = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {record && (record.map((data)=>{
+                                {currentItems && (currentItems.map((data)=>{
                                     return (<tr scope='row' key={data.key}>
                                     <td>{data.ipAddress}</td>
                                     <td>{data.timezone}</td>
@@ -210,9 +210,11 @@ export const TrafficStates = () => {
                                    
                                 </tr>)
                                 })) }
-                                    
                                 </tbody>
+
                             </table>
+                            {record && <PaginatedItems setCurrentItems={setCurrentItems}  itemsPerPage={5} items={record}/> }
+
                         </div>
 
                         {record.length == 0 ? (<div className="text-center my-4">
