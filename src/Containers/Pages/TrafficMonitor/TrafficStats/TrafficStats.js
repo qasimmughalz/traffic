@@ -112,7 +112,8 @@ export const TrafficStates = (props) => {
         }
       };
 
-
+/* Paginate state */
+const [currentItems, setCurrentItems] = useState([]);
      const handleSelectedDomain = (e)=>{
         console.log("check selected", e)
         setisLoading(true)
@@ -314,7 +315,7 @@ export const TrafficStates = (props) => {
                             </table>
 
                         </div>
-                        {record && <PaginatedItems style={{background:'white'}} setCurrentItems={setCurrentItems}  itemsPerPage={5} items={record}/> }
+                        {record && <PaginatedItems setCurrentItems={setCurrentItems}  itemsPerPage={5} items={record}/> }
 
                         {record.length == 0 ? (<div className="text-center my-4">
                         <p> No Results </p>

@@ -17,11 +17,11 @@ const AuthVerify = (props) => {
     // console.log('in');
     if (userToken) {
       const decodedJwt = parseJwt(userToken);
-      console.log(decodedJwt);
-      const date = new Date(decodedJwt.exp*1000);
-      const iatDate = new Date(decodedJwt.iat*1000);
-      console.log(iatDate.toLocaleTimeString(),'iat');
-      console.log(date.toLocaleTimeString(),'exp');
+      // console.log(decodedJwt);
+      // const date = new Date(decodedJwt.exp*1000);
+      // const iatDate = new Date(decodedJwt.iat*1000);
+      // console.log(iatDate.toLocaleTimeString(),'iat');
+      // console.log(date.toLocaleTimeString(),'exp');
       if (decodedJwt.exp * 1000 < Date.now()) {
         props.logOut();
       }

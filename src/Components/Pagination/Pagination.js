@@ -28,7 +28,7 @@ const handlePageClick = (event) => {
 };
 
 return (
-    <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
+    <div style={{width:'100%',display:'flex',justifyContent:'center',background:'white'}}>
       <ReactPaginate 
         nextLabel=">"
         onPageChange={handlePageClick}
