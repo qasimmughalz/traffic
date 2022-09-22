@@ -89,12 +89,12 @@ export const TheOrderDetails = (props) => {
                                 </thead>
                                 <tbody>
                                     <td>
-                                        { data && `${data.subscriber.name.given_name}` }
+                                        { data && `${data?.subscriber?.name?.given_name}` }
                                     </td>
                                     <td className='font-weight-bold'>{ data && data.status}</td>
-                                    <td>{ data && data.start_time.split('T')[0] }</td>
-                                    <td>{ data && `$${data.billing_info.last_payment.amount.value}`} </td>
-                                    <td>{ data && data.billing_info.next_billing_time.split('T')[0]} </td>
+                                    <td>{ data && data?.start_time?.split('T')[0] }</td>
+                                    <td>{ data && `$${data?.billing_info?.last_payment?.amount?.value}`} </td>
+                                    <td>{ data && data?.billing_info?.next_billing_time?.split('T')[0]} </td>
                                 </tbody>
                             </table>
               </div>)}

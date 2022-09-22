@@ -16,11 +16,11 @@ import { VideoModal } from "../../../../Components/Modal/VideoModal"
 import { MapModel } from "../../../../Components/Modal/MapModal"
 import { backend } from "../../../../Components/backendURL"
 
-
+import  PaginatedItems from '../../../../Components/Pagination/Pagination';
 
 Chart.register(Title, Tooltip, LineElement, Legend , CategoryScale, LinearScale, PointElement )
 
-export const TrafficStates = () => {
+export const TrafficStates = (props) => {
 
     const selectedDomain = useRef()
     const dispatch = useDispatch();
@@ -61,11 +61,12 @@ export const TrafficStates = () => {
         }]
       };
 
-
-
+ /* Paginate state */
+ const [currentItems, setCurrentItems] = useState([]);
+     
       const handleSelectedDomain = (e)=>{
         setisLoading(true)
-
+        
         const bringRecord = async () => {
             const resp = await axios({
                 method: 'POST',
@@ -81,8 +82,7 @@ export const TrafficStates = () => {
         }
         bringRecord()
       }
-
-
+     
 
       const showVideo= ()=>{
         setShowModal(true)
@@ -189,18 +189,18 @@ export const TrafficStates = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {record && (record.map((data)=>{
-                                    return (<tr scope='row' key={data.key}>
+                                {currentItems && (currentItems.map((data)=>{
+                                    return (<tr scope='row' style={{height:'70px'}} key={data.key}>
                                     <td>{data.ipAddress}</td>
                                     <td>{data.timezone}</td>
                                     <td>{data.totalClicks}</td>
                                     <td> 
-                                        <p className="m-0 text-muted">{data.firstClick && data.firstClick.split('T')[0]}</p> 
-                                        <p className="m-0">{data.firstClick && data.firstClick?.split('T')[1].split('.')[0]}</p> 
+                                        <p className="m-0 text-muted" style={{width:'100px'}}>{data.firstClick && data.firstClick.split('T')[0]}</p> 
+                                        <p className="m-0" style={{width:'100px'}}>{data.firstClick && data.firstClick?.split('T')[1].split('.')[0]}</p> 
                                     </td>
-                                    <td>
-                                        <p className="m-0 text-muted">{data.lastClick && data.lastClick.split('T')[0]}</p> 
-                                        <p className="m-0">{data.lastClick && data.lastClick.split('T')[1].split('.')[0]}</p> 
+                                    <td style={{wordWrap:'normal'}}>
+                                        <p className="m-0 text-muted" style={{width:'100px'}}>{data.lastClick && data.lastClick.split('T')[0]}</p> 
+                                        <p className="m-0" style={{width:'100px'}}>{data.lastClick && data.lastClick.split('T')[1].split('.')[0]}</p> 
                                     </td>
                                     <td>{data.totalkeyPress}</td>
                                     <td>{data.totalMouseMove}</td>
@@ -210,10 +210,12 @@ export const TrafficStates = () => {
                                    
                                 </tr>)
                                 })) }
-                                    
                                 </tbody>
+
                             </table>
+
                         </div>
+                        {record && <PaginatedItems style={{background:'white'}} setCurrentItems={setCurrentItems}  itemsPerPage={5} items={record}/> }
 
                         {record.length == 0 ? (<div className="text-center my-4">
                         <p> No Results </p>

@@ -1,0 +1,18 @@
+.page-link{
+    border:0px;
+    border-radius:50%;
+    padding: 0.5rem 0.85rem;
+    /* color:linear-gradient(34deg, rgba(83, 167, 155, 1) 14%, rgba(34, 133, 182, 1) 50%); */
+}
+.page-item:last-child .page-link,.page-item:first-child .page-link {
+    border-radius: 50%;
+}
+.pagination{
+    gap:10px;
+}
+.page-item.active .page-link {
+background:none;
+border-color:transparent;
+color:rgba(34, 133, 182, 1);
+font-weight: 900;
+}
