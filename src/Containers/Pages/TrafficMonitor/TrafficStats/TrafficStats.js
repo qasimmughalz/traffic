@@ -59,6 +59,15 @@ export const TrafficStates = () => {
     const [originalValues,setOriginalValues] = useState([]);
     const [datesArray,setDatesArray] = useState([]);
     const [valuesArray,setValuesArray] = useState([]);
+    const options = {
+        scales: {
+            y: {
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    };
     const data = {
         labels: datesArray,
         datasets: [{
@@ -66,7 +75,8 @@ export const TrafficStates = () => {
           data: valuesArray,
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1
+          tension: 0.1,
+          precision: 0,
         }]
       };
 
@@ -221,7 +231,7 @@ export const TrafficStates = () => {
                                 }}
                                 onChange={dateChangeHandler}
                               />
-                                <Line data={data}></Line>
+                                <Line data={data} options={options}></Line>
                             
                             </div>
                         ) }
