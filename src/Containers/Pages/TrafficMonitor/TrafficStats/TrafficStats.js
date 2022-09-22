@@ -15,12 +15,16 @@ import classes from './trafficStats.module.css'
 import { VideoModal } from "../../../../Components/Modal/VideoModal"
 import { MapModel } from "../../../../Components/Modal/MapModal"
 import { backend } from "../../../../Components/backendURL"
-
+import 'antd/dist/antd.css';
+import { DatePicker, Space } from 'antd';
+import moment from 'moment';
 import  PaginatedItems from '../../../../Components/Pagination/Pagination';
 
 Chart.register(Title, Tooltip, LineElement, Legend , CategoryScale, LinearScale, PointElement )
 
 export const TrafficStates = (props) => {
+
+    const { RangePicker } = DatePicker;
 
     const selectedDomain = useRef()
     const dispatch = useDispatch();
@@ -41,6 +45,7 @@ export const TrafficStates = (props) => {
 
     const FilterTrafficSties = allSites.filter((res)=> res.feature === 'PLUGIN_ANALYTICS_COMBO')
 
+    
 
     useEffect(()=> {
         dispatch(Sites());
@@ -49,22 +54,67 @@ export const TrafficStates = (props) => {
     useEffect(()=> {
     },[selectedDomain])
 
-    const labels = ['JAN', 'FEB', 'MAR', 'APR', 'MAY','JUNE','JULY','AUG', 'SEP','OCT','NOV','DEC']
+
+    const [originalDates,setOriginalDates] = useState([]);
+    const [originalValues,setOriginalValues] = useState([]);
+    const [datesArray,setDatesArray] = useState([]);
+    const [valuesArray,setValuesArray] = useState([]);
+    const options = {
+        scales: {
+            y: {
+                ticks: {
+                    precision: 0
+                }
+            }
+        }
+    };
     const data = {
-        labels: labels,
+        labels: datesArray,
         datasets: [{
-          label: 'Visitors Stats',
-          data: [0, 3, 0, 5, 2, 15, 24,15,16,17,14,18],
+          label: 'Total Visitors',
+          data: valuesArray,
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1
+          tension: 0.1,
+          precision: 0,
         }]
       };
 
- /* Paginate state */
- const [currentItems, setCurrentItems] = useState([]);
-     
-      const handleSelectedDomain = (e)=>{
+      /* filter original arrays data on date change */
+     const dateChangeHandler = (dates, dateStrings) => {
+        const originalD = [...originalDates];
+         const originalV = [...originalValues];
+        if (dates) {
+        //   console.log('From: ', dates[0], ', to: ', dates[1]);
+        //   console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
+         let start = dates[0].clone().startOf('day');
+         let end = dates[1].clone().endOf('day');
+         let localD = [];
+         let localV = [];
+         
+          while(start<=end)
+          {
+            const dateIndex = originalD.indexOf(moment(start).format('YYYY-MM-DD'));
+            if(dateIndex !== -1)
+            {
+                // console.log('found',originalDates[dateIndex],originalValues[dateIndex],start);
+                localD.push(originalD[dateIndex]);
+                localV.push(originalV[dateIndex]);
+            }
+            start.add(1,'days');
+          }
+          setDatesArray(localD);
+          setValuesArray(localV);
+        } else {
+            setDatesArray(originalD);
+            setValuesArray(originalV);
+        //   console.log('Clear');
+        }
+      };
+
+
+     const handleSelectedDomain = (e)=>{
+        console.log("check selected", e)
         setisLoading(true)
         
         const bringRecord = async () => {
@@ -73,9 +123,43 @@ export const TrafficStates = (props) => {
                 url:   `${backend}/api/getEvents`,
                 data: {email: user, domainName: e},
             }).then((res) => {
+                console.log("Response getting EVENTS =====",res)
                 setisLoading(false)
                 setRecord(res.data.events)
+                // console.log(res.data.events);
+                let labels = [];
+                let values = [];
+                res.data.events.map((item)=>{
+                    
+                    /* code to set original dates state */
+                    const date = new Date(item.currDate);
+                    const year = date.getFullYear();  //2022
+
+                    const month = String(date.getMonth() + 1).padStart(2, '0'); //09
+
+                    const day = String(date.getDate()).padStart(2, '0'); //06
+
+                    const joined = [year,month,day].join('-'); //2022-09-06
+                    if(labels.indexOf(joined) === -1)
+                    {
+                        labels.push(joined);
+                        values.push(1);
+                    }
+                    else
+                    {
+                        let index = labels.indexOf(joined);
+                        values[index]+=1;
+                    }
+                     /* code to set original dates state */
+                })
+                /* set states of dates and values for graph */
+                setDatesArray(labels);
+                setValuesArray(values);
+                setOriginalDates(labels);
+                setOriginalValues(values);
+                /* set states of dates and values for graph */
             }).catch((e) => {
+                console.log("Error", e)
                 setRecord([])
                 setisLoading(false)
             })
@@ -127,19 +211,34 @@ export const TrafficStates = (props) => {
                                   </select>
                             </div>
                         </div>
-                        {/* {record.length == 0 ? (<div className="text-center my-4">
+                        {record.length == 0 ? (<div className="text-center my-4">
                         <p> No Results </p>
                         </div>
                         ):(
-                                <div className={`${classes.graph} d-none`} >
-                                    <Line data={data}></Line>
-                                </div>
-                        )} */}
+                            <div className={classes.graph} style={{marginBottom:'20px'}} >
+                            {/*<input type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} name="start-date" />
+                        <input type="date" value={endDate} onChange={(e)=>setEndDate(e.target.value)} name="end-date" />*/}
+                                <RangePicker
+                                ranges={{
+                                  Today: [moment().startOf('day'), moment().endOf('day')],
+                                  Yesterday: [moment().subtract(1,'days').startOf('day'),moment().subtract(1,'days').endOf('day')],
+                                  'This Week' : [moment().startOf('week'), moment().endOf('week')],
+                                  'This Month': [moment().startOf('month'), moment().endOf('month')],
+                                  'Last Week' : [moment().subtract(1, 'weeks').startOf('week'), moment().subtract(1, 'weeks').endOf('week')],
+                                  'Last Month' : [moment().subtract(1, 'months').startOf('month'), moment().subtract(1, 'months').endOf('month')]
+                                  
+                                }}
+                                onChange={dateChangeHandler}
+                              />
+                                <Line data={data} options={options}></Line>
+                            
+                            </div>
+                        ) }
 
-                        {/* {isLoading ? (<div className="text-center my-4">
+                        { isLoading ? (<div className="text-center my-4">
                         <Spinner color='#2285b6'></Spinner>
                         </div>
-                        ):''} */}
+                        ):''}
                         {record.length == 0 ? (<div className="text-center my-4">
                         <p> No Results </p>
                         </div>
