@@ -195,12 +195,12 @@ export const TrafficStates = (props) => {
                                     <td>{data.timezone}</td>
                                     <td>{data.totalClicks}</td>
                                     <td> 
-                                        <p className="m-0 text-muted">{data.firstClick && data.firstClick.split('T')[0]}</p> 
-                                        <p className="m-0">{data.firstClick && data.firstClick?.split('T')[1].split('.')[0]}</p> 
+                                        <p className="m-0 text-muted" style={{width:'100px'}}>{data.firstClick && data.firstClick.split('T')[0]}</p> 
+                                        <p className="m-0" style={{width:'100px'}}>{data.firstClick && data.firstClick?.split('T')[1].split('.')[0]}</p> 
                                     </td>
-                                    <td>
-                                        <p className="m-0 text-muted">{data.lastClick && data.lastClick.split('T')[0]}</p> 
-                                        <p className="m-0">{data.lastClick && data.lastClick.split('T')[1].split('.')[0]}</p> 
+                                    <td style={{wordWrap:'normal'}}>
+                                        <p className="m-0 text-muted" style={{width:'100px'}}>{data.lastClick && data.lastClick.split('T')[0]}</p> 
+                                        <p className="m-0" style={{width:'100px'}}>{data.lastClick && data.lastClick.split('T')[1].split('.')[0]}</p> 
                                     </td>
                                     <td>{data.totalkeyPress}</td>
                                     <td>{data.totalMouseMove}</td>
@@ -213,9 +213,9 @@ export const TrafficStates = (props) => {
                                 </tbody>
 
                             </table>
-                            {record && <PaginatedItems setCurrentItems={setCurrentItems}  itemsPerPage={5} items={record}/> }
 
                         </div>
+                        {record && <PaginatedItems style={{background:'white'}} setCurrentItems={setCurrentItems}  itemsPerPage={5} items={record}/> }
 
                         {record.length == 0 ? (<div className="text-center my-4">
                         <p> No Results </p>
