@@ -9,7 +9,7 @@ import { Spinner } from "../../../Components/Spinner/Loader"
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { backend } from "../../../Components/backendURL"
-
+import { NotifyModal } from '../../../Components/Modal/NotifyModel';
 
 export const Profile = () => {
 
@@ -21,9 +21,12 @@ export const Profile = () => {
     const [inputName, setInputName] = useState('')
     const [inputEmail, setInputEmail] = useState('')
     const [inputPhoneNo, setInputPhoneNo] = useState('')
-    const [anySuccessT, setanySuccessT] = useState(false)
-    const [anySuccessP, setanySuccessP] = useState(false)
-    const [errorMessage, setErrorMessage] = useState('')
+    // const [anySuccessT, setanySuccessT] = useState(true)
+    // const [anySuccessP, setanySuccessP] = useState(false)
+    // const [errorMessage, setErrorMessage] = useState('')
+
+    const [modalShow,setModalShow] = useState(false)
+    const [message,setMessage] = useState('')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,49 +57,62 @@ export const Profile = () => {
 
         axios({
             method: 'POST',
-            url: `http://localhost:5000/api/changeUserDetails/${currEmail}`,
-            data: { namenew: namenewlocal, emailnew: emailnewlocal, phoneNonew: phoneNonewlocal },
+            url: `${backend}/api/changeUserDetails/${currEmail}`,
+            // data: { namenew: namenewlocal, emailnew: emailnewlocal, phoneNonew: phoneNonewlocal },
+            data: { newName: namenewlocal, newEmail: emailnewlocal, newPhoneNo: phoneNonewlocal },
             headers: {
                 "authorization": `Bearer ${token}`
             }
         }).then((res) => {
             if (res.status === 200) {
                 localStorage.setItem('email', emailnewlocal)
-                setanySuccessT(true)
+                // setanySuccessT(true)
+                setMessage(res.data.message);
+                setModalShow(true);
             }
         }).catch((e) => {
-            setanySuccessT(false)
+            // setanySuccessT(false)
         })
 
     }
     const formik = useFormik({
         initialValues: {
             PasswordNew: '',
-            ConfirmPass: ''
+            ConfirmPass: '',
+            PasswordOld: ''
+
         },
         validationSchema: Yup.object({
+            PasswordOld: Yup.string().required('required'),
             PasswordNew: Yup.string().min(8, 'Minimum 8 Characters long').required('Required'),
             ConfirmPass: Yup.string().min(8, 'Minimum 8 Characters long').oneOf([Yup.ref('PasswordNew')], 'Password did not match').required('Required'),
         }),
         onSubmit: values => {
             axios({
                 method: 'POST',
-                url: 'http://localhost:5000/api/changePassword',
-                data: {passwordOld: values.PasswordOld, passwordNew: values.PasswordNew ,email: localStorage.getItem('email')},
+                url: `${backend}/api/changePassword`,
+                // data: {passwordOld: values.PasswordOld, passwordNew: values.PasswordNew ,email: localStorage.getItem('email')},
+                data:{email:localStorage.getItem('email'),oldPassword:values.PasswordOld,newPassword:values.PasswordNew},
                 headers: {
                     "authorization": `Bearer ${token}`
                 }
             }).then((res) => {
                 if (res.status === 200) {
-                    setanySuccessP(true)
-                    setErrorMessage('New password have been successfully updated')
+                    // setanySuccessP(true)
+                    // setErrorMessage('New password have been successfully updated')
+                    setMessage(res.data.message);
+                    setModalShow(true);
                 }                
             }).catch((e) => {
-                e.response.data.error === undefined ? setErrorMessage(e.message) : setErrorMessage(e.response.data.error)
-                setanySuccessP(true)
+                // e.response.data.error === undefined ? setErrorMessage(e.message) : setErrorMessage(e.response.data.error)
+                // setanySuccessP(true)
             })
         }
     })
+
+    const handleConfirm = ()=>{
+        setModalShow(false)
+    }
 
     return (
         <div className="wrapper">
@@ -120,18 +136,23 @@ export const Profile = () => {
 
                                 {isLoading ? <Spinner color='#1f38fa'></Spinner> :
                                     (<div className="col-md-8  ml-4 ">
-                                        <div className="alert alert-success alert-dismissible fade show" role="alert" style={{ display: anySuccessT ? 'block' : 'none' }}>
+                                    
+                                        {/*<div className="alert alert-success alert-dismissible fade show" role="alert" style={{ display: anySuccessT ? 'block' : 'none' }}>
                                             <strong> Your details have been successfully updated</strong>
                                             <button type="button" className="close" onClick={() => setanySuccessT(!anySuccessT)} aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div className="alert alert-success alert-dismissible fade show" role="alert" style={{ display: anySuccessP ? 'block' : 'none' }}>
-                                            <strong>{errorMessage}</strong>
-                                            <button type="button" className="close" onClick={() => setanySuccessP(!anySuccessP)} aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
+                                             <strong>{errorMessage}</strong>
+                                             <button type="button" className="close" onClick={() => setanySuccessP(!anySuccessP)} aria-label="Close">
+                                                 <span aria-hidden="true">&times;</span>
+                                             </button>
+                                        </div>*/}
+
+                               {modalShow && <NotifyModal title={'Response'} message={message} onConfirm={handleConfirm}></NotifyModal>}
+
+
                                         <div className="row text-muted">
                                             
 
@@ -171,7 +192,7 @@ export const Profile = () => {
                                                                 onChange={formik.handleChange}
                                                                 onBlur={formik.handleBlur}
                                                                 value={formik.values.PasswordOld} className='fromsize' placeholder='Enter password'></input>
-                                                            {/* {formik.touched.Password && formik.errors.Password ? <p className='text-danger mt-1'>{formik.errors.Password}</p> : null} */}
+                                                             {formik.touched.PasswordOld && formik.errors.PasswordOld ? <p className='text-danger mt-1'>{formik.errors.PasswordOld}</p> : null} 
                                                         </div>
                                                         </div>
                                                         <div className="row mt-5">
