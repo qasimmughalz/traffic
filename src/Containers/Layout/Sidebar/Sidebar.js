@@ -16,7 +16,7 @@ export const Sidebar = () => {
                 <ul className='rounded sidebar-list-wrapper'>
                     <li className="sidebar-item nav-items">
                         <div className='link-wrapper'>
-                            <div className='icon-wrapper'><i className="far fa-credit-card "></i></div>
+                            <div className='icon-wrapper'><Link to='/dashboard'><i className="far fa-credit-card "></i></Link></div>
                             <div className='text-wrapper'><Link to='/dashboard'> <span className='text-white hide-text nav-text'>Dashboard </span></Link> </div>   
                         </div>                     
                     </li>
@@ -66,20 +66,20 @@ export const Sidebar = () => {
                     </li>
                     <li className="sidebar-item nav-items">
                       <div className='link-wrapper'>
-                          <div className='icon-wrapper'><i className="far fa-credit-card "></i></div>
+                          <div className='icon-wrapper'><Link to='/paymentplans'><i className="far fa-credit-card "></i></Link></div>
                           <div className='text-wrapper'><Link to='/paymentplans'><span className='text-white hide-text nav-text'>Pay Now  </span></Link> </div>   
                       </div>
                     </li>
                     
                     <li className="sidebar-item nav-items">
                       <div className='link-wrapper'>
-                          <div className='icon-wrapper'><i className="fas fa-user "></i></div>
+                          <div className='icon-wrapper'><Link to='/profile'><i className="fas fa-user "></i></Link></div>
                           <div className='text-wrapper'><Link to='/profile'> <span className='text-white hide-text nav-text'>Profile </span></Link> </div>   
                       </div>
                     </li>
                     <li className="sidebar-item nav-items">          
                       <div className='link-wrapper'>
-                          <div className='icon-wrapper'><i className="fas fa-phone-alt"></i></div>
+                          <div className='icon-wrapper'><Link to='/contactus'><i className="fas fa-phone-alt"></i></Link></div>
                           <div className='text-wrapper'><Link to='/contactus'><span className='text-white hide-text nav-text'>Contact Us </span></Link> </div>   
                       </div>
                     </li>

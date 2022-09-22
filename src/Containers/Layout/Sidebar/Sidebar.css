@@ -39,6 +39,15 @@ li{
 .nav-text:hover{
     border-bottom: 1px solid #fff ;
 }
+.icon-wrapper a{
+    color:inherit;
+}
+.icon-wrapper a:active{
+    color: inherit;
+}
+.icon-wrapper a:hover{
+    color: inherit;
+}
 
 
 /* ==================== COLLAPSIBLE =================== */
