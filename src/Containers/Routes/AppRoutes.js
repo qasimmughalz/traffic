@@ -25,6 +25,8 @@ const AppRoutes = () => {
       .then( async (res) => {
         setIsLoading(false)
         const checkExpiry = true;
+        console.log(res);
+        // return;
         if(checkExpiry){
          dispatch(settingInitialValues({ userToken:currToken , userLoggedIn :true}))
      
