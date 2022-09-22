@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
-
+import './Pagination.css';
 function PaginatedItems({ itemsPerPage,items,setCurrentItems}) {
 // We start with an empty list of items.
 // const [currentItems, setCurrentItems] = useState();
@@ -30,12 +30,12 @@ const handlePageClick = (event) => {
 return (
     <div style={{width:'100%',display:'flex',justifyContent:'center'}}>
       <ReactPaginate 
-        nextLabel="next >"
+        nextLabel=">"
         onPageChange={handlePageClick}
         pageRangeDisplayed={3}
         marginPagesDisplayed={2}
         pageCount={pageCount}
-        previousLabel="< previous"
+        previousLabel="<"
         pageClassName="page-item"
         pageLinkClassName="page-link"
         previousClassName="page-item"

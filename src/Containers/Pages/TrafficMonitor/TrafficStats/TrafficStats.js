@@ -190,7 +190,7 @@ export const TrafficStates = (props) => {
                                 </thead>
                                 <tbody>
                                 {currentItems && (currentItems.map((data)=>{
-                                    return (<tr scope='row' key={data.key}>
+                                    return (<tr scope='row' style={{height:'70px'}} key={data.key}>
                                     <td>{data.ipAddress}</td>
                                     <td>{data.timezone}</td>
                                     <td>{data.totalClicks}</td>
