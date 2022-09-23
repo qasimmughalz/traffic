@@ -1,12 +1,21 @@
 import "./App.css";
 import AppRoutes from "./Containers/Routes/AppRoutes";
 import { Buffer } from "buffer";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { Suspense } from "react";
 import { Spinner } from "./Components/Spinner/Loader";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-
+import AuthVerify from "./Containers/Common/AuthVerify";
+import { useDispatch } from "react-redux";
+import { logoutHandler } from "./Containers/Redux/UserAuth";
 function App() {
+
+  const dispatch = useDispatch();
+
+  const logOut = useCallback(() => {
+    console.log('logout call');
+    dispatch(logoutHandler());
+  }, [dispatch]);
 
 //  function isTokenExpired(token) {
 //     const payloadBase64 = token.split(".")[1];
@@ -35,6 +44,7 @@ const initialOptions = {
       <PayPalScriptProvider  options={initialOptions}>
         <AppRoutes />
       </PayPalScriptProvider> 
+      <AuthVerify logOut={logOut}/>
     </div>
     </Suspense>
   );
