@@ -11,7 +11,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { isAllOf, isPending } from "@reduxjs/toolkit"
 import { Sites } from "../../Redux/AllSites"
 import PaypalButtonWrapper from "./PaypalButtonWrapper"
-
+import { NotifyModal } from '../../../Components/Modal/NotifyModel';
 export const PaymentPlans = () => {
 
     const navigate = useNavigate()
@@ -25,6 +25,8 @@ export const PaymentPlans = () => {
     const [choose,setChoose] = useState(false);
     const getToken= localStorage.getItem('token')
 
+    const [modalShow,setModalShow] = useState(false)
+    const [message,setMessage] = useState('')
 
     useEffect(()=> {
         dispatch(Sites());
@@ -66,7 +68,9 @@ export const PaymentPlans = () => {
         //    console.log(exist);
            if(exist.subscriptionId)
            {
-            alert('This Domain subscription already Active');
+            // alert('This Domain subscription already Active');
+            setMessage('This Domain subscription already Active');
+            setModalShow(true);
             return;
            }    
             setChoose(true);
@@ -81,6 +85,10 @@ export const PaymentPlans = () => {
     const cancelHandler = () => {
         setChoose(false);
         setanyErrorMessage(false);   
+    }
+
+    const handleConfirm = ()=>{
+        setModalShow(false)
     }
 
     return (
@@ -119,7 +127,7 @@ export const PaymentPlans = () => {
                                 </button>
                             </div>
 
-                            
+                            {modalShow && <NotifyModal title={'Response'} message={message} onConfirm={handleConfirm}></NotifyModal>}
                             <div className="row justify-content-center">
                             
                                 <div className="col-lg-3 col-md-6 col-9 mb-3">

@@ -38,7 +38,7 @@ import { Sites } from "../../Redux/AllSites";
               <div className="d-flex align-items-center justify-content-between mb-4">
                 <h1 className="h3 mb-0 text-gray-800"> Dashboard </h1>
                 <div>
-                    {sitesLoading ?  <Spinner color='#2285b6'></Spinner> : ''}
+                    {sitesLoading && !error ?  <Spinner color='#2285b6'></Spinner> : ''}
                 </div>
               </div>
               <div className="row">
