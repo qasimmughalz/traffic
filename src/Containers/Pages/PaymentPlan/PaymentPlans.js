@@ -65,16 +65,26 @@ export const PaymentPlans = () => {
             return
         } else {
             const exist = allSites.find(item => item.domain === payDomain)
-        //    console.log(exist);
-           if(exist.subscriptionId)
+           console.log(exist);
+           if(exist)
            {
-            // alert('This Domain subscription already Active');
-            setMessage('This Domain subscription already Active');
-            setModalShow(true);
-            return;
-           }    
-            setChoose(true);
-            setanyErrorMessage(false);
+            if(exist?.subscriptionId)
+            {
+             // alert('This Domain subscription already Active');
+             setMessage('This Domain subscription already Active');
+             setModalShow(true);
+             return;
+            }    
+             setChoose(true);
+             setanyErrorMessage(false);
+           }
+           else
+           {
+            setMessage('Invalid Domain');
+             setModalShow(true);
+             return;
+           }
+           
            
         }
     }
@@ -146,7 +156,7 @@ export const PaymentPlans = () => {
                                    
                                 </div> )
                                 :
-                                <div><PaypalButtonWrapper domain={payDomain}/><div className="text-center"><button onClick={cancelHandler} className="btn btn-warning">Cancel</button></div></div> }
+                                <div><PaypalButtonWrapper setChoose={setChoose} setMessage={setMessage} setModalShow={setModalShow} domain={payDomain}/><div className="text-center"><button onClick={cancelHandler} className="btn btn-warning">Cancel</button></div></div> }
                                 </div>
                                 
                                 </div>

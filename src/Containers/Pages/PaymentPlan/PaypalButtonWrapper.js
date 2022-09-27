@@ -1,18 +1,22 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import {
     PayPalButtons
 } from "@paypal/react-paypal-js";
 import axios from "axios";
 import { backend } from "../../../Components/backendURL";
+// import { NotifyModal } from '../../../Components/Modal/NotifyModel';
+
 // This values are the props in the UI
 const currency = "USD";
 const style = {"layout":"vertical"};
 
 // Custom component to wrap the PayPalButtons and handle currency changes
-const PaypalButtonWrapper = ({ currency ,domain}) => {
-
+const PaypalButtonWrapper = ({setChoose,setModalShow,setMessage ,currency ,domain}) => {
+    // const [modalShow,setModalShow] = useState(false)
+    // const [message,setMessage] = useState('')
+    const email = localStorage.getItem('email')
     const sendIdToDb = async (id)=>{
-        const email = localStorage.getItem('email')
+        
         const getToken = localStorage.getItem('token')
 
         await axios({
@@ -27,7 +31,9 @@ const PaypalButtonWrapper = ({ currency ,domain}) => {
         .catch(e=> console.log('error',e))
     }
 
-
+    // const handleConfirm = ()=>{
+    //     setModalShow(false)
+    // }
     return (<>
             
             <PayPalButtons
@@ -40,14 +46,17 @@ const PaypalButtonWrapper = ({ currency ,domain}) => {
                       /* Creates the subscription */
                     //   waqas id 
                     //   P-07G706621S2160458MMQHVQA
-                      plan_id: 'P-8NU54831CL135490WMMQYJCY'
+                      plan_id: 'P-8NU54831CL135490WMMQYJCY',
+                      custom_id: email
                     });
                   }
                 }
                 onApprove={function (data, actions) {
                     console.log("data from subscription", data);
-                    alert('Transaction Performed Successfully');
-                    sendIdToDb(data.subscriptionID)
+                    setMessage('Transaction Performed Successfully');
+                    setModalShow(true);
+                    sendIdToDb(data.subscriptionID);
+                    setChoose(false);
                     // 1- domaiName , email , feature , paymentMethod="PAYPAL",subscription_ID, 
                 }}
             />
