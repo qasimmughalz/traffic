@@ -149,7 +149,7 @@ export const Login = () => {
                 </span>{' '}
               </p>
               <p className='text-center mb-0 fw-bold'>
-                <Link to='/signup'>Forgot Password?</Link>
+                <Link to='/forgot-password'>Forgot Password?</Link>
               </p>
               <p className='text-muted'>© Copyright 2022 Ngf.co.il</p>
             </div>
