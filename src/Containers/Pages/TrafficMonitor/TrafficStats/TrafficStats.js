@@ -72,6 +72,7 @@ export const TrafficStates = (props) => {
   const [originalValues, setOriginalValues] = useState([]);
   const [datesArray, setDatesArray] = useState([]);
   const [valuesArray, setValuesArray] = useState([]);
+
   const options = {
     scales: {
       y: {
@@ -94,6 +95,12 @@ export const TrafficStates = (props) => {
       },
     ],
   };
+  // Visitors Data
+  const visitors = data.datasets.map((data) => data.data);
+  const filteredVisitors = visitors[0].reduce(
+    (totalVal, currentVal) => (totalVal += currentVal),
+    0
+  );
 
   /* filter original arrays data on date change */
   const dateChangeHandler = (dates, dateStrings) => {
@@ -196,6 +203,15 @@ export const TrafficStates = (props) => {
     setShowModal(true);
   };
 
+  // Filtered Record Data Between Dates
+  let startDate = moment(datesArray[0]).format('YYYY-MM-DD');
+  let endDate = moment(datesArray[1]).format('YYYY-MM-DD');
+  let filteredRecord = record.filter(
+    (data) =>
+      moment(data.currDate).format('YYYY-MM-DD') >= startDate &&
+      moment(data.currDate).format('YYYY-MM-DD') <= endDate
+  );
+
   return (
     <div className='wrapper'>
       <div className='dashboard-wrapper'>
@@ -276,7 +292,11 @@ export const TrafficStates = (props) => {
                     }}
                     onChange={dateChangeHandler}
                   />
-                  <Line data={data} options={options}></Line>
+                  {filteredVisitors !== 0 ? (
+                    <Line data={data} options={options}></Line>
+                  ) : (
+                    <h5 className='text-center my-5'>No Visitors Found</h5>
+                  )}
                 </div>
               )}
 
@@ -302,7 +322,7 @@ export const TrafficStates = (props) => {
                               Total Visitors
                             </div>
                             <div className='h5 mb-0 font-weight-bold text-gray-800'>
-                              {record && record.length}
+                              {filteredVisitors}
                             </div>
                           </div>
                           <div className='col-auto'>
@@ -399,15 +419,15 @@ export const TrafficStates = (props) => {
                   </tbody>
                 </table>
               </div>
-              {record && (
+              {filteredRecord && (
                 <PaginatedItems
                   setCurrentItems={setCurrentItems}
                   itemsPerPage={5}
-                  items={record}
+                  items={filteredRecord}
                 />
               )}
 
-              {record.length == 0 ? (
+              {filteredRecord.length == 0 ? (
                 <div className='text-center my-4'>
                   <p> No Results </p>
                 </div>
