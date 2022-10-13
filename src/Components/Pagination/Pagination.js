@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import './Pagination.css';
-function PaginatedItems({ itemsPerPage, items, setCurrentItems }) {
+
+const PaginatedItems = ({ itemsPerPage, items, setCurrentItems }) => {
   // We start with an empty list of items.
   // const [currentItems, setCurrentItems] = useState();
   const [pageCount, setPageCount] = useState(0);
@@ -11,6 +12,7 @@ function PaginatedItems({ itemsPerPage, items, setCurrentItems }) {
 
   useEffect(() => {
     // Fetch items from another resources.
+    console.log('Paginated');
     const endOffset = itemOffset + itemsPerPage;
     setCurrentItems(items.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(items.length / itemsPerPage));
@@ -56,6 +58,6 @@ function PaginatedItems({ itemsPerPage, items, setCurrentItems }) {
       />
     </div>
   );
-}
+};
 
 export default PaginatedItems;

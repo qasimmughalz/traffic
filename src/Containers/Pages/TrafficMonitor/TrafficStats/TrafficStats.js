@@ -1,143 +1,49 @@
-import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Spinner } from '../../../../Components/Spinner/Loader';
-import { TopNav } from '../../../../Components/TopNav/TopNav';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { Sidebar } from '../../../Layout/Sidebar/Sidebar';
-import { Sites } from '../../../Redux/AllSites';
-import axios from 'axios';
-import { Modal } from '../../../../Components/Modal/Modal';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import {
-  Chart,
-  Title,
-  Tooltip,
-  LineElement,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import { useRef } from 'react';
+import { TopNav } from '../../../../Components/TopNav/TopNav';
 import classes from './trafficStats.module.css';
+import { Sites } from '../../../Redux/AllSites';
+import LineChart from './LineChart';
+import TrafficTable from './TrafficTable';
 import { VideoModal } from '../../../../Components/Modal/VideoModal';
 import { MapModel } from '../../../../Components/Modal/MapModal';
 import { backend } from '../../../../Components/backendURL';
-import 'antd/dist/antd.css';
-import { DatePicker, Space } from 'antd';
-import moment from 'moment';
 import PaginatedItems from '../../../../Components/Pagination/Pagination';
+import { Spinner } from '../../../../Components/Spinner/Loader';
+import { useSelector, useDispatch } from 'react-redux';
+import axios from 'axios';
+import moment from 'moment';
+import { DatePicker } from 'antd';
+import 'antd/dist/antd.css';
 
-Chart.register(
-  Title,
-  Tooltip,
-  LineElement,
-  Legend,
-  CategoryScale,
-  LinearScale,
-  PointElement
-);
-
-export const TrafficStates = (props) => {
+const TrafficStats = React.memo(() => {
   const { RangePicker } = DatePicker;
-
-  const selectedDomain = useRef();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const navbarShow = useSelector((state) => state.navbarToggle.show);
-  const allSites = useSelector((state) => state.getAllsites.sites);
+  const allSites = JSON.parse(localStorage.getItem('allSiteData'));
+  const user = localStorage.getItem('email');
+  const selectedDomain = useRef();
 
   const [record, setRecord] = useState([]);
-  const [VideoEvents, setVideoEvents] = useState([]);
   const [isLoading, setisLoading] = useState(false);
+  const [originalDates, setOriginalDates] = useState([]);
+  const [originalValues, setOriginalValues] = useState([]);
+  const [datesArray, setDatesArray] = useState([]);
+  const [valuesArray, setValuesArray] = useState([]);
   const [ShowModal, setShowModal] = useState(false);
   const [ShowMapModel, setShowMapModel] = useState(false);
-
-  const getToken = localStorage.getItem('token');
-  const user = localStorage.getItem('email');
+  const [VideoEvents, setVideoEvents] = useState([]);
+  const [currentItems, setCurrentItems] = useState([]);
 
   const FilterTrafficSties = allSites.filter(
     (res) => res.feature === 'PLUGIN_ANALYTICS_COMBO'
   );
 
-  useEffect(() => {
-    dispatch(Sites());
-  }, []);
-
   useEffect(() => {}, [selectedDomain]);
-
-  const [originalDates, setOriginalDates] = useState([]);
-  const [originalValues, setOriginalValues] = useState([]);
-  const [datesArray, setDatesArray] = useState([]);
-  const [valuesArray, setValuesArray] = useState([]);
-
-  const options = {
-    scales: {
-      y: {
-        ticks: {
-          precision: 0,
-        },
-      },
-    },
-  };
-  const data = {
-    labels: datesArray,
-    datasets: [
-      {
-        label: 'Total Visitors',
-        data: valuesArray,
-        fill: false,
-        borderColor: 'rgb(75, 192, 192)',
-        tension: 0.1,
-        precision: 0,
-      },
-    ],
-  };
-  // Visitors Data
-  const visitors = data.datasets.map((data) => data.data);
-  const filteredVisitors = visitors[0].reduce(
-    (totalVal, currentVal) => (totalVal += currentVal),
-    0
-  );
-
-  /* filter original arrays data on date change */
-  const dateChangeHandler = (dates, dateStrings) => {
-    const originalD = [...originalDates];
-    const originalV = [...originalValues];
-    if (dates) {
-      //   console.log('From: ', dates[0], ', to: ', dates[1]);
-      //   console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
-      let start = dates[0].clone().startOf('day');
-      let end = dates[1].clone().endOf('day');
-      let localD = [];
-      let localV = [];
-
-      while (start <= end) {
-        const dateIndex = originalD.indexOf(moment(start).format('YYYY-MM-DD'));
-        if (dateIndex !== -1) {
-          // console.log('found',originalDates[dateIndex],originalValues[dateIndex],start);
-          localD.push(originalD[dateIndex]);
-          localV.push(originalV[dateIndex]);
-        }
-        start.add(1, 'days');
-      }
-      setDatesArray(localD);
-      setValuesArray(localV);
-    } else {
-      setDatesArray(originalD);
-      setValuesArray(originalV);
-      //   console.log('Clear');
-    }
-  };
-
-  /* Paginate state */
-  const [currentItems, setCurrentItems] = useState([]);
+  // Function to Bring Records
   const handleSelectedDomain = (e) => {
     console.log('check selected', e);
     setisLoading(true);
-
     const bringRecord = async () => {
       const resp = await axios({
         method: 'POST',
@@ -145,7 +51,7 @@ export const TrafficStates = (props) => {
         data: { email: user, domainName: e },
       })
         .then((res) => {
-          console.log('Response getting EVENTS =====', res);
+          // console.log('Response getting EVENTS =====', res);
           setisLoading(false);
           setRecord(res.data.events);
           // console.log(res.data.events);
@@ -170,6 +76,7 @@ export const TrafficStates = (props) => {
             }
             /* code to set original dates state */
           });
+
           /* set states of dates and values for graph */
           setDatesArray(labels);
           setValuesArray(values);
@@ -185,6 +92,53 @@ export const TrafficStates = (props) => {
     };
     bringRecord();
   };
+
+  /* filter original arrays data on date change */
+  const dateChangeHandler = (dates, dateStrings) => {
+    const originalD = [...originalDates];
+    const originalV = [...originalValues];
+    if (dates) {
+      let start = dates[0].clone().startOf('day');
+      let end = dates[1].clone().endOf('day');
+      let localD = [];
+      let localV = [];
+
+      while (start <= end) {
+        const dateIndex = originalD.indexOf(moment(start).format('YYYY-MM-DD'));
+
+        if (dateIndex !== -1) {
+          localD.push(originalD[dateIndex]);
+          localV.push(originalV[dateIndex]);
+        }
+        start.add(1, 'days');
+      }
+
+      setDatesArray(localD);
+      setValuesArray(localV);
+    } else {
+      setDatesArray(originalD);
+      setValuesArray(originalV);
+    }
+  };
+
+  // Visitors Data
+  const visitors = valuesArray.map((data) => data);
+  const filteredVisitors = visitors.reduce(
+    (totalVal, currentVal) => (totalVal += currentVal),
+    0
+  );
+  // Filtered Record Data Between Dates
+  const startDate = moment(datesArray[0]).format('YYYY-MM-DD');
+  const endDate = moment(datesArray[1]).format('YYYY-MM-DD');
+  const filterRecord = useMemo(
+    () =>
+      record.filter(
+        (data) =>
+          moment(data.currDate).format('YYYY-MM-DD') >= startDate &&
+          moment(data.currDate).format('YYYY-MM-DD') <= endDate
+      ),
+    [startDate, endDate]
+  );
 
   const showVideo = () => {
     setShowModal(true);
@@ -202,15 +156,6 @@ export const TrafficStates = (props) => {
     setVideoEvents(data);
     setShowModal(true);
   };
-
-  // Filtered Record Data Between Dates
-  let startDate = moment(datesArray[0]).format('YYYY-MM-DD');
-  let endDate = moment(datesArray[1]).format('YYYY-MM-DD');
-  let filteredRecord = record.filter(
-    (data) =>
-      moment(data.currDate).format('YYYY-MM-DD') >= startDate &&
-      moment(data.currDate).format('YYYY-MM-DD') <= endDate
-  );
 
   return (
     <div className='wrapper'>
@@ -264,36 +209,39 @@ export const TrafficStates = (props) => {
                 </div>
               ) : (
                 <div className={classes.graph} style={{ marginBottom: '20px' }}>
-                  {/*<input type="date" value={startDate} onChange={(e)=>setStartDate(e.target.value)} name="start-date" />
-                        <input type="date" value={endDate} onChange={(e)=>setEndDate(e.target.value)} name="end-date" />*/}
-                  <RangePicker
-                    ranges={{
-                      Today: [moment().startOf('day'), moment().endOf('day')],
-                      Yesterday: [
-                        moment().subtract(1, 'days').startOf('day'),
-                        moment().subtract(1, 'days').endOf('day'),
-                      ],
-                      'This Week': [
-                        moment().startOf('week'),
-                        moment().endOf('week'),
-                      ],
-                      'This Month': [
-                        moment().startOf('month'),
-                        moment().endOf('month'),
-                      ],
-                      'Last Week': [
-                        moment().subtract(1, 'weeks').startOf('week'),
-                        moment().subtract(1, 'weeks').endOf('week'),
-                      ],
-                      'Last Month': [
-                        moment().subtract(1, 'months').startOf('month'),
-                        moment().subtract(1, 'months').endOf('month'),
-                      ],
-                    }}
-                    onChange={dateChangeHandler}
-                  />
+                  <div className='d-flex align-center justify-content-center'>
+                    <RangePicker
+                      ranges={{
+                        Today: [moment().startOf('day'), moment().endOf('day')],
+                        Yesterday: [
+                          moment().subtract(1, 'days').startOf('day'),
+                          moment().subtract(1, 'days').endOf('day'),
+                        ],
+                        'This Week': [
+                          moment().startOf('week'),
+                          moment().endOf('week'),
+                        ],
+                        'This Month': [
+                          moment().startOf('month'),
+                          moment().endOf('month'),
+                        ],
+                        'Last Week': [
+                          moment().subtract(1, 'weeks').startOf('week'),
+                          moment().subtract(1, 'weeks').endOf('week'),
+                        ],
+                        'Last Month': [
+                          moment().subtract(1, 'months').startOf('month'),
+                          moment().subtract(1, 'months').endOf('month'),
+                        ],
+                      }}
+                      onChange={dateChangeHandler}
+                    />
+                  </div>
                   {filteredVisitors !== 0 ? (
-                    <Line data={data} options={options}></Line>
+                    <LineChart
+                      datesArray={datesArray}
+                      valuesArray={valuesArray}
+                    />
                   ) : (
                     <h5 className='text-center my-5'>No Visitors Found</h5>
                   )}
@@ -342,92 +290,19 @@ export const TrafficStates = (props) => {
                 ''
               )}
 
-              <div className='table-responsive sites-table bg-white mt-1'>
-                <table className={`${classes.table} table text-center`}>
-                  <thead>
-                    <tr>
-                      <th scope='col'>IP Address</th>
-                      <th scope='col'>TimeZone</th>
-                      <th scope='col'>Clicks</th>
-                      <th scope='col'>First Click</th>
-                      <th scope='col'>Last Click</th>
-                      <th scope='col'>Keypress</th>
-                      <th scope='col'>Mouse </th>
-                      <th scope='col'>Scroll</th>
-                      <th scope='col'>Area</th>
-                      <th scope='col'>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {currentItems &&
-                      currentItems.map((data) => {
-                        return (
-                          <tr
-                            scope='row'
-                            style={{ height: '70px' }}
-                            key={data.key}
-                          >
-                            <td>{data.ipAddress}</td>
-                            <td>{data.timezone}</td>
-                            <td>{data.totalClicks}</td>
-                            <td>
-                              <p
-                                className='m-0 text-muted'
-                                style={{ width: '100px' }}
-                              >
-                                {data.firstClick &&
-                                  data.firstClick.split('T')[0]}
-                              </p>
-                              <p className='m-0' style={{ width: '100px' }}>
-                                {data.firstClick &&
-                                  data.firstClick?.split('T')[1].split('.')[0]}
-                              </p>
-                            </td>
-                            <td style={{ wordWrap: 'normal' }}>
-                              <p
-                                className='m-0 text-muted'
-                                style={{ width: '100px' }}
-                              >
-                                {data.lastClick && data.lastClick.split('T')[0]}
-                              </p>
-                              <p className='m-0' style={{ width: '100px' }}>
-                                {data.lastClick &&
-                                  data.lastClick.split('T')[1].split('.')[0]}
-                              </p>
-                            </td>
-                            <td>{data.totalkeyPress}</td>
-                            <td>{data.totalMouseMove}</td>
-                            <td>{data.totalScroll}</td>
-                            <td>
-                              <i className='fas fa-map-marker-alt text-primary pointer'></i>
-                            </td>
-                            {data.totalClicks > 0 ? (
-                              <td>
-                                <i
-                                  className='fas fa-video text-primary pointer'
-                                  onClick={() =>
-                                    showEventsVideo(data.sessionEvents)
-                                  }
-                                ></i>
-                              </td>
-                            ) : (
-                              <td></td>
-                            )}
-                          </tr>
-                        );
-                      })}
-                  </tbody>
-                </table>
-              </div>
-              {filteredRecord && (
+              <TrafficTable
+                currentItems={currentItems}
+                showEventsVideo={showEventsVideo}
+              />
+              {filterRecord && (
                 <PaginatedItems
                   setCurrentItems={setCurrentItems}
                   itemsPerPage={5}
-                  items={filteredRecord}
+                  items={filterRecord}
                 />
               )}
 
-              {filteredRecord.length == 0 ? (
+              {filterRecord.length == 0 ? (
                 <div className='text-center my-4'>
                   <p> No Results </p>
                 </div>
@@ -442,14 +317,13 @@ export const TrafficStates = (props) => {
               ) : (
                 ''
               )}
-
               <div className='my-5 '></div>
             </div>
-
-            {/* =============== Inner Section End ============= */}
           </div>
         </div>
       </div>
     </div>
   );
-};
+});
+
+export default TrafficStats;
