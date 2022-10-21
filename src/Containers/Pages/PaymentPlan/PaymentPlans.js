@@ -21,6 +21,9 @@ export const PaymentPlans = () => {
 
   const [anyError, setanyErrorMessage] = useState(false);
   const [choose, setChoose] = useState(false);
+  const [feature, setFeature] = useState('Select Feature');
+  const [featureValue, setFeatureValue] = useState(feature);
+
   const getToken = localStorage.getItem('token');
 
   const [modalShow, setModalShow] = useState(false);
@@ -29,36 +32,20 @@ export const PaymentPlans = () => {
   useEffect(() => {
     dispatch(Sites());
   }, []);
-
-  // useEffect(() => {
-
-  //     const fetchData = async () => {
-  //         setIsLoading(true)
-  //         await axios({
-  //             method: 'GET',
-  //             url: `https://plugin-nodejs-server.herokuapp.com/api/getPlans`,
-  //             data: {},
-  //             headers: {
-  //                 "authorization": `Bearer ${getToken}`
-  //             },
-  //         }).then((res) => {
-  //             console.log("Check plans", res)
-  //             setIsLoading(false)
-  //             setPaymentPlans(res.data)
-  //         }).catch((e) => {
-  //             console.log("Err",e)
-  //             setIsLoading(false)
-  //         })
-  //     }
-  //     fetchData()
-  // }, [])
+  useEffect(() => {
+    setFeatureValue(feature);
+  }, [feature]);
 
   const onclickHandler = (id) => {
     const email = localStorage.getItem('email');
     const getToken = localStorage.getItem('token');
     console.log('This is in paydomain', payDomain);
 
-    if (payDomain === null || payDomain === '') {
+    if (
+      payDomain === null ||
+      payDomain === '' ||
+      featureValue === 'Select Feature'
+    ) {
       setanyErrorMessage(true);
       return;
     } else {
@@ -110,6 +97,20 @@ export const PaymentPlans = () => {
               <div className='d-flex align-items-center justify-content-between mb-4'>
                 <h1 className='h3 mb-0 text-gray-800'>Pricing Plans</h1>
                 <div>
+                  <label className='mr-2'>Select Feature :</label>
+                  <select
+                    className='custom-select w-auto'
+                    defaultValue={feature}
+                    onChange={(e) => setFeature(e.target.value)}
+                  >
+                    <option>Select Feature</option>
+                    <option value='Alt_Text'>Alt_Text</option>
+                    <option value='Plugin Analytic Combo'>
+                      Plugin Analytic Combo
+                    </option>
+                  </select>
+                </div>
+                <div>
                   <label className='mr-2'>Domain: </label>
                   <select
                     className='custom-select w-auto'
@@ -135,7 +136,7 @@ export const PaymentPlans = () => {
                 role='alert'
                 style={{ display: anyError ? 'block' : 'none' }}
               >
-                <strong>Please Select Existing Domain </strong>
+                <strong>Please Select Existing Domain and Feature </strong>
                 <button
                   type='button'
                   className='close'
@@ -154,6 +155,7 @@ export const PaymentPlans = () => {
                 ></NotifyModal>
               )}
               <div className='row justify-content-center'>
+                {/* Card 1 */}
                 <div className='col-lg-3 col-md-6 col-9 mb-3'>
                   <div className='card py-4'>
                     <div className='card-body d-flex flex-column'>
@@ -166,7 +168,7 @@ export const PaymentPlans = () => {
                         />
                       </div>
                       <div className='card-title  mb-4 text-center fs-2'>
-                        Plugin Analytic Combo
+                        {featureValue}
                       </div>
                       {!choose ? (
                         <div>

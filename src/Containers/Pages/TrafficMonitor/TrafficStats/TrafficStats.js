@@ -36,7 +36,7 @@ const TrafficStats = React.memo(() => {
   const [currentItems, setCurrentItems] = useState([]);
 
   const FilterTrafficSties = allSites.filter(
-    (res) => res.feature === 'PLUGIN_ANALYTICS_COMBO'
+    (res) => res.feature === 'PLUGIN_ANALYTICS_COMBO ' || 'ALT_TEXT'
   );
 
   useEffect(() => {}, [selectedDomain]);

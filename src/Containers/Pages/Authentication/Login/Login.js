@@ -53,6 +53,7 @@ export const Login = () => {
           e.response.data == undefined
             ? setErrorMessage(e.response.data.error)
             : setErrorMessage(e.response.data.error);
+          console.log(e);
         });
     },
   });
