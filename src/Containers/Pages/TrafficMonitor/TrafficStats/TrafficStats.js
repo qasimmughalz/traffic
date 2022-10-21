@@ -137,7 +137,7 @@ const TrafficStats = React.memo(() => {
           moment(data.currDate).format('YYYY-MM-DD') >= startDate &&
           moment(data.currDate).format('YYYY-MM-DD') <= endDate
       ),
-    [startDate, endDate]
+    [startDate, endDate, record]
   );
 
   const showVideo = () => {
