@@ -35,6 +35,7 @@ export const PaymentPlans = () => {
   useEffect(() => {
     setFeatureValue(feature);
   }, [feature]);
+  console.log(featureValue);
 
   const onclickHandler = (id) => {
     const email = localStorage.getItem('email');
@@ -96,7 +97,7 @@ export const PaymentPlans = () => {
             <div className='container-fluid mt-5'>
               <div className='d-flex align-items-center justify-content-between mb-4'>
                 <h1 className='h3 mb-0 text-gray-800'>Pricing Plans</h1>
-                <div>
+                {/* <div>
                   <label className='mr-2'>Select Feature :</label>
                   <select
                     className='custom-select w-auto'
@@ -109,7 +110,7 @@ export const PaymentPlans = () => {
                       Plugin Analytic Combo
                     </option>
                   </select>
-                </div>
+                </div> */}
                 <div>
                   <label className='mr-2'>Domain: </label>
                   <select
@@ -155,6 +156,57 @@ export const PaymentPlans = () => {
                 ></NotifyModal>
               )}
               <div className='row justify-content-center'>
+                {!choose ? (
+                  <div className='col-lg-3 col-md-6 col-9 mb-3 '>
+                    <div className='card py-3'>
+                      <div className='card-body d-flex flex-column'>
+                        <input
+                          type='radio'
+                          id='customRadioInline1'
+                          name='customRadioInline1'
+                          className='btn-check radio-btn'
+                          value={'Alt_Text'}
+                          onChange={(e) => setFeature(e.target.value)}
+                        />
+                        <div className='text-center'>
+                          <img
+                            src={cardImage}
+                            className='img-fluid mb-3  '
+                            alt='Websearch'
+                            style={{ height: '70px' }}
+                          />
+                        </div>
+                        <div className='card-title   text-center fs-2'>
+                          Alt_Text
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className='card py-3 mt-4 relative'>
+                      <div className='card-body d-flex flex-column'>
+                        <input
+                          type='radio'
+                          id='customRadioInline1'
+                          name='customRadioInline1'
+                          className='btn-check radio-btn'
+                          value={' Plugin Analytic Combo'}
+                          onChange={(e) => setFeature(e.target.value)}
+                        />
+                        <div className='text-center'>
+                          <img
+                            src={cardImage}
+                            className='img-fluid mb-3  '
+                            alt='Websearch'
+                            style={{ height: '70px' }}
+                          />
+                        </div>
+                        <div className='card-title   text-center fs-2'>
+                          Plugin Analytic Combo
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
                 {/* Card 1 */}
                 <div className='col-lg-3 col-md-6 col-9 mb-3'>
                   <div className='card py-4'>
