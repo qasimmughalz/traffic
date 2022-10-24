@@ -11,7 +11,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { OrderDetailsModal } from '../../../Components/Modal/OrderDetails';
 import { backend } from '../../../Components/backendURL';
 
-export const AllTrafficSites = () => {
+const AllAltText = () => {
   let tempCounter = 1;
   const [isLoading, setisLoading] = useState(false);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
@@ -22,7 +22,7 @@ export const AllTrafficSites = () => {
   const allSites = useSelector((state) => state.getAllsites.sites);
   const sitesLoading = useSelector((state) => state.getAllsites.sitesLoading);
   const FilterTrafficSties = allSites.filter(
-    (res) => res.feature === 'PLUGIN_ANALYTICS_COMBO'
+    (res) => res.feature === 'ALT_TEXT'
   );
   const [ShowModal, setShowModal] = useState(false);
   const getToken = localStorage.getItem('token');
@@ -203,3 +203,5 @@ export const AllTrafficSites = () => {
     </div>
   );
 };
+
+export default AllAltText;
