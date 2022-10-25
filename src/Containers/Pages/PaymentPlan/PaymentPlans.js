@@ -7,7 +7,6 @@ import './PaymentPlan.css';
 import cardImage from '../../../assets/images/card.svg';
 import { Spinner } from '../../../Components/Spinner/Loader';
 import { useNavigate, useParams } from 'react-router-dom';
-import { isAllOf, isPending } from '@reduxjs/toolkit';
 import { Sites } from '../../Redux/AllSites';
 import PaypalButtonWrapper from './PaypalButtonWrapper';
 import { NotifyModal } from '../../../Components/Modal/NotifyModel';
