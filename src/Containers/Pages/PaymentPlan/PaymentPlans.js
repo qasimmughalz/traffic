@@ -34,7 +34,6 @@ export const PaymentPlans = () => {
   useEffect(() => {
     setFeatureValue(feature);
   }, [feature]);
-  console.log(featureValue);
 
   const onclickHandler = (id) => {
     const email = localStorage.getItem('email');
@@ -49,7 +48,9 @@ export const PaymentPlans = () => {
       setanyErrorMessage(true);
       return;
     } else {
-      const exist = allSites.find((item) => item.domain === payDomain);
+      const exist = allSites.find(
+        (item) => `${item.domain} ${item.message}` === payDomain
+      );
       console.log(exist);
       if (exist) {
         if (exist?.subscriptionId) {
@@ -96,20 +97,7 @@ export const PaymentPlans = () => {
             <div className='container-fluid mt-5'>
               <div className='d-flex align-items-center justify-content-between mb-4'>
                 <h1 className='h3 mb-0 text-gray-800'>Pricing Plans</h1>
-                {/* <div>
-                  <label className='mr-2'>Select Feature :</label>
-                  <select
-                    className='custom-select w-auto'
-                    defaultValue={feature}
-                    onChange={(e) => setFeature(e.target.value)}
-                  >
-                    <option>Select Feature</option>
-                    <option value='Alt_Text'>Alt_Text</option>
-                    <option value='Plugin Analytic Combo'>
-                      Plugin Analytic Combo
-                    </option>
-                  </select>
-                </div> */}
+
                 <div>
                   <label className='mr-2'>Domain: </label>
                   <select
@@ -123,7 +111,11 @@ export const PaymentPlans = () => {
                     <option value='temporary'>temporary.com</option>
                     {allSites &&
                       allSites.map((res) => {
-                        return <option value={res.domain}>{res.domain}</option>;
+                        return (
+                          <option value={`${res.domain} ${res.message}`}>
+                            {res.domain}
+                          </option>
+                        );
                       })}
                   </select>
                 </div>
@@ -164,7 +156,7 @@ export const PaymentPlans = () => {
                           id='customRadioInline1'
                           name='customRadioInline1'
                           className='btn-check radio-btn'
-                          value={'Alt_Text'}
+                          value='ALT_TEXT'
                           onChange={(e) => setFeature(e.target.value)}
                         />
                         <div className='text-center'>
@@ -188,7 +180,7 @@ export const PaymentPlans = () => {
                           id='customRadioInline1'
                           name='customRadioInline1'
                           className='btn-check radio-btn'
-                          value={' Plugin Analytic Combo'}
+                          value='PLUGIN_ANALYTICS_COMBO'
                           onChange={(e) => setFeature(e.target.value)}
                         />
                         <div className='text-center'>
@@ -247,6 +239,7 @@ export const PaymentPlans = () => {
                             setMessage={setMessage}
                             setModalShow={setModalShow}
                             domain={payDomain}
+                            feature={feature}
                           />
                           <div className='text-center'>
                             <button

@@ -15,8 +15,16 @@ const PaypalButtonWrapper = ({
   setMessage,
   currency,
   domain,
+  feature,
 }) => {
   const email = localStorage.getItem('email');
+
+  let domainName = domain.split(' ')[0];
+  let planId =
+    feature === 'PLUGIN_ANALYTICS_COMBO'
+      ? 'P-8NU54831CL135490WMMQYJCY'
+      : 'P-6LC865411J823461FMNL42YA';
+
   const sendIdToDb = async (id) => {
     const getToken = localStorage.getItem('token');
 
@@ -25,8 +33,8 @@ const PaypalButtonWrapper = ({
       url: `${backend}/api/createSession`,
       data: {
         email: email,
-        domainName: domain,
-        feature: 'PLUGIN_ANALYTICS_COMBO',
+        domainName: domainName,
+        feature: feature,
         subscriptionId: id,
         paymentMethod: 'PAYPAL',
       },
@@ -53,7 +61,7 @@ const PaypalButtonWrapper = ({
             /* Creates the subscription */
             //   waqas id
             //   P-07G706621S2160458MMQHVQA
-            plan_id: 'P-8NU54831CL135490WMMQYJCY',
+            plan_id: planId,
             custom_id: email,
           });
         }}
