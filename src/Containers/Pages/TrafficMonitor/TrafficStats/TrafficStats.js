@@ -34,9 +34,9 @@ const TrafficStats = React.memo(() => {
   const [ShowMapModel, setShowMapModel] = useState(false);
   const [VideoEvents, setVideoEvents] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
-
-  const FilterTrafficSties = allSites.filter(
-    (res) => res.feature === 'PLUGIN_ANALYTICS_COMBO ' || 'ALT_TEXT'
+  console.log(allSites);
+  const FilterTrafficSties = allSites?.filter(
+    (res) => res.feature === 'PLUGIN_ANALYTICS_COMBO'
   );
 
   useEffect(() => {}, [selectedDomain]);

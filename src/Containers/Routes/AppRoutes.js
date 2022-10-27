@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { backend } from '../../Components/backendURL';
 import { ValidateToken } from '../../helpers/ApiActions';
+import { Sites } from '../Redux/AllSites';
 import { logoutHandler, settingInitialValues } from '../Redux/UserAuth';
 import { AuthenticatedRoutes } from './Authenticated';
 import { UnAuthenticatedRoutes } from './UnAuthenticated';
@@ -14,8 +15,6 @@ const AppRoutes = () => {
   const token = localStorage.getItem('token');
 
   const ValidateToken = async (currToken) => {
-    const dispatch = useDispatch();
-
     const resp = await axios({
       method: 'POST',
       url: `${backend}/api/login`,
@@ -23,7 +22,7 @@ const AppRoutes = () => {
         authorization: `Bearer ${currToken}`,
       },
     })
-      .then(async (res) => {
+      .then((res) => {
         setIsLoading(false);
         const checkExpiry = true;
 

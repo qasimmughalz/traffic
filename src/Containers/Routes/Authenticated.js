@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { PaymentPlans } from '../Pages/PaymentPlan/PaymentPlans';
 import { ContactUs } from '../Pages/ContactUs';
@@ -14,13 +16,17 @@ import TrafficStats from '../Pages/TrafficMonitor/TrafficStats/TrafficStats';
 import { UadiProfile } from '../Pages/User/Profile';
 import AllAltText from '../Pages/AltText/AllAltText';
 import NewAltText from '../Pages/AltText/NewAltText';
+import { Navigate } from 'react-router-dom';
+import { Sites } from '../Redux/AllSites';
 
 // const Dashboard = React.lazy(()=> import("../Pages/User/Dashboard"));
 
 export const AuthenticatedRoutes = () => {
+  const dispatch = useDispatch();
+
   return (
     <Routes>
-      <Route path='/' element={<Dashboard />}></Route>
+      <Route path='/' element={<Navigate to='/dashboard' />}></Route>
       <Route path='/dashboard' element={<Dashboard />}></Route>
       <Route path='/addNewAccess' element={<AddNewAccessSite />}></Route>
       <Route path='/addNewTraffic' element={<AddNewTrafficSite />}></Route>

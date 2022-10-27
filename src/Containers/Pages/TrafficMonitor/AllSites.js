@@ -31,7 +31,7 @@ export const AllTrafficSites = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(Sites());
+    dispatch(Sites(user, getToken));
   }, []);
 
   const ShowScript = (domainName, feature) => {

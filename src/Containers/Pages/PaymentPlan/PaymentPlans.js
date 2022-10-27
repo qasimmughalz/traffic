@@ -24,12 +24,13 @@ export const PaymentPlans = () => {
   const [featureValue, setFeatureValue] = useState(feature);
 
   const getToken = localStorage.getItem('token');
+  const user = localStorage.getItem('email');
 
   const [modalShow, setModalShow] = useState(false);
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    dispatch(Sites());
+    dispatch(Sites(user, getToken));
   }, []);
   useEffect(() => {
     setFeatureValue(feature);
