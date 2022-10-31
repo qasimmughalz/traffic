@@ -57,7 +57,7 @@ export const AddNewTrafficSite = ({ traffic = true }) => {
       setLoading(true);
       axios({
         method: 'POST',
-        url: `${backend}/api/addNewSite`,
+        url: `${backend}/api/addClientSite`,
         data: {
           email: userEmail,
           domain: FinalDomain,
