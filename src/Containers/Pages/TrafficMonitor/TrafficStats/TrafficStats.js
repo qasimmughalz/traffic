@@ -197,7 +197,7 @@ const TrafficStats = React.memo(() => {
                   </select>
                 </div>
               </div>
-              {record.length == 0 ? (
+              {record.length === 0 ? (
                 <div className='text-center my-4'>
                   <p> No Results </p>
                 </div>
@@ -249,7 +249,7 @@ const TrafficStats = React.memo(() => {
               ) : (
                 ''
               )}
-              {record.length == 0 ? (
+              {record.length === 0 ? (
                 <div className='text-center my-4'>
                   <p> No Results </p>
                 </div>
@@ -296,7 +296,7 @@ const TrafficStats = React.memo(() => {
                 />
               )}
 
-              {filterRecord.length == 0 ? (
+              {filterRecord.length === 0 ? (
                 <div className='text-center my-4'>
                   <p> No Results </p>
                 </div>
