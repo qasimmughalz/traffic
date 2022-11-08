@@ -4,6 +4,8 @@ import logo from '../../../assets/images/logo-small.jpg';
 import { useEffect } from 'react';
 
 export const Sidebar = () => {
+  const userProfile = JSON.parse(localStorage.getItem('user-profile'));
+
   return (
     <>
       <div className='align-self-start text-center mt-md-4 mt-5'>
@@ -14,7 +16,7 @@ export const Sidebar = () => {
           className='sidebar-logo'
         ></img>
         <h5 className='mt-2 text-white'>
-          Welcome, <br></br> Ram
+          Welcome, <br></br> {userProfile?.Name}
         </h5>
       </div>
       <hr></hr>

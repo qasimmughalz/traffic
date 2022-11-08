@@ -1,33 +1,20 @@
 import axios from 'axios';
 import { backend } from '../Components/backendURL';
-import {
-  logoutHandler,
-  settingInitialValues,
-} from '../Containers/Redux/UserAuth';
 
-// Validate User Token
-export const ValidateToken = (currToken) => async (dispatch) => {
-  const resp = await axios({
-    method: 'POST',
-    url: `${backend}/api/login`,
+// Get User Profile Data
+export const getProfile = async (email, token) => {
+  await axios({
+    method: 'GET',
+    url: `${backend}/api/getUser/${email}`,
+    data: {},
     headers: {
-      authorization: `Bearer ${currToken}`,
+      authorization: `Bearer ${token}`,
     },
   })
     .then((res) => {
-      console.log(res);
-      const checkExpiry = true;
-
-      if (checkExpiry) {
-        dispatch(
-          settingInitialValues({ userToken: currToken, userLoggedIn: true })
-        );
-      } else {
-        dispatch(logoutHandler());
-      }
+      localStorage.setItem('user-profile', JSON.stringify(res.data));
     })
-    .catch((er) => {
-      console.log(er);
-      dispatch(logoutHandler());
+    .catch((error) => {
+      console.log(error);
     });
 };
