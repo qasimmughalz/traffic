@@ -139,6 +139,7 @@ const TrafficStats = React.memo(() => {
       ),
     [startDate, endDate, record]
   );
+  filterRecord.reverse();
 
   const showVideo = () => {
     setShowModal(true);
