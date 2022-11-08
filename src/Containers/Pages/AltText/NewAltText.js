@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { backend } from '../../../Components/backendURL';
 
-export const AddNewTrafficSite = ({ traffic = true }) => {
+const NewAltText = ({ traffic = true }) => {
   const [newScript, setNewScript] = useState('');
   const [showScript, setShowScript] = useState(false);
   const navbarShow = useSelector((state) => state.navbarToggle.show);
@@ -63,7 +63,7 @@ export const AddNewTrafficSite = ({ traffic = true }) => {
           domain: FinalDomain,
           language: 'English',
           platform: 'WordPress',
-          feature: 'PLUGIN_ANALYTICS_COMBO',
+          feature: 'ALT_TEXT',
         },
         headers: {
           authorization: `Bearer ${getToken}`,
@@ -102,7 +102,7 @@ export const AddNewTrafficSite = ({ traffic = true }) => {
                   <div className='col-md-8 m-auto'>
                     <div className='d-sm-flex align-items-center justify-content-between mb-4'>
                       <h1 className='h3 mb-0 text-gray-800'>
-                        New Site for Access + Traffic Analytics
+                        New Site for Feature Alt Text
                       </h1>
                     </div>
                     {/* //========= Error Message ======== */}
@@ -222,3 +222,5 @@ export const AddNewTrafficSite = ({ traffic = true }) => {
     </div>
   );
 };
+
+export default NewAltText;
