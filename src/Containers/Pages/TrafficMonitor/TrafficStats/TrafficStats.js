@@ -6,7 +6,6 @@ import { Sites } from '../../../Redux/AllSites';
 import LineChart from './LineChart';
 import TrafficTable from './TrafficTable';
 import { VideoModal } from '../../../../Components/Modal/VideoModal';
-import { MapModel } from '../../../../Components/Modal/MapModal';
 import { backend } from '../../../../Components/backendURL';
 import PaginatedItems from '../../../../Components/Pagination/Pagination';
 import { Spinner } from '../../../../Components/Spinner/Loader';
@@ -31,7 +30,6 @@ const TrafficStats = React.memo(() => {
   const [datesArray, setDatesArray] = useState([]);
   const [valuesArray, setValuesArray] = useState([]);
   const [ShowModal, setShowModal] = useState(false);
-  const [ShowMapModel, setShowMapModel] = useState(false);
   const [VideoEvents, setVideoEvents] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
   console.log(allSites);
@@ -144,13 +142,11 @@ const TrafficStats = React.memo(() => {
   const showVideo = () => {
     setShowModal(true);
   };
-  const showMapModel = () => {
-    setShowMapModel(true);
-  };
+  
 
   const handleConfirm = () => {
     setShowModal(false);
-    setShowMapModel(false);
+   
   };
 
   const showEventsVideo = (data) => {
@@ -177,9 +173,6 @@ const TrafficStats = React.memo(() => {
                 events={VideoEvents}
                 cancel={handleConfirm}
               ></VideoModal>
-            )}
-            {ShowMapModel && (
-              <MapModel title='map' cancel={handleConfirm}></MapModel>
             )}
 
             <div className='container-fluid mb-5 '>
