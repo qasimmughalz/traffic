@@ -6,7 +6,6 @@ import { Sites } from '../../../Redux/AllSites';
 import LineChart from './LineChart';
 import TrafficTable from './TrafficTable';
 import { VideoModal } from '../../../../Components/Modal/VideoModal';
-import { MapModel } from '../../../../Components/Modal/MapModal';
 import { backend } from '../../../../Components/backendURL';
 import PaginatedItems from '../../../../Components/Pagination/Pagination';
 import { Spinner } from '../../../../Components/Spinner/Loader';
@@ -31,7 +30,6 @@ const TrafficStats = React.memo(() => {
   const [datesArray, setDatesArray] = useState([]);
   const [valuesArray, setValuesArray] = useState([]);
   const [ShowModal, setShowModal] = useState(false);
-  const [ShowMapModel, setShowMapModel] = useState(false);
   const [VideoEvents, setVideoEvents] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
   console.log(allSites);
@@ -144,13 +142,11 @@ const TrafficStats = React.memo(() => {
   const showVideo = () => {
     setShowModal(true);
   };
-  const showMapModel = () => {
-    setShowMapModel(true);
-  };
+  
 
   const handleConfirm = () => {
     setShowModal(false);
-    setShowMapModel(false);
+   
   };
 
   const showEventsVideo = (data) => {
@@ -178,9 +174,6 @@ const TrafficStats = React.memo(() => {
                 cancel={handleConfirm}
               ></VideoModal>
             )}
-            {ShowMapModel && (
-              <MapModel title='map' cancel={handleConfirm}></MapModel>
-            )}
 
             <div className='container-fluid mb-5 '>
               <div className='d-flex align-items-center justify-content-between mb-4'>
@@ -204,7 +197,7 @@ const TrafficStats = React.memo(() => {
                   </select>
                 </div>
               </div>
-              {record.length == 0 ? (
+              {record.length === 0 ? (
                 <div className='text-center my-4'>
                   <p> No Results </p>
                 </div>
@@ -256,7 +249,7 @@ const TrafficStats = React.memo(() => {
               ) : (
                 ''
               )}
-              {record.length == 0 ? (
+              {record.length === 0 ? (
                 <div className='text-center my-4'>
                   <p> No Results </p>
                 </div>
@@ -303,7 +296,7 @@ const TrafficStats = React.memo(() => {
                 />
               )}
 
-              {filterRecord.length == 0 ? (
+              {filterRecord.length === 0 ? (
                 <div className='text-center my-4'>
                   <p> No Results </p>
                 </div>
