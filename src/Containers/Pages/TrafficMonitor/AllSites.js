@@ -167,7 +167,9 @@ export const AllTrafficSites = () => {
                                     ShowMoreDetails(data.subscriptionId)
                                   }
                                   disabled={
-                                    data.message === 'No subscription activated'
+                                    data.message ===
+                                      'No subscription activated' ||
+                                    data.message === 'Free Plan'
                                       ? true
                                       : false
                                   }

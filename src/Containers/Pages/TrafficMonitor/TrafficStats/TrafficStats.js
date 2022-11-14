@@ -32,7 +32,7 @@ const TrafficStats = React.memo(() => {
   const [ShowModal, setShowModal] = useState(false);
   const [VideoEvents, setVideoEvents] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
-  console.log(allSites);
+
   const FilterTrafficSties = allSites?.filter(
     (res) => res.feature === 'PLUGIN_ANALYTICS_COMBO'
   );
@@ -138,15 +138,14 @@ const TrafficStats = React.memo(() => {
     [startDate, endDate, record]
   );
   filterRecord.reverse();
+  console.log('filter-record', filterRecord);
 
   const showVideo = () => {
     setShowModal(true);
   };
-  
 
   const handleConfirm = () => {
     setShowModal(false);
-   
   };
 
   const showEventsVideo = (data) => {
