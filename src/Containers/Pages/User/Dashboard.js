@@ -18,8 +18,10 @@ export const Dashboard = () => {
 
   useEffect(() => {
     dispatch(Sites(email, token));
+  }, []);
+  useEffect(() => {
     getProfile(email, token);
-  }, [token, email]);
+  }, [email]);
 
   return (
     <>
