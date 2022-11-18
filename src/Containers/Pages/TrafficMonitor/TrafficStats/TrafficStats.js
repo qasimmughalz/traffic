@@ -52,6 +52,7 @@ const TrafficStats = React.memo(() => {
           // console.log('Response getting EVENTS =====', res);
           setisLoading(false);
           setRecord(res.data.events);
+
           // console.log(res.data.events);
           let labels = [];
           let values = [];
@@ -125,9 +126,12 @@ const TrafficStats = React.memo(() => {
     (totalVal, currentVal) => (totalVal += currentVal),
     0
   );
+  console.log('DateArray', datesArray);
   // Filtered Record Data Between Dates
   const startDate = moment(datesArray[0]).format('YYYY-MM-DD');
-  const endDate = moment(datesArray[1]).format('YYYY-MM-DD');
+  const endDate = moment(datesArray[datesArray.length - 1]).format(
+    'YYYY-MM-DD'
+  );
   const filterRecord = useMemo(
     () =>
       record.filter(
@@ -139,6 +143,7 @@ const TrafficStats = React.memo(() => {
   );
   filterRecord.reverse();
   console.log('filter-record', filterRecord);
+  console.log('Dates', startDate, endDate);
 
   const showVideo = () => {
     setShowModal(true);
