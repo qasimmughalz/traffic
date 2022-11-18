@@ -10,13 +10,18 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { OrderDetailsModal } from '../../../Components/Modal/OrderDetails';
 import { backend } from '../../../Components/backendURL';
+import { TheImagesModel } from '../../../Components/Modal/ImagesModel';
 
 const AllAltText = () => {
   let tempCounter = 1;
   const [isLoading, setisLoading] = useState(false);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [showImagesModel, setShowImagesModel] = useState(false);
   const [script, setScript] = useState();
   const [subscriptionID, setSubscriptionId] = useState();
+  const [imagesData, setImagesData] = useState([]);
+  const [imageError, setImageError] = useState(null);
+  const [showImageError, setShowImageError] = useState(false);
 
   const navbarShow = useSelector((state) => state.navbarToggle.show);
   const allSites = useSelector((state) => state.getAllsites.sites);
@@ -27,6 +32,8 @@ const AllAltText = () => {
   const [ShowModal, setShowModal] = useState(false);
   const getToken = localStorage.getItem('token');
   const user = localStorage.getItem('email');
+  let userId = JSON.parse(localStorage.getItem('user-profile'))?.id;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -71,6 +78,8 @@ const AllAltText = () => {
   const handleConfirm = () => {
     setShowModal(false);
     setShowOrderDetails(false);
+    setShowImagesModel(false);
+    setShowImageError(false);
   };
 
   const ShowMoreDetails = (id) => {
@@ -80,6 +89,59 @@ const AllAltText = () => {
       alert('No Package Installed');
     } else {
       setShowOrderDetails(true);
+    }
+  };
+
+  // Function to Handle Converted Images
+  const handleConvertedImages = async (domainName, feature) => {
+    try {
+      setisLoading(true);
+      const response = await axios({
+        method: 'POST',
+        url: `${backend}/api/getScript`,
+        data: {
+          email: user,
+          domainName: domainName,
+          feature: feature,
+        },
+        headers: {
+          authorization: `Bearer ${getToken}`,
+        },
+      });
+      if (response.data.script) {
+        // Extract Site From Script
+        let siteKey = response.data.script
+          .split('=')[1]
+          .split(',')[0]
+          .split(':')[1]
+          .replaceAll('"', '')
+          .trim();
+        console.log('SiteKey', siteKey, 'UserId', userId);
+        try {
+          const res = await axios({
+            method: 'POST',
+            url: `${backend}/api/getAltTexts`,
+            data: {
+              userId: userId,
+              siteKey: siteKey,
+            },
+          });
+          console.log(res.data);
+          setisLoading(false);
+          setShowImagesModel(true);
+          setImagesData(res.data.altTexts);
+        } catch (error) {
+          console.log(error);
+          setisLoading(false);
+          setShowImageError(true);
+          setImageError(error.response.data.error);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+      setisLoading(false);
+      setShowImageError(true);
+      setImageError(error.response?.data.error);
     }
   };
 
@@ -114,6 +176,27 @@ const AllAltText = () => {
               ''
             )}
 
+            {showImagesModel && imagesData.length > 0 ? (
+              <TheImagesModel
+                title='Converted Images'
+                data={imagesData}
+                error={null}
+                onConfirm={handleConfirm}
+              />
+            ) : (
+              ''
+            )}
+            {showImageError ? (
+              <TheImagesModel
+                title='Converted Images'
+                error={imageError}
+                data=''
+                onConfirm={handleConfirm}
+              />
+            ) : (
+              ''
+            )}
+
             <div className='container-fluid '>
               <div className='d-flex align-items-center justify-content-between mb-4'>
                 <h1 className='h3 mb-0 text-gray-800'>All Site</h1>
@@ -135,6 +218,7 @@ const AllAltText = () => {
                       <th scope='col'>Feature</th>
                       <th scope='col'>Installation</th>
                       <th scope='col'>Details</th>
+                      <th scope='col'>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -176,6 +260,19 @@ const AllAltText = () => {
                                 >
                                   {' '}
                                   Details
+                                </button>
+                              </td>
+                              <td>
+                                <button
+                                  className='btn btn-primary'
+                                  onClick={() =>
+                                    handleConvertedImages(
+                                      data.domain,
+                                      data?.feature
+                                    )
+                                  }
+                                >
+                                  See Converted Images
                                 </button>
                               </td>
                             </tr>

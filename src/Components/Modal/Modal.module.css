@@ -7,6 +7,14 @@
     z-index: 110;
     background: rgba(0, 0, 0, 0.75);
   }
+  .ModelImage{
+    height: 50px;
+    width: 100px;
+   object-fit: contain;
+  }
+  .ImageAlt{
+    vertical-align: middle !important;
+  }
   
   .innerScroll{
     max-height:300px;
@@ -54,6 +62,16 @@
   
   .content {
     padding: 1rem;
+  }
+  .ImageModelContent {
+    padding: 1rem;
+    height: auto;
+    max-height: 450px;
+
+  }
+  .ImageTable{
+    height: 430px;
+    overflow-y: scroll;
   }
   
   .actions {
