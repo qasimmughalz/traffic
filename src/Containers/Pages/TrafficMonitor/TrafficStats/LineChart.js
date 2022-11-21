@@ -1,52 +1,75 @@
 import React from 'react';
 import {
   Chart as ChartJS,
-  CategoryScale,
   LinearScale,
+  CategoryScale,
+  BarElement,
   PointElement,
   LineElement,
-  Title,
-  Tooltip,
   Legend,
+  Tooltip,
+  LineController,
+  BarController,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { Chart } from 'react-chartjs-2';
 
 ChartJS.register(
-  CategoryScale,
   LinearScale,
+  CategoryScale,
+  BarElement,
   PointElement,
   LineElement,
-  Title,
+  Legend,
   Tooltip,
-  Legend
+  LineController,
+  BarController
 );
 
 const LineChart = ({ valuesArray, datesArray }) => {
   const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Total Visitors',
+      },
+    },
+    responsive: true,
     scales: {
+      x: {
+        stacked: true,
+      },
       y: {
-        ticks: {
-          precision: 0,
-        },
+        stacked: true,
       },
     },
   };
   let chatData = valuesArray.map((data) => data);
+
   const data = {
     labels: datesArray,
     datasets: [
       {
         label: 'Total Visitors',
         data: chatData,
+        type: 'line',
+        borderColor: 'rgb(255, 99, 132)',
+        borderWidth: 2,
         fill: false,
-        borderColor: 'rgb(75, 192, 192)',
         tension: 0.1,
         precision: 0,
+      },
+      {
+        type: 'bar',
+        label: 'Visitors',
+        backgroundColor: 'rgb(75, 192, 192)',
+        borderWidth: 2,
+        fill: false,
+        data: chatData,
       },
     ],
   };
 
-  return <Line data={data} options={options} />;
+  return <Chart type='bar' data={data} options={options} />;
 };
 
 export default LineChart;
