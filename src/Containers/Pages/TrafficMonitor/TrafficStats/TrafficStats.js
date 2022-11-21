@@ -32,7 +32,7 @@ const TrafficStats = React.memo(() => {
   const [ShowModal, setShowModal] = useState(false);
   const [VideoEvents, setVideoEvents] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
-  console.log(allSites);
+
   const FilterTrafficSties = allSites?.filter(
     (res) => res.feature === 'PLUGIN_ANALYTICS_COMBO'
   );
@@ -52,6 +52,7 @@ const TrafficStats = React.memo(() => {
           // console.log('Response getting EVENTS =====', res);
           setisLoading(false);
           setRecord(res.data.events);
+
           // console.log(res.data.events);
           let labels = [];
           let values = [];
@@ -125,9 +126,12 @@ const TrafficStats = React.memo(() => {
     (totalVal, currentVal) => (totalVal += currentVal),
     0
   );
+  console.log('DateArray', datesArray);
   // Filtered Record Data Between Dates
   const startDate = moment(datesArray[0]).format('YYYY-MM-DD');
-  const endDate = moment(datesArray[1]).format('YYYY-MM-DD');
+  const endDate = moment(datesArray[datesArray.length - 1]).format(
+    'YYYY-MM-DD'
+  );
   const filterRecord = useMemo(
     () =>
       record.filter(
@@ -138,15 +142,15 @@ const TrafficStats = React.memo(() => {
     [startDate, endDate, record]
   );
   filterRecord.reverse();
+  console.log('filter-record', filterRecord);
+  console.log('Dates', startDate, endDate);
 
   const showVideo = () => {
     setShowModal(true);
   };
-  
 
   const handleConfirm = () => {
     setShowModal(false);
-   
   };
 
   const showEventsVideo = (data) => {
@@ -197,7 +201,7 @@ const TrafficStats = React.memo(() => {
                   </select>
                 </div>
               </div>
-              {record.length == 0 ? (
+              {record.length === 0 ? (
                 <div className='text-center my-4'>
                   <p> No Results </p>
                 </div>
@@ -249,7 +253,7 @@ const TrafficStats = React.memo(() => {
               ) : (
                 ''
               )}
-              {record.length == 0 ? (
+              {record.length === 0 ? (
                 <div className='text-center my-4'>
                   <p> No Results </p>
                 </div>
@@ -296,7 +300,7 @@ const TrafficStats = React.memo(() => {
                 />
               )}
 
-              {filterRecord.length == 0 ? (
+              {filterRecord.length === 0 ? (
                 <div className='text-center my-4'>
                   <p> No Results </p>
                 </div>

@@ -51,7 +51,7 @@ const TrafficTable = ({ currentItems, showEventsVideo }) => {
                   <td>
                     <i className='fas fa-map-marker-alt text-primary pointer'></i>
                   </td>
-                  {data.totalClicks > 0 ? (
+                  {data.sessionEvents.length > 2 ? (
                     <td>
                       <i
                         className='fas fa-video text-primary pointer'

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from '../../../Components/Spinner/Loader';
 import { TopNav } from '../../../Components/TopNav/TopNav';
+import { getProfile } from '../../../helpers/ApiActions';
 import { Sidebar } from '../../Layout/Sidebar/Sidebar';
 import { Sites } from '../../Redux/AllSites';
 
@@ -17,7 +18,10 @@ export const Dashboard = () => {
 
   useEffect(() => {
     dispatch(Sites(email, token));
-  }, [token]);
+  }, []);
+  useEffect(() => {
+    getProfile(email, token);
+  }, [email]);
 
   return (
     <>
