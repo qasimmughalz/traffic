@@ -91,3 +91,12 @@
       width: 75%;
     }
   }
+
+  .closeIcon{
+    float: right;
+   
+  }
+  .closeIcon>p>i{
+    
+    cursor: pointer;
+  }
