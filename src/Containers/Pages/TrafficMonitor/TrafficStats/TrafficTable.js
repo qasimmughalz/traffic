@@ -1,7 +1,7 @@
 import React from 'react';
 import classes from './trafficStats.module.css';
 
-const TrafficTable = ({ currentItems, showEventsVideo }) => {
+const TrafficTable = ({ currentItems, showVideoEvents }) => {
   return (
     <div className='table-responsive sites-table bg-white mt-1'>
       <table className={`${classes.table} table text-center`}>
@@ -51,11 +51,11 @@ const TrafficTable = ({ currentItems, showEventsVideo }) => {
                   <td>
                     <i className='fas fa-map-marker-alt text-primary pointer'></i>
                   </td>
-                  {data.sessionEvents.length > 2 ? (
+                  {data.sessionEvents ? (
                     <td>
                       <i
                         className='fas fa-video text-primary pointer'
-                        onClick={() => showEventsVideo(data.sessionEvents)}
+                        onClick={() => showVideoEvents(data.sessionEvents)}
                       ></i>
                     </td>
                   ) : (
