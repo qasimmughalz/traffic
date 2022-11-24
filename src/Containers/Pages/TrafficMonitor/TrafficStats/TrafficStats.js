@@ -14,6 +14,8 @@ import axios from 'axios';
 import moment from 'moment';
 import { DatePicker } from 'antd';
 import 'antd/dist/antd.css';
+import { TheModal } from '../../../../Components/Modal/Modal';
+import { NotifyModal } from '../../../../Components/Modal/NotifyModel';
 
 const TrafficStats = React.memo(() => {
   const { RangePicker } = DatePicker;
@@ -32,6 +34,8 @@ const TrafficStats = React.memo(() => {
   const [ShowModal, setShowModal] = useState(false);
   const [VideoEvents, setVideoEvents] = useState([]);
   const [currentItems, setCurrentItems] = useState([]);
+  const [videoError, setVideoError] = useState(null);
+  const token = localStorage.getItem('token');
 
   const FilterTrafficSties = allSites?.filter(
     (res) => res.feature === 'PLUGIN_ANALYTICS_COMBO'
@@ -151,12 +155,37 @@ const TrafficStats = React.memo(() => {
 
   const handleConfirm = () => {
     setShowModal(false);
+    setVideoError(null);
   };
 
   const showEventsVideo = (data) => {
     setVideoEvents(data);
     setShowModal(true);
   };
+
+  const showVideoEvents = async (data) => {
+    try {
+      setisLoading(true);
+      const res = await axios({
+        method: 'GET',
+        url: `${backend}/api/getBlobData/${data}`,
+
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+
+      setVideoEvents(res.data.sessionEvents);
+      console.log('VideoEvents', res.data.sessionEvents);
+      setShowModal(true);
+      setisLoading(false);
+    } catch (error) {
+      console.log(error);
+      setisLoading(false);
+      setVideoError(error.response.data?.error);
+    }
+  };
+  console.log('recordArray', record);
 
   return (
     <div className='wrapper'>
@@ -170,13 +199,20 @@ const TrafficStats = React.memo(() => {
           <div className='content'>
             <TopNav />
             {/* =============== Inner Section Start ============= */}
-
+            {isLoading ? <Spinner color='#2285b6' /> : null}
             {ShowModal && (
               <VideoModal
                 title='map'
                 events={VideoEvents}
                 cancel={handleConfirm}
               ></VideoModal>
+            )}
+            {videoError !== null && (
+              <NotifyModal
+                title='Video Events'
+                onConfirm={handleConfirm}
+                message={videoError}
+              />
             )}
 
             <div className='container-fluid mb-5 '>
@@ -290,7 +326,7 @@ const TrafficStats = React.memo(() => {
 
               <TrafficTable
                 currentItems={currentItems}
-                showEventsVideo={showEventsVideo}
+                showVideoEvents={showVideoEvents}
               />
               {filterRecord && (
                 <PaginatedItems
