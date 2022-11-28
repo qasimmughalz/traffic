@@ -12,7 +12,7 @@ import { OrderDetailsModal } from '../../../Components/Modal/OrderDetails';
 import { backend } from '../../../Components/backendURL';
 import { TheImagesModel } from '../../../Components/Modal/ImagesModel';
 
-const AllAltText = () => {
+const AllFeatures = () => {
   let tempCounter = 1;
   const [isLoading, setisLoading] = useState(false);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
@@ -27,7 +27,7 @@ const AllAltText = () => {
   const allSites = useSelector((state) => state.getAllsites.sites);
   const sitesLoading = useSelector((state) => state.getAllsites.sitesLoading);
   const FilterTrafficSties = allSites.filter(
-    (res) => res.feature === 'ALT_TEXT'
+    (res) => res.feature === 'ALL_FEATURES'
   );
   const [ShowModal, setShowModal] = useState(false);
   const getToken = localStorage.getItem('token');
@@ -89,59 +89,6 @@ const AllAltText = () => {
       alert('No Package Installed');
     } else {
       setShowOrderDetails(true);
-    }
-  };
-
-  // Function to Handle Converted Images
-  const handleConvertedImages = async (domainName, feature) => {
-    try {
-      setisLoading(true);
-      const response = await axios({
-        method: 'POST',
-        url: `${backend}/api/getScript`,
-        data: {
-          email: user,
-          domainName: domainName,
-          feature: feature,
-        },
-        headers: {
-          authorization: `Bearer ${getToken}`,
-        },
-      });
-      if (response.data.script) {
-        // Extract Site From Script
-        let siteKey = response.data.script
-          .split('=')[1]
-          .split(',')[0]
-          .split(':')[1]
-          .replaceAll('"', '')
-          .trim();
-        console.log('SiteKey', siteKey, 'UserId', userId);
-        try {
-          const res = await axios({
-            method: 'POST',
-            url: `${backend}/api/getAltTexts`,
-            data: {
-              userId: userId,
-              siteKey: siteKey,
-            },
-          });
-          console.log(res.data);
-          setisLoading(false);
-          setShowImagesModel(true);
-          setImagesData(res.data.altTexts);
-        } catch (error) {
-          console.log(error);
-          setisLoading(false);
-          setShowImageError(true);
-          setImageError(error.response.data.error);
-        }
-      }
-    } catch (error) {
-      console.log(error);
-      setisLoading(false);
-      setShowImageError(true);
-      setImageError(error.response?.data.error);
     }
   };
 
@@ -218,7 +165,6 @@ const AllAltText = () => {
                       <th scope='col'>Feature</th>
                       <th scope='col'>Installation</th>
                       <th scope='col'>Details</th>
-                      <th scope='col'>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -262,19 +208,6 @@ const AllAltText = () => {
                                   Details
                                 </button>
                               </td>
-                              <td>
-                                <button
-                                  className='btn btn-primary'
-                                  onClick={() =>
-                                    handleConvertedImages(
-                                      data.domain,
-                                      data?.feature
-                                    )
-                                  }
-                                >
-                                  See Converted Images
-                                </button>
-                              </td>
                             </tr>
                           );
                         })
@@ -286,7 +219,7 @@ const AllAltText = () => {
               {FilterTrafficSties.length == 0 ? (
                 <div className='text-center my-4'>
                   <p>You have not Subscribes for any website </p>
-                  <a href='/addNewAltText' className='btn btn-primary'>
+                  <a href='/addNewAllService' className='btn btn-primary'>
                     Add a New Site Now
                   </a>
                 </div>
@@ -303,4 +236,4 @@ const AllAltText = () => {
   );
 };
 
-export default AllAltText;
+export default AllFeatures;
