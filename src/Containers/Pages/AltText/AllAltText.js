@@ -215,7 +215,6 @@ const AllAltText = () => {
                       <th scope='col'>#</th>
                       <th scope='col'>Domain Name</th>
                       <th scope='col'>Message</th>
-                      <th scope='col'>Feature</th>
                       <th scope='col'>Installation</th>
                       <th scope='col'>Details</th>
                       <th scope='col'>Actions</th>
@@ -229,11 +228,7 @@ const AllAltText = () => {
                               <th scope='row'>{tempCounter++}</th>
                               <td>{data.domain}</td>
                               <td>{data.message}</td>
-                              <td>
-                                {data.message === 'No subscription activated'
-                                  ? ''
-                                  : data.feature}
-                              </td>
+                              
                               <td className=''>
                                 <button
                                   className='btn-secondary btn'
