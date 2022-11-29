@@ -40,7 +40,7 @@ export const Sidebar = () => {
             </div>
           </li>
 
-          <li
+          {/* <li
             className='sidebar-item nav-items'
             data-toggle='collapse'
             data-target='#trafic'
@@ -73,9 +73,9 @@ export const Sidebar = () => {
                 </Link>
               </p>
             </div>
-          </li>
+          </li> */}
           {/*ALT Feature */}
-          <li
+          {/* <li
             className='sidebar-item nav-items'
             data-toggle='collapse'
             data-target='#alt_text'
@@ -103,13 +103,14 @@ export const Sidebar = () => {
                 </Link>
               </p>
             </div>
-          </li>
+          </li> */}
 
           {/* All Features Combo */}
           <li
             className='sidebar-item nav-items'
             data-toggle='collapse'
             data-target='#all_feature'
+            aria-controls='all_feature'
           >
             <div className='link-wrapper'>
               <div className='icon-wrapper'>
@@ -131,6 +132,16 @@ export const Sidebar = () => {
               <p className='inner-links-wrapper '>
                 <Link to='/addNewAllService'>
                   <span className='nav-links text-dark'>Add New </span>
+                </Link>
+              </p>
+              <p className='inner-links-wrapper '>
+                <Link to='/allAltTextSites'>
+                  <span className='nav-links text-dark'> Alt Tag Sites </span>
+                </Link>
+              </p>
+              <p className='inner-links-wrapper mb-0'>
+                <Link to='/trafficStats'>
+                  <span className='nav-links text-dark '>Traffic Stats</span>
                 </Link>
               </p>
             </div>
