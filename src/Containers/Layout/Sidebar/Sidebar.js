@@ -39,25 +39,8 @@ export const Sidebar = () => {
               </div>
             </div>
           </li>
-          {/* <li className="sidebar-item nav-items" data-toggle="collapse" data-target="#website">
-                        <div className='link-wrapper'>
-                            <div className='icon-wrapper'><i className="fas fa-globe pr-1"></i></div>
-                            <div className='text-wrapper'><span className='hide-text nav-text'>AccessTool</span></div>   
-                        </div>
-                        <div className="sidebar-drop-down collapse collapse-data text-white bg-white" id='website'>
-                            <p className="inner-links-wrapper">
-                              <Link to='/allAccessSites'>
-                                  <span className='nav-links text-dark'>Sites</span>
-                              </Link>
-                            </p>
-                            <p className="inner-links-wrapper mb-0">
-                                <Link to='/addNewAccess'>
-                                    <span className='nav-links text-dark'>Add New</span>
-                                </Link>
-                            </p>
-                        </div>
-                    </li> */}
-          <li
+
+          {/* <li
             className='sidebar-item nav-items'
             data-toggle='collapse'
             data-target='#trafic'
@@ -90,9 +73,9 @@ export const Sidebar = () => {
                 </Link>
               </p>
             </div>
-          </li>
+          </li> */}
           {/*ALT Feature */}
-          <li
+          {/* <li
             className='sidebar-item nav-items'
             data-toggle='collapse'
             data-target='#alt_text'
@@ -117,6 +100,48 @@ export const Sidebar = () => {
               <p className='inner-links-wrapper '>
                 <Link to='/addNewAltText'>
                   <span className='nav-links text-dark'>Add New </span>
+                </Link>
+              </p>
+            </div>
+          </li> */}
+
+          {/* All Features Combo */}
+          <li
+            className='sidebar-item nav-items'
+            data-toggle='collapse'
+            data-target='#all_feature'
+            aria-controls='all_feature'
+          >
+            <div className='link-wrapper'>
+              <div className='icon-wrapper'>
+                <i class='fas fa-compress'></i>
+              </div>
+              <div className='text-wrapper'>
+                <span className='hide-text nav-text'>All Services </span>
+              </div>
+            </div>
+            <div
+              className='sidebar-drop-down collapse collapse-data text-white bg-white'
+              id='all_feature'
+            >
+              <p className='inner-links-wrapper '>
+                <Link to='/allServicesSites'>
+                  <span className='nav-links text-dark'>All Sites</span>
+                </Link>
+              </p>
+              <p className='inner-links-wrapper '>
+                <Link to='/addNewAllService'>
+                  <span className='nav-links text-dark'>Add New </span>
+                </Link>
+              </p>
+              <p className='inner-links-wrapper '>
+                <Link to='/allAltTextSites'>
+                  <span className='nav-links text-dark'> Alt Tag Sites </span>
+                </Link>
+              </p>
+              <p className='inner-links-wrapper mb-0'>
+                <Link to='/trafficStats'>
+                  <span className='nav-links text-dark '>Traffic Stats</span>
                 </Link>
               </p>
             </div>

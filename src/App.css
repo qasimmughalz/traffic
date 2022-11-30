@@ -4,10 +4,29 @@
 p{
     font-size: 14px;
 }
+.btn{
+    border-radius: 16px;
+    padding: 4px 20px;
+}
 
 .btn-primary {
+    background-color: #103d53;
+    border: 0px;
+}
+.btn-primary:hover {
     background-color: #2285b6;
 }
+
+.btn-primary.disabled, .btn-primary:disabled{
+    background-color: #1d536e;
+}
+
+.btn-secondary{
+    color: #000;
+    background-color: #e7ecef;
+}
+
+
 .text-blue{
     color: #2285b6;
 }

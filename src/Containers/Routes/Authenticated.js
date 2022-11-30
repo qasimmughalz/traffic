@@ -18,6 +18,8 @@ import AllAltText from '../Pages/AltText/AllAltText';
 import NewAltText from '../Pages/AltText/NewAltText';
 import { Navigate } from 'react-router-dom';
 import { Sites } from '../Redux/AllSites';
+import AllFeatures from '../Pages/AllFeaturesCombo/AllFeatures';
+import AddNewSite from '../Pages/AllFeaturesCombo/AddNewSite';
 
 // const Dashboard = React.lazy(()=> import("../Pages/User/Dashboard"));
 
@@ -37,6 +39,9 @@ export const AuthenticatedRoutes = () => {
 
       <Route path='/allAltTextSites' element={<AllAltText />} />
       <Route path='/addNewAltText' element={<NewAltText />} />
+
+      <Route path='/allServicesSites' element={<AllFeatures />} />
+      <Route path='/addNewAllService' element={<AddNewSite />} />
 
       <Route path='/replay' element={<Replay />}></Route>
       <Route path='/paymentplans' exact element={<PaymentPlans />}></Route>

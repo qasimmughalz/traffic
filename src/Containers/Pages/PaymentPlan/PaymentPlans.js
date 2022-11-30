@@ -149,32 +149,57 @@ export const PaymentPlans = () => {
               )}
               <div className='row justify-content-center'>
                 {!choose ? (
-                  <div className='col-lg-3 col-md-6 col-9 mb-3 '>
-                    <div className='card py-3'>
-                      <div className='card-body d-flex flex-column'>
-                        <input
-                          type='radio'
-                          id='customRadioInline1'
-                          name='customRadioInline1'
-                          className='btn-check radio-btn'
-                          value='ALT_TEXT'
-                          onChange={(e) => setFeature(e.target.value)}
-                        />
-                        <div className='text-center'>
-                          <img
-                            src={cardImage}
-                            className='img-fluid mb-3  '
-                            alt='Websearch'
-                            style={{ height: '70px' }}
+                  <div className='col-lg-6 col-md-6 col-9 mb-3 '>
+                    <div className=' row '>
+                      <div className='card py-3 col-lg-6 col-md-6 col-9 '>
+                        <div className='card-body d-flex flex-column'>
+                          <input
+                            type='radio'
+                            id='customRadioInline1'
+                            name='customRadioInline1'
+                            className='btn-check radio-btn'
+                            value='ALT_TEXT'
+                            onChange={(e) => setFeature(e.target.value)}
                           />
+                          <div className='text-center'>
+                            <img
+                              src={cardImage}
+                              className='img-fluid mb-3  '
+                              alt='Websearch'
+                              style={{ height: '70px' }}
+                            />
+                          </div>
+                          <div className='card-title   text-center fs-2'>
+                            Alt_Text
+                          </div>
                         </div>
-                        <div className='card-title   text-center fs-2'>
-                          Alt_Text
+                      </div>
+                      <div className='card py-3 col-lg-6 col-md-6 col-9'>
+                        <div className='card-body d-flex flex-column'>
+                          <input
+                            type='radio'
+                            id='customRadioInline1'
+                            name='customRadioInline1'
+                            className='btn-check radio-btn'
+                            value='ALL_FEATURES'
+                            onChange={(e) => setFeature(e.target.value)}
+                          />
+                          <div className='text-center'>
+                            <img
+                              src={cardImage}
+                              className='img-fluid mb-3  '
+                              alt='Websearch'
+                              style={{ height: '70px' }}
+                            />
+                          </div>
+                          <div className='card-title   text-center fs-2'>
+                            ALL_FEATURES
+                          </div>
                         </div>
                       </div>
                     </div>
 
-                    <div className='card py-3 mt-4 relative'>
+                    <div className='card py-3 mt-2 col-lg-6 col-md-6 col-9 relative'>
                       <div className='card-body d-flex flex-column'>
                         <input
                           type='radio'
