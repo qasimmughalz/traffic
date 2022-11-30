@@ -38,7 +38,7 @@ const TrafficStats = React.memo(() => {
   const token = localStorage.getItem('token');
 
   const FilterTrafficSties = allSites?.filter(
-    (res) => res.feature === 'PLUGIN_ANALYTICS_COMBO'
+    (res) => res.feature === 'ALL_FEATURES'
   );
 
   useEffect(() => {}, [selectedDomain]);

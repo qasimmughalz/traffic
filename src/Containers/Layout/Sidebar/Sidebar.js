@@ -134,7 +134,7 @@ export const Sidebar = () => {
                   <span className='nav-links text-dark'>Add New </span>
                 </Link>
               </p>
-              {/* <p className='inner-links-wrapper '>
+              <p className='inner-links-wrapper '>
                 <Link to='/allAltTextSites'>
                   <span className='nav-links text-dark'> Alt Tag Sites </span>
                 </Link>
@@ -143,7 +143,7 @@ export const Sidebar = () => {
                 <Link to='/trafficStats'>
                   <span className='nav-links text-dark '>Traffic Stats</span>
                 </Link>
-              </p> */}
+              </p>
             </div>
           </li>
 
