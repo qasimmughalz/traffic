@@ -17,6 +17,9 @@ export const PaymentPlans = () => {
   const [payDomain, setPayDomain] = useState('');
   const navbarShow = useSelector((state) => state.navbarToggle.show);
   const allSites = useSelector((state) => state.getAllsites.sites);
+  const filteredSites = allSites.filter(
+    (data) => data.feature === 'ALL_FEATURES'
+  );
 
   const [anyError, setanyErrorMessage] = useState(false);
   const [choose, setChoose] = useState(false);
@@ -41,11 +44,7 @@ export const PaymentPlans = () => {
     const getToken = localStorage.getItem('token');
     console.log('This is in paydomain', payDomain);
 
-    if (
-      payDomain === null ||
-      payDomain === '' ||
-      featureValue === 'Select Feature'
-    ) {
+    if (payDomain === null || payDomain === '') {
       setanyErrorMessage(true);
       return;
     } else {
@@ -110,8 +109,8 @@ export const PaymentPlans = () => {
                   >
                     <option value=''>Please Select domain</option>
                     <option value='temporary'>temporary.com</option>
-                    {allSites &&
-                      allSites.map((res) => {
+                    {filteredSites &&
+                      filteredSites.map((res) => {
                         return (
                           <option value={`${res.domain} ${res.message}`}>
                             {res.domain}
@@ -129,7 +128,7 @@ export const PaymentPlans = () => {
                 role='alert'
                 style={{ display: anyError ? 'block' : 'none' }}
               >
-                <strong>Please Select Existing Domain and Feature </strong>
+                <strong>Please Select Existing Domain </strong>
                 <button
                   type='button'
                   className='close'
@@ -148,7 +147,7 @@ export const PaymentPlans = () => {
                 ></NotifyModal>
               )}
               <div className='row justify-content-center'>
-                {!choose ? (
+                {/* {!choose ? (
                   <div className='col-lg-6 col-md-6 col-9 mb-3 '>
                     <div className=' row '>
                       <div className='card py-3 col-lg-6 col-md-6 col-9 '>
@@ -223,7 +222,7 @@ export const PaymentPlans = () => {
                       </div>
                     </div>
                   </div>
-                ) : null}
+                ) : null} */}
                 {/* Card 1 */}
                 <div className='col-lg-3 col-md-6 col-9 mb-3'>
                   <div className='card py-4'>
@@ -237,7 +236,7 @@ export const PaymentPlans = () => {
                         />
                       </div>
                       <div className='card-title  mb-4 text-center fs-2'>
-                        {featureValue}
+                        All Feature
                       </div>
                       {!choose ? (
                         <div>
@@ -265,7 +264,7 @@ export const PaymentPlans = () => {
                             setMessage={setMessage}
                             setModalShow={setModalShow}
                             domain={payDomain}
-                            feature={feature}
+                            feature={'ALL_FEATURES'}
                           />
                           <div className='text-center'>
                             <button

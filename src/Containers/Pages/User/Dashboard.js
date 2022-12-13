@@ -9,6 +9,9 @@ import { Sites } from '../../Redux/AllSites';
 export const Dashboard = () => {
   const navbarShow = useSelector((state) => state.navbarToggle.show);
   const sitesFromRedux = useSelector((state) => state.getAllsites.sites);
+  const filteredSites = sitesFromRedux.filter(
+    (data) => data.feature === 'ALL_FEATURES'
+  );
   const sitesLoading = useSelector((state) => state.getAllsites.sitesLoading);
   const error = useSelector((state) => state.getAllsites.error);
   const token = localStorage.getItem('token');
@@ -57,8 +60,8 @@ export const Dashboard = () => {
                             Total Sites
                           </div>
                           <div className='h5 mb-0 font-weight-bold text-gray-800'>
-                            {sitesFromRedux.length > 0
-                              ? sitesFromRedux.length
+                            {filteredSites.length > 0
+                              ? filteredSites.length
                               : 0}
                           </div>
                         </div>
@@ -80,8 +83,8 @@ export const Dashboard = () => {
                           <div className='row no-gutters align-items-center'>
                             <div className='col-auto'>
                               <div className='h5 mb-0 mr-3 font-weight-bold text-gray-800'>
-                                {sitesFromRedux.length > 0
-                                  ? sitesFromRedux.filter(
+                                {filteredSites.length > 0
+                                  ? filteredSites.filter(
                                       (sites) =>
                                         sites.message ===
                                         'User have subscribed to a plan'
@@ -107,8 +110,8 @@ export const Dashboard = () => {
                             Payments
                           </div>
                           <div className='h5 mb-0 font-weight-bold text-gray-800'>
-                            {sitesFromRedux.length > 0
-                              ? sitesFromRedux.filter(
+                            {filteredSites.length > 0
+                              ? filteredSites.filter(
                                   (sites) =>
                                     sites.message ===
                                     'User have subscribed to a plan'

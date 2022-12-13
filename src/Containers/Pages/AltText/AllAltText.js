@@ -199,7 +199,7 @@ const AllAltText = () => {
 
             <div className='container-fluid '>
               <div className='d-flex align-items-center justify-content-between mb-4'>
-                <h1 className='h3 mb-0 text-gray-800'>All Site</h1>
+                <h1 className='h3 mb-0 text-gray-800'>Alt Tag Sites Images</h1>
                 <div>
                   {sitesLoading || isLoading ? (
                     <Spinner color='#2285b6'></Spinner>
@@ -216,8 +216,6 @@ const AllAltText = () => {
                       <th scope='col'>Domain Name</th>
                       <th scope='col'>Message</th>
                       <th scope='col'>Installation</th>
-                      <th scope='col'>Details</th>
-                      <th scope='col'>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -229,7 +227,7 @@ const AllAltText = () => {
                               <td>{data.domain}</td>
                               <td>{data.message}</td>
                               
-                              <td className=''>
+                              {/* <td className=''>
                                 <button
                                   className='btn-secondary btn'
                                   onClick={() =>
@@ -238,8 +236,8 @@ const AllAltText = () => {
                                 >
                                   Get Script
                                 </button>
-                              </td>
-                              <td className=''>
+                              </td> */}
+                              {/* <td className=''>
                                 <button
                                   className='btn-primary btn'
                                   onClick={() =>
@@ -256,7 +254,7 @@ const AllAltText = () => {
                                   {' '}
                                   Details
                                 </button>
-                              </td>
+                              </td> */}
                               <td>
                                 <button
                                   className='btn btn-primary'
