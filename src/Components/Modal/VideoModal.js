@@ -38,7 +38,7 @@ export const TheVideoModal = (props) => {
           <div className={classes.closeIcon}>
             <p>
               <i
-                class='fas fa-times-circle fa-2x '
+                className='fas fa-times-circle fa-2x '
                 onClick={props.onConfirm}
               ></i>
             </p>

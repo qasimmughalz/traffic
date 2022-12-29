@@ -5,16 +5,16 @@ p{
     font-size: 14px;
 }
 .btn{
-    border-radius: 16px;
+    border-radius: 33px;
     padding: 4px 20px;
 }
 
 .btn-primary {
-    background-color: #103d53;
+    background-color: #0d1a2f;
     border: 0px;
 }
 .btn-primary:hover {
-    background-color: #2285b6;
+    background-color: #3ed1bd;
 }
 
 .btn-primary.disabled, .btn-primary:disabled{
@@ -57,7 +57,8 @@ p{
 
 /*  */
 .sidebar {
-    background: linear-gradient(34deg, rgba(83, 167, 155, 1) 14%, rgba(34, 133, 182, 1) 50%);
+     background-color: #0d1a2f;
+    
 }
 .sidebar-logo{
     width: 100%;

@@ -9,7 +9,7 @@ import axios from 'axios';
 import { Spinner } from '../Spinner/Loader';
 
 export const ImagesModel = (props) => {
-  console.log(props);
+
 
   return (
     <div className={classes.backdrop}>

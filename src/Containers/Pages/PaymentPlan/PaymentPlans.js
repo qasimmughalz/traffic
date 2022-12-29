@@ -42,7 +42,6 @@ export const PaymentPlans = () => {
   const onclickHandler = (id) => {
     const email = localStorage.getItem('email');
     const getToken = localStorage.getItem('token');
-    console.log('This is in paydomain', payDomain);
 
     if (payDomain === null || payDomain === '') {
       setanyErrorMessage(true);
@@ -51,7 +50,7 @@ export const PaymentPlans = () => {
       const exist = allSites.find(
         (item) => `${item.domain} ${item.message}` === payDomain
       );
-      console.log(exist);
+
       if (exist) {
         if (exist?.subscriptionId) {
           // alert('This Domain subscription already Active');
@@ -108,11 +107,14 @@ export const PaymentPlans = () => {
                     onChange={(e) => handleSelectedDomain(e.target.value)}
                   >
                     <option value=''>Please Select domain</option>
-                    <option value='temporary'>temporary.com</option>
+
                     {filteredSites &&
-                      filteredSites.map((res) => {
+                      filteredSites.map((res, index) => {
                         return (
-                          <option value={`${res.domain} ${res.message}`}>
+                          <option
+                            value={`${res.domain} ${res.message}`}
+                            key={index}
+                          >
                             {res.domain}
                           </option>
                         );

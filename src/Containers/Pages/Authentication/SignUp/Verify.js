@@ -11,8 +11,6 @@ import { backend } from '../../../../Components/backendURL'
 
 
 
-
-
 export const Verify = () => {
 
     const [isLoading, setLoading] = useState(false)

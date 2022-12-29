@@ -44,12 +44,19 @@ export const Login = () => {
         .then((res) => {
           setLoading(false);
           localStorage.setItem('email', values.Email);
-          dispatch(loginHandler(res.data));
-          navigate('/dashboard');
+
+          if (res.data.status === 'Verfication Pending') {
+            setanyErrorMessage(true);
+            setErrorMessage(res.data.status);
+          } else {
+            dispatch(loginHandler(res.data));
+            navigate('/dashboard');
+          }
         })
         .catch((e) => {
           setLoading(false);
           setanyErrorMessage(true);
+          console.log(e);
           e.response.data == undefined
             ? setErrorMessage(e.response.data.error)
             : setErrorMessage(e.response.data.error);

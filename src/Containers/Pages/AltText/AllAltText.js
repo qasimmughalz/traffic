@@ -27,7 +27,7 @@ const AllAltText = () => {
   const allSites = useSelector((state) => state.getAllsites.sites);
   const sitesLoading = useSelector((state) => state.getAllsites.sitesLoading);
   const FilterTrafficSties = allSites.filter(
-    (res) => res.feature === 'ALT_TEXT'
+    (res) => res.feature === 'ALL_FEATURES'
   );
   const [ShowModal, setShowModal] = useState(false);
   const getToken = localStorage.getItem('token');
@@ -110,35 +110,37 @@ const AllAltText = () => {
       });
       if (response.data.script) {
         // Extract Site From Script
-        let siteKey = response.data.script
-          .split('=')[1]
-          .split(',')[0]
-          .split(':')[1]
-          .replaceAll('"', '')
-          .trim();
-        console.log('SiteKey', siteKey, 'UserId', userId);
+        // let siteKey = response.data.script
+        //   .split('=')[1]
+        //   .split(',')[0]
+        //   .split(':')[1]
+        //   .replaceAll('"', '')
+        //   .trim();
+          
+           const splitted = response.data.script.split('=')[4].split(':')[1].split(',')[0].replaceAll('"', '').trim()
+        
         try {
           const res = await axios({
             method: 'POST',
             url: `${backend}/api/getAltTexts`,
             data: {
               userId: userId,
-              siteKey: siteKey,
+              siteKey: splitted,
             },
           });
-          console.log(res.data);
+          
           setisLoading(false);
           setShowImagesModel(true);
           setImagesData(res.data.altTexts);
         } catch (error) {
-          console.log(error);
+         
           setisLoading(false);
           setShowImageError(true);
           setImageError(error.response.data.error);
         }
       }
     } catch (error) {
-      console.log(error);
+     
       setisLoading(false);
       setShowImageError(true);
       setImageError(error.response?.data.error);
@@ -199,7 +201,7 @@ const AllAltText = () => {
 
             <div className='container-fluid '>
               <div className='d-flex align-items-center justify-content-between mb-4'>
-                <h1 className='h3 mb-0 text-gray-800'>All Site</h1>
+                <h1 className='h3 mb-0 text-gray-800'>Alt Tag Sites Images</h1>
                 <div>
                   {sitesLoading || isLoading ? (
                     <Spinner color='#2285b6'></Spinner>
@@ -216,8 +218,6 @@ const AllAltText = () => {
                       <th scope='col'>Domain Name</th>
                       <th scope='col'>Message</th>
                       <th scope='col'>Installation</th>
-                      <th scope='col'>Details</th>
-                      <th scope='col'>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -229,7 +229,7 @@ const AllAltText = () => {
                               <td>{data.domain}</td>
                               <td>{data.message}</td>
                               
-                              <td className=''>
+                              {/* <td className=''>
                                 <button
                                   className='btn-secondary btn'
                                   onClick={() =>
@@ -238,8 +238,8 @@ const AllAltText = () => {
                                 >
                                   Get Script
                                 </button>
-                              </td>
-                              <td className=''>
+                              </td> */}
+                              {/* <td className=''>
                                 <button
                                   className='btn-primary btn'
                                   onClick={() =>
@@ -256,7 +256,7 @@ const AllAltText = () => {
                                   {' '}
                                   Details
                                 </button>
-                              </td>
+                              </td> */}
                               <td>
                                 <button
                                   className='btn btn-primary'
@@ -273,7 +273,7 @@ const AllAltText = () => {
                             </tr>
                           );
                         })
-                      : ''}
+                      : <tr><td></td></tr>}
                   </tbody>
                 </table>
               </div>

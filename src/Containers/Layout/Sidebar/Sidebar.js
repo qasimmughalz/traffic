@@ -114,7 +114,7 @@ export const Sidebar = () => {
           >
             <div className='link-wrapper'>
               <div className='icon-wrapper'>
-                <i class='fas fa-compress'></i>
+                <i className='fas fa-compress'></i>
               </div>
               <div className='text-wrapper'>
                 <span className='hide-text nav-text'>All Services </span>
@@ -134,7 +134,7 @@ export const Sidebar = () => {
                   <span className='nav-links text-dark'>Add New </span>
                 </Link>
               </p>
-              {/* <p className='inner-links-wrapper '>
+              <p className='inner-links-wrapper '>
                 <Link to='/allAltTextSites'>
                   <span className='nav-links text-dark'> Alt Tag Sites </span>
                 </Link>
@@ -143,7 +143,7 @@ export const Sidebar = () => {
                 <Link to='/trafficStats'>
                   <span className='nav-links text-dark '>Traffic Stats</span>
                 </Link>
-              </p> */}
+              </p>
             </div>
           </li>
 

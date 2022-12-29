@@ -25,7 +25,6 @@ const AppRoutes = () => {
       .then((res) => {
         setIsLoading(false);
         const checkExpiry = true;
-
         if (checkExpiry) {
           dispatch(
             settingInitialValues({ userToken: currToken, userLoggedIn: true })

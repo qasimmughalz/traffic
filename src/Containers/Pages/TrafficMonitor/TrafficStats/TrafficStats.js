@@ -38,13 +38,13 @@ const TrafficStats = React.memo(() => {
   const token = localStorage.getItem('token');
 
   const FilterTrafficSties = allSites?.filter(
-    (res) => res.feature === 'PLUGIN_ANALYTICS_COMBO'
+    (res) => res.feature === 'ALL_FEATURES'
   );
 
   useEffect(() => {}, [selectedDomain]);
   // Function to Bring Records
   const handleSelectedDomain = (e) => {
-    console.log('check selected', e);
+    
     setisLoading(true);
     const bringRecord = async () => {
       const resp = await axios({
@@ -88,7 +88,7 @@ const TrafficStats = React.memo(() => {
           /* set states of dates and values for graph */
         })
         .catch((e) => {
-          console.log('Error', e);
+        
           setRecord([]);
           setisLoading(false);
         });
@@ -130,7 +130,7 @@ const TrafficStats = React.memo(() => {
     (totalVal, currentVal) => (totalVal += currentVal),
     0
   );
-  console.log('DateArray', datesArray);
+  
   // Filtered Record Data Between Dates
   const startDate = moment(datesArray[0]).format('YYYY-MM-DD');
   const endDate = moment(datesArray[datesArray.length - 1]).format(
@@ -146,8 +146,7 @@ const TrafficStats = React.memo(() => {
     [startDate, endDate, record]
   );
   filterRecord.reverse();
-  console.log('filter-record', filterRecord);
-  console.log('Dates', startDate, endDate);
+ 
 
   const showVideo = () => {
     setShowModal(true);
@@ -176,16 +175,16 @@ const TrafficStats = React.memo(() => {
       });
 
       setVideoEvents(res.data.sessionEvents);
-      console.log('VideoEvents', res.data.sessionEvents);
+     
       setShowModal(true);
       setisLoading(false);
     } catch (error) {
-      console.log(error);
+    
       setisLoading(false);
       setVideoError(error.response.data?.error);
     }
   };
-  console.log('recordArray', record);
+
 
   return (
     <div className='wrapper'>

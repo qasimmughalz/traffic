@@ -21,9 +21,9 @@ const TrafficTable = ({ currentItems, showVideoEvents }) => {
         </thead>
         <tbody>
           {currentItems &&
-            currentItems.map((data) => {
+            currentItems.map((data, index) => {
               return (
-                <tr scope='row' style={{ height: '70px' }} key={data.key}>
+                <tr scope='row' style={{ height: '70px' }} key={index}>
                   <td>{data.ipAddress}</td>
                   <td>{data.timezone}</td>
                   <td>{data.totalClicks}</td>
